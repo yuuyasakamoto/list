@@ -3,7 +3,19 @@
 
 class Member extends CI_Controller {
     
-   
+    /**
+     * ログイン確認
+     */
+    public function __construct()
+    {
+	if ($_SESSION['login'] == true) {
+            session_start();
+            redirect('/member/index');
+        } else {
+            $this->load->view('/member/login');
+        }	
+    }
+
     /**
      * 社員一覧ページ
      */   
