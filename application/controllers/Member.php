@@ -23,7 +23,7 @@ class Member extends CI_Controller {
         $this->form_validation->set_message('required', '%s を入力してください。');
         $this->form_validation->set_rules('first_name', '氏', 'required');
         $this->form_validation->set_rules('last_name', '名', 'required');
-        $this->form_validation->set_rules('birthday', '生年月日', 'required|callback__birth_check');
+        $this->form_validation->set_rules('birthday', '生年月日', 'required|callback_birth_check');
         $this->form_validation->set_rules('home', '出身地', 'required');
        
         //バリデーションエラーが無かった時正常にデータベースに反映
@@ -49,7 +49,7 @@ class Member extends CI_Controller {
         $this->form_validation->set_message('required', '%s を入力してください。');
         $this->form_validation->set_rules('first_name', '氏', 'required');
         $this->form_validation->set_rules('last_name', '名', 'required');
-        $this->form_validation->set_rules('birthday', '生年月日', 'required|callback__birth_check');
+        $this->form_validation->set_rules('birthday', '生年月日', 'required|callback_birth_check');
         $this->form_validation->set_rules('home', '出身地', 'required');
         
         //バリデーションエラーが無かった時正常にデータベース編集
@@ -90,18 +90,17 @@ class Member extends CI_Controller {
      * @param type $str
      * @return boolean
      */
-    public function _birth_check($str)
+    public function birth_check($str)
+   {
+        $check = preg_match("/\d{4}\/\d{2}\/\d{2}/", $str);
+        if ($check == TRUE)
         {
-            $check = preg_match("/\d{4}\W\d{2}\W\d{2}/", $str);
-                if ($check == TRUE)
-                {
-                    return TRUE;
-                }
-                else
-                {
-                    $this->form_validation->set_message('_birth_check', '正しい値を入力してください');
-                    return FALSE;
-                }
+            return TRUE;
         }
-
+        else
+        {
+            $this->form_validation->set_message('_birth_check', '正しい値を入力してください');
+            return FALSE;
+        }
+    }
 }
