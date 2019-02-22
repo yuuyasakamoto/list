@@ -99,7 +99,7 @@ class Member extends CI_Controller {
         }
         else
         {
-            $this->form_validation->set_message('_birth_check', '正しい値を入力してください');
+            $this->form_validation->set_message('birth_check', '1990/01/01の形式で入力してください');
             return FALSE;
         }
     }
