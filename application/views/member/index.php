@@ -30,5 +30,6 @@
     </tr>
     <?php } ?>
 </table>
+<a href="/member/logout">ログアウト</a>
 </body>
 </html>

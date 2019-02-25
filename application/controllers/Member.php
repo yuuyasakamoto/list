@@ -8,11 +8,14 @@ class Member extends CI_Controller {
      */
     public function __construct()
     {
-	if ($_SESSION['login'] == true) {
-            session_start();
-            redirect('/member/index');
+        parent::__construct();
+        //この行がないとエラーが出てしまうので付け足しました
+        //session_save_path('/vagrant/src/session');
+        $this->load->library('session');
+	if ($_SESSION['login'] == "ログイン") {
+            return "true";
         } else {
-            $this->load->view('/member/login');
+            redirect('/login/index');
         }	
     }
 
@@ -90,12 +93,14 @@ class Member extends CI_Controller {
         $this->Member_model->delete($no);
         $this->load->view('/member/delete');
     }
+   
     /**
-     * ログイン画面
+     * ログアウト
      */
-    public function login()
+    public function logout()
     {
-        $this->load->view('/member/login');
+        unset($_SESSION['login']);
+        redirect('/login/index');
     }
     /**
      * 生年月日の独自バリデーション

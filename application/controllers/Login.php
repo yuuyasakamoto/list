@@ -15,7 +15,6 @@ class Login extends CI_Controller {
     { 
         $email = $this->input->post('email');
         $password = $this->input->post('password');
-        $this->User_model->can_log_in($email, $password);
-        
+        $this->User_model->can_log_in($email, $password);       
     } 
 }
