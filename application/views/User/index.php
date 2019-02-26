@@ -4,7 +4,7 @@
 <title>ユーザー新規登録</title>
 </head>
 <body>
-<h1>ユーザー情報登録</h1>
+<h1>ユーザー新規登録</h1>
 <form action="/user/add" method="post">  
 メールアドレス
 <input type="text" name="email" value="<?php echo set_value('email'); ?>"><br>

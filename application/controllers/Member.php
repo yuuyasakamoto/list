@@ -10,7 +10,7 @@ class Member extends CI_Controller {
     {
         parent::__construct();
         //この行がないとエラーが出てしまうので付け足しました
-        //session_save_path('/vagrant/src/session');
+        session_save_path('/vagrant/src/session');
         $this->load->library('session');
 	if ($_SESSION['login'] == "ログイン") {
             return "true";

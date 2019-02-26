@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ログインページ</title>
+<title>ユーザーログインページ</title>
 </head>
 <body>   
-<h1>ログインページ</h1>
-<form action="/login/check" method="post"> 
+<h1>ユーザーログインページ</h1>
+<form action="/user/check" method="post"> 
 メールアドレス
 <input type="text" name="email" ><br>
 <?php echo form_error('email'); ?>

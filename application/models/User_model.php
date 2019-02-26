@@ -23,14 +23,17 @@ class User_model extends CI_Model{
      */ 
     public function insert($email, $password, $name)
     {
+        //postされた値をuserテーブルに登録
         $data = ['email' => $email, 'password' => $password, 'name' => $name];
-        $query = $this->db->insert('users', $data);
+        $this->db->insert('users', $data);
+        //登録されたidをもとにレコードを取得しcreatedの値取得
         $id = $this->db->insert_id();
-        $this->db->where('id', $id);
-        //createdカラムの値がまだ取得できてません
-        $created =
+        $query = $this->db->query("SELECT created FROM users WHERE id={$id}");
+        $created = $query->row('created'); 
+        //sha1関数でパスワードにcreatedの値(ソルト)を連結しハッシュ化
         $hash = sha1($password.$created);
-        $pass =['password'=>$hash];
-        $this->db->update('users', $data);
+        $pass = ['password'=>$hash];
+        //usersテーブルの取得したidをもとにパスワードをハッシュした値に更新して保存
+        $this->db->update('users', $pass, "id = {$id}");
     }
 }
