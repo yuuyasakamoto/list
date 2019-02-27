@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ユーザー新規登録</title>
+<title>ユーザー一覧</title>
 </head>
 <body>
-<h1>ユーザー新規登録</h1>
-<form action="/user/add" method="post">  
-メールアドレス
-<input type="text" name="email" value="<?php echo set_value('email'); ?>"><br>
-<?php echo form_error('email'); ?>
-パスワード
-<input type="text" name="password" value="<?php echo set_value('password'); ?>" ><br>
-<?php echo form_error('password'); ?>
-名前
-<input type="text" name="name" value="<?php echo set_value('name'); ?>" ><br>
-<?php echo form_error('name'); ?>
-<input type="submit" value="登録" >
-</form>  
+<h1>ユーザー一覧画面</h1>
+<br>
+<a href='/user/add'>ユーザー新規登録</a>
+<br>
+<table>
+    <tr>
+    <th>ID</th>
+    <th>氏名</th>
+    <th>登録日時</th>
+    </tr>
+    <?php foreach($users as $user){ ?>
+    <tr>
+    <td><?= $user->id ?></td>
+    <td><?= $user->name ?></td>
+    <td><?= $user->created ?></td>
+    </tr>
+    <?php } ?>
+</table>
 </body>
 </html>
-
- 

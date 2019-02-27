@@ -1,6 +1,4 @@
 <?php
-
-
 class Member extends CI_Controller {
     
     /**
@@ -9,12 +7,7 @@ class Member extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        //この行がないとエラーが出てしまうので付け足しました
-        session_save_path('/vagrant/src/session');
-        $this->load->library('session');
-	if ($_SESSION['login'] == "ログイン") {
-            return "true";
-        } else {
+	if ($_SESSION['login'] != true) {
             redirect('/login/index');
         }	
     }
