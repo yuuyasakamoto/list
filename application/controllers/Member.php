@@ -93,7 +93,7 @@ class Member extends CI_Controller {
     public function logout()
     {
         unset($_SESSION['login']);
-        redirect('/login/index');
+        redirect('/user/index');
     }
     /**
      * 生年月日の独自バリデーション

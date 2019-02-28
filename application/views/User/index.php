@@ -8,6 +8,8 @@
 <br>
 <a href='/user/add'>ユーザー新規登録</a>
 <br>
+<br>
+<a href='/user/login'>ログインページへ</a>
 <table>
     <tr>
     <th>ID</th>
