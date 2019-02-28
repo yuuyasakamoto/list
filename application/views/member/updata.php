@@ -4,7 +4,7 @@
 </head>
 <body>
 <h1>社員情報更新</h1><br>
-<form action="/member/updata" method="post">  
+<?php echo form_open(); ?>
 氏
 <input type="text" name="first_name" value='<?php echo set_value('first_name', $data['first_name']); ?>'><br>
 <?php echo form_error('first_name'); ?>

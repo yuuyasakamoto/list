@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>コメント登録</h1><br>
-<form action="/comment/insert" method="post">  
+<?php echo form_open('/comment/insert'); ?>
 タイトル
 <input type="text" name="title" ><br>
 コメント

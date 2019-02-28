@@ -6,7 +6,7 @@ class User extends CI_Controller {
      */        
     public function index(){
         $result = $this->User_model->findAll();
-        $data = ['users' => $result];
+        $data['users'] = $result;       
         $this->load->view('/user/index', $data);
     }
     /**
@@ -30,7 +30,9 @@ class User extends CI_Controller {
             redirect('/user/login');
         //リデーションエラーが有れば入力画面に戻る
         } else {
-            $this->load->view('/user/add');
+            $data['csrf_token_name'] = $this->security->get_csrf_token_name();
+            $data['csrf_token_hash'] = $this->security->get_csrf_hash();
+            $this->load->view('/user/add', $data);
         }
         
     }

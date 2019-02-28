@@ -5,7 +5,7 @@
 </head>
 <body>   
 <h1>ユーザーログインページ</h1>
-<form action="/user/login" method="post"> 
+<?php echo form_open(); ?>
 メールアドレス
 <input type="text" name="email" value="<?php echo set_value('email'); ?>"><br>
 <?php echo form_error('email'); ?>
