@@ -23,13 +23,12 @@ class User_model extends CI_Model{
         $pass = $data->row('password');
         //入力されたパスワードとcreatedでハッシュ化したパスワードを取得
         $hash = $this->hash($password, $created);
-        //パスワードが一致すればログインしmember一覧へ
+        //パスワードが一致すればtrueを返す
         if ($pass == $hash) {
-            $_SESSION['login'] = true;
-            redirect('/member/index');
-            //該当なしならgetパラメーターをつけてもう一度ログイン認証画面へ
+            return true;
+            //該当なしならfalseを返す
         } else {
-            redirect('/user/login?error=true');
+            return false;
         }
     }
 

@@ -3,7 +3,10 @@
 <head>
 <title>ユーザーログインページ</title>
 </head>
-<body>   
+<body>
+<?php if (isset($_GET['error'])):?>
+<p>パスワードもしくはメールアドレスが違います</p>
+<?php endif; ?>
 <h1>ユーザーログインページ</h1>
 <?php echo form_open(); ?>
 メールアドレス

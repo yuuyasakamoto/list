@@ -27,7 +27,6 @@ class Member extends CI_Controller {
     public function add()
     {
         //postされた値が空白かどうかのバリデーションチェック
-        $this->load->library('form_validation');
         $this->form_validation->set_message('required', '%s を入力してください。');
         $this->form_validation->set_rules('first_name', '氏', 'required');
         $this->form_validation->set_rules('last_name', '名', 'required');
@@ -35,7 +34,7 @@ class Member extends CI_Controller {
         $this->form_validation->set_rules('home', '出身地', 'required');
        
         //バリデーションエラーが無かった時正常にデータベースに反映
-        if ($this->form_validation->run() === TRUE) {
+        if ($this->form_validation->run() === true) {
             $first_name = $this->input->post('first_name');
             $last_name = $this->input->post('last_name');
             $birthday = $this->input->post('birthday');
@@ -53,7 +52,6 @@ class Member extends CI_Controller {
     public function updata()
     {   
         //入力された値が空白かチェック
-        $this->load->library('form_validation');
         $this->form_validation->set_message('required', '%s を入力してください。');
         $this->form_validation->set_rules('first_name', '氏', 'required');
         $this->form_validation->set_rules('last_name', '名', 'required');
@@ -61,18 +59,18 @@ class Member extends CI_Controller {
         $this->form_validation->set_rules('home', '出身地', 'required');
         
         //バリデーションエラーが無かった時正常にデータベース編集
-        if ($this->form_validation->run() === TRUE) {
+        if ($this->form_validation->run() === true) {
             $first_name = $this->input->post('first_name');
             $last_name = $this->input->post('last_name');
             $birthday = $this->input->post('birthday');
             $home = $this->input->post('home');
-            $no = $this->input->post('id');
-            $this->Member_model->updata($first_name, $last_name, $birthday, $home, $no);
+            $id = $this->input->post('id');
+            $this->Member_model->updata($first_name, $last_name, $birthday, $home, $id);
             redirect('/member/index');
         //バリデーションエラーが有ったら編集フォームに戻る
         } else { 
-            $no = $this->input->get('id');
-            $query = $this->Member_model->select($no);
+            $id = $this->input->get('id');
+            $query = $this->Member_model->select($id);
             $row['data'] = $query->row_array();
             $this->load->view('/member/updata', $row);       
         }   
@@ -82,8 +80,8 @@ class Member extends CI_Controller {
      */
     public function delete()
     {
-        $no = $this->input->get('id');
-        $this->Member_model->delete($no);
+        $id = $this->input->get('id');
+        $this->Member_model->delete($id);
         $this->load->view('/member/delete');
     }
    
@@ -103,14 +101,14 @@ class Member extends CI_Controller {
     public function birth_check($str)
    {
         $check = preg_match("/\d{4}\/\d{2}\/\d{2}/", $str);
-        if ($check == TRUE)
+        if ($check == true)
         {
-            return TRUE;
+            return true;
         }
         else
         {
             $this->form_validation->set_message('birth_check', '1990/01/01の形式で入力してください');
-            return FALSE;
+            return false;
         }
     }
 }

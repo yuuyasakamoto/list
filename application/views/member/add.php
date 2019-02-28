@@ -13,7 +13,7 @@
 <input type="text" name="last_name" value="<?php echo set_value('last_name'); ?>" ><br>
 <?php echo form_error('last_name'); ?>
 生年月日
-<input type="date" name="birthday" value="<?php echo set_value('birthday'); ?>" ><br>
+<input type="text" name="birthday" value="<?php echo set_value('birthday'); ?>" ><br>
 <?php echo form_error('birthday'); ?>
 出身地
 <input type="text" name="home" value="<?php echo set_value('home'); ?>" ><br>

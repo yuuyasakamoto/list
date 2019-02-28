@@ -16,10 +16,10 @@ class Member_model extends CI_Model{
      * @param type $no
      * @return type
      */
-    public function select($no)
+    public function select($id)
     {
         $sql = "SELECT * FROM members WHERE id=?";
-        $query = $this->db->query($sql, ['id' => $no]);
+        $query = $this->db->query($sql, ['id' => $id]);
         return $query;
     }
     /**
@@ -44,7 +44,7 @@ class Member_model extends CI_Model{
      * @param type $home
      * @param type $no
      */
-    public function updata($first_name, $last_name, $birthday, $home, $no)
+    public function updata($first_name, $last_name, $birthday, $home, $id)
     {
         $sql = "UPDATE members SET first_name = ?,
                                    last_name = ?,
@@ -52,16 +52,16 @@ class Member_model extends CI_Model{
                                    home = ?,
                                    modified = now()
                                    WHERE id = ?";
-        $this->db->query($sql, [$first_name, $last_name, $birthday, $home, $no]);
+        $this->db->query($sql, [$first_name, $last_name, $birthday, $home, $id]);
                         
     }
     /**
      * IDに紐づいたレコードの削除
      * @param type $no
      */
-    public function delete($no)
+    public function delete($id)
     {
         $sql = 'DELETE FROM members WHERE id = ?';
-        $this->db->query($sql, ['id' => $no]);   
+        $this->db->query($sql, ['id' => $id]);   
     }
 }
