@@ -7,9 +7,9 @@ class Member extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-	if ($_SESSION['login'] != true) {
-            redirect('/login/index');
-        }	
+	//if ($_SESSION['login'] != true) {
+            //redirect('/login/index');
+        //}	
     }
 
     /**

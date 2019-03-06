@@ -10,13 +10,19 @@
 <br>
 <table>
     <tr>
-    <th>ID</th>
-    <th>氏名</th>
-    <th>出身</th>
-    <th>コメント</th>
-    <th>削除</th>
-    <th>登録日時</th>
-    <th>更新日時</th>
+    <th>社員ID</th>
+    <th>氏</th>
+    <th>名</th>
+    <th>氏（カナ)</th>
+    <th>名（カナ）</th>
+    <th>性別</th>
+    <th>生年月日</th>
+    <th>住所</th>
+    <th>入社日</th>
+    <th>退職日</th>
+    <th>部署ID</th>
+    <th>役職ID</th>
+    <th>緊急連絡先</th>
     </tr>
     <?php foreach($members as $member){ ?>
     <tr>

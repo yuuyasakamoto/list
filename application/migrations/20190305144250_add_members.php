@@ -14,7 +14,7 @@ class Migration_Add_members extends CI_Migration {
                 first_name varchar(50) NOT NULL,
                 last_name varchar(50) NOT NULL,
                 first_name_kana varchar(50) NOT NULL,
-                first_name_kana varchar(50) NOT NULL,
+                last_name_kana varchar(50) NOT NULL,
                 gender enum('male', 'female') NOT NULL,
                 birth date NOT NULL,
                 home varchar(50) NOT NULL,
@@ -30,6 +30,7 @@ class Migration_Add_members extends CI_Migration {
                 modified datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (id))
                 ";
+        $this->db->query($sql);
     }
     // ロールバック処理
     public function down()
