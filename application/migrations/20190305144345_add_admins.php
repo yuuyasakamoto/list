@@ -22,7 +22,7 @@ class Migration_Add_admins extends CI_Migration {
     // ロールバック処理
     public function down()
     {   
-        //$this->dbforge->drop_table('admins');
+        $this->dbforge->drop_table('admins');
     }
 
 }
