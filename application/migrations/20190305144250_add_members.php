@@ -24,7 +24,7 @@ class Migration_Add_members extends CI_Migration {
                 position_id int unsigned NOT NULL comment '役職ID',
                 email varchar(20) NOT NULL,
                 password varchar(50) NOT NULL,
-                sos varchar(50) NOT NULL comment '緊急連絡先',
+                sos int unsigned NOT NULL comment '緊急連絡先番号',
                 deleted datetime NULL comment 'NULL = 削除していない',
                 created datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 modified datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
