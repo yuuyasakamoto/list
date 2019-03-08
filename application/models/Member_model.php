@@ -37,10 +37,11 @@ class Member_model extends CI_Model{
                                     last_name_kana, gender, birthday, home, hire_date,
                                     department_id, position_id, email, password, sos)
                             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
+        //入力されたパスワードと緊急連絡先の値でハッシュ化しパスワード保存
+        $hash = sha1($password . $sos);
         $this->db->query($sql, [$member_id, $first_name, $last_name, $first_name_kana,
                                 $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                $department_id, $position_id, $email, $password, $sos]);
+                                $department_id, $position_id, $email, $hash, $sos]);
     }
     
     /**
@@ -60,10 +61,11 @@ class Member_model extends CI_Model{
                                    department_id = ?, position_id = ?, email = ?, password = ?, sos = ?,
                                    modified = now()
                                    WHERE member_id = ?";
-        
+        //編集したパスワードと緊急連絡先の値でハッシュ化しパスワード保存
+        $hash = sha1($password . $sos);
         $this->db->query($sql, [ $first_name, $last_name, $first_name_kana,
                                 $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                $department_id, $position_id, $email, $password, $sos, $member_id]);
+                                $department_id, $position_id, $email, $hash, $sos, $member_id]);
                         
     }
     /**
@@ -74,5 +76,26 @@ class Member_model extends CI_Model{
     {
         $sql = 'DELETE FROM members WHERE member_id = ?';
         $this->db->query($sql, ['member_id' => $member_id]);   
+    }
+    /**
+     * 社員のメールアドレスとパスワードが一致すればログイン
+     * @param type $email
+     * @param type $password
+     * @return boolean
+     */
+    public function canLogIn($email, $password)
+    {
+        //POSTされたemail情報をもとに緊急連絡先とハッシュ化したパスワードを取り出す
+        $data = $this->db->get_where('members', ['email' => $email]);
+        $sos = $data->row('sos');
+        $pass = $data->row('password');
+        //入力されたパスワードと緊急連絡先でハッシュ化した値と合致すればtrue
+        $hash = sha1($password . $sos);
+        if ($pass == $hash) {
+            return true;
+        //該当なしならfalseを返す
+        } else {
+            return false;
+        }
     }
 }
