@@ -1,13 +1,13 @@
 <?php
 
-class User_model extends CI_Model{
+class Admin_model extends CI_Model{
     /**
      * ユーザー情報の取得
      * @return type
      */
     public function findAll()
     {
-        $query = $this->db->query('SELECT * FROM users ORDER BY id DESC');
+        $query = $this->db->query('SELECT * FROM admins ORDER BY id DESC');
         return $query->result();
     }
     /**
@@ -18,7 +18,7 @@ class User_model extends CI_Model{
     public function canLogIn($email, $password)
     {
         //POSTされたemail情報をもとにcreatedとpasswordを取り出す
-        $data = $this->db->get_where('users', ['email' => $email]);
+        $data = $this->db->get_where('admins', ['email' => $email]);
         $created = $data->row('created');
         $pass = $data->row('password');
         //入力されたパスワードとcreatedでハッシュ化したパスワードを取得
@@ -42,16 +42,16 @@ class User_model extends CI_Model{
     {
         //postされた値をuserテーブルに登録
         $data = ['email' => $email, 'password' => $password, 'name' => $name];
-        $this->db->insert('users', $data);
+        $this->db->insert('admins', $data);
         //登録されたidをもとにレコードを取得しcreatedの値取得
         $id = $this->db->insert_id();
-        $query = $this->db->query("SELECT created FROM users WHERE id={$id}");
+        $query = $this->db->query("SELECT created FROM admins WHERE id={$id}");
         $created = $query->row('created'); 
         //sha1関数でパスワードにcreatedの値(ソルト)を連結しハッシュ化
         $hash = $this->hash($password,$created);
         $pass = ['password'=>$hash];
         //usersテーブルの取得したidをもとにパスワードをハッシュした値に更新して保存
-        $this->db->update('users', $pass, "id = {$id}");
+        $this->db->update('admins', $pass, "id = {$id}");
     }
     /**
      * パスワードのハッシュ化

@@ -17,7 +17,7 @@
 <?php echo form_error('password'); ?>
 <input type="submit" value="ログイン" >
 </form> 
-<a href="/user/index">戻る</a>
+<a href="/admin/index">戻る</a>
 </body>
 </html>
 

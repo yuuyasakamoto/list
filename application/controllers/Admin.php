@@ -1,13 +1,13 @@
 <?php
 
-class User extends CI_Controller {
+class Admin extends CI_Controller {
     /**
      * ユーザー一覧画面
      */        
     public function index(){
-        $result = $this->User_model->findAll();
-        $data['users'] = $result;       
-        $this->load->view('/user/index', $data);
+        $result = $this->Admin_model->findAll();
+        $data['admins'] = $result;       
+        $this->load->view('/admin/index', $data);
     }
     /**
      * ユーザー登録処理
@@ -16,7 +16,7 @@ class User extends CI_Controller {
         //空白もしくはemailがusersテーブルに被りがあるとバリデーションエラー
         $this->form_validation->set_message('required', '%s を入力してください。');
         $this->form_validation->set_message('is_unique', '他のユーザーが使用しているメールアドレスです');
-        $this->form_validation->set_rules('email', 'メールアドレス', 'required|is_unique[users.email]');
+        $this->form_validation->set_rules('email', 'メールアドレス', 'required|is_unique[admins.email]');
         $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('name', '名前', 'required');
         //バリデーションエラーが無ければユーザー新規登録しログイン画面へ
@@ -25,13 +25,13 @@ class User extends CI_Controller {
             $password = $this->input->post('password');
             $name = $this->input->post('name');
             //insertでパスワードをハッシュ化しDBに保存
-            $this->User_model->insert($email, $password, $name); 
-            redirect('/user/login');
+            $this->Admin_model->insert($email, $password, $name); 
+            redirect('/admin/login');
         //リデーションエラーが有れば入力画面に戻る
         } else {
             $data['csrf_token_name'] = $this->security->get_csrf_token_name();
             $data['csrf_token_hash'] = $this->security->get_csrf_hash();
-            $this->load->view('/user/add', $data);
+            $this->load->view('/admin/add', $data);
         }
         
     }
@@ -50,17 +50,17 @@ class User extends CI_Controller {
             $email = $this->input->post('email');
             $password = $this->input->post('password');
             //canLogInメソッドでemailとpasswordが正しければtrue
-            $login = $this->User_model->canLogIn($email, $password);
+            $login = $this->Admin_model->canLogIn($email, $password);
             //正しければログイン
             if ($login == true) {
                 $_SESSION['login'] = true;
                 redirect('/member/index');
             } else {
-                redirect('/user/login?error=true');
+                redirect('/admin/login?error=true');
             }     
         //バリデーションエラーがあればもう一度ログイン認証画面
         } else {
-            $this->load->view('/user/login');
+            $this->load->view('/admin/login');
         }
               
     } 

@@ -16,10 +16,10 @@ class Member_model extends CI_Model{
      * @param type $no
      * @return type
      */
-    public function select($id)
+    public function select($member_id)
     {
-        $sql = "SELECT * FROM members WHERE id=?";
-        $query = $this->db->query($sql, ['id' => $id]);
+        $sql = "SELECT * FROM members WHERE member_id=?";
+        $query = $this->db->query($sql, ['member_id' => $member_id]);
         return $query;
     }
     /**
@@ -29,11 +29,18 @@ class Member_model extends CI_Model{
      * @param type $birthday
      * @param type $home
      */
-    public function insert($first_name, $last_name, $birthday, $home)
+    public function insert($member_id, $first_name, $last_name, $first_name_kana,
+                           $last_name_kana, $gender, $birthday, $home, $hire_date,
+                           $department_id, $position_id, $email, $password, $sos)
     {
-        $sql = "INSERT INTO members(first_name, last_name, birthday, home)
-                VALUES(?, ?, ?, ?)";
-        $this->db->query($sql, [$first_name, $last_name, $birthday, $home]);
+        $sql = "INSERT INTO members(member_id, first_name, last_name, first_name_kana,
+                                    last_name_kana, gender, birthday, home, hire_date,
+                                    department_id, position_id, email, password, sos)
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $this->db->query($sql, [$member_id, $first_name, $last_name, $first_name_kana,
+                                $last_name_kana, $gender, $birthday, $home, $hire_date,
+                                $department_id, $position_id, $email, $password, $sos]);
     }
     
     /**
@@ -44,24 +51,28 @@ class Member_model extends CI_Model{
      * @param type $home
      * @param type $no
      */
-    public function updata($first_name, $last_name, $birthday, $home, $id)
+    public function update($member_id, $first_name, $last_name, $first_name_kana,
+                           $last_name_kana, $gender, $birthday, $home, $hire_date,
+                           $department_id, $position_id, $email, $password, $sos)
     {
-        $sql = "UPDATE members SET first_name = ?,
-                                   last_name = ?,
-                                   birthday = ?,
-                                   home = ?,
+        $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
+                                   last_name_kana = ?, gender = ?, birthday = ?, home = ?, hire_date = ?,
+                                   department_id = ?, position_id = ?, email = ?, password = ?, sos = ?,
                                    modified = now()
-                                   WHERE id = ?";
-        $this->db->query($sql, [$first_name, $last_name, $birthday, $home, $id]);
+                                   WHERE member_id = ?";
+        
+        $this->db->query($sql, [ $first_name, $last_name, $first_name_kana,
+                                $last_name_kana, $gender, $birthday, $home, $hire_date,
+                                $department_id, $position_id, $email, $password, $sos, $member_id]);
                         
     }
     /**
      * IDに紐づいたレコードの削除
      * @param type $no
      */
-    public function delete($id)
+    public function delete($member_id)
     {
-        $sql = 'DELETE FROM members WHERE id = ?';
-        $this->db->query($sql, ['id' => $id]);   
+        $sql = 'DELETE FROM members WHERE member_id = ?';
+        $this->db->query($sql, ['member_id' => $member_id]);   
     }
 }
