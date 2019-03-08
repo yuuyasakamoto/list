@@ -21,8 +21,8 @@
     <th>住所</th>
     <th>入社日</th>
     <th>退職日</th>
-    <th>部署ID</th>
-    <th>役職ID</th>
+    <th>部署名</th>
+    <th>役職名</th>
     <th>緊急連絡先電話番号</th>
     <th>削除</th>
     <th>登録時間</th>
@@ -40,8 +40,12 @@
     <td><?= $member->home ?></td>
     <td><?= $member->hire_date?></td>
     <td><?= $member->retirement_date ?></td>
-    <td><?= $member->department_id ?></td>
-    <td><?= $member->position_id ?></td>
+    <?php $departments = $this->db->query("SELECT department_name FROM departments where id='$member->department_id'");
+    $department = $departments->row();  ?>
+    <td><?php if(isset($department)){ echo $department->department_name ;} ?></td>
+    <?php $positions = $this->db->query("SELECT position_name FROM positions where id='$member->position_id'");
+    $position = $positions->row();  ?>
+    <td><?php if(isset($position)){ echo $position->position_name ;} ?></td>
     <td><?= $member->sos ?></td>
     <td><a href = '/member/delete?member_id=<?= $member->member_id ?>&name=<?= $member->first_name ?>' onclick="return confirm('本当に削除してもよろしいですか？');">削除</a></td>
     <td><?= $member->created ?></td>

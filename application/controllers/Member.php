@@ -37,8 +37,8 @@ class Member extends CI_Controller {
         $this->form_validation->set_rules('birthday', '生年月日', 'required|callback_birth_check');
         $this->form_validation->set_rules('home', '住所', 'required');
         $this->form_validation->set_rules('hire_date', '入社日', 'required|callback_birth_check');
-        $this->form_validation->set_rules('department_id', '部署ID', 'required');
-        $this->form_validation->set_rules('position_id', '役職ID', 'required');
+        $this->form_validation->set_rules('department_id', '部署ID', 'required|callback_id_check');
+        $this->form_validation->set_rules('position_id', '役職ID', 'required|callback_id_check');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required');
         $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
@@ -83,8 +83,8 @@ class Member extends CI_Controller {
         $this->form_validation->set_rules('birthday', '生年月日', 'required|callback_birth_check');
         $this->form_validation->set_rules('home', '住所', 'required');
         $this->form_validation->set_rules('hire_date', '入社日', 'required|callback_birth_check');
-        $this->form_validation->set_rules('department_id', '部署ID', 'required');
-        $this->form_validation->set_rules('position_id', '役職ID', 'required');
+        $this->form_validation->set_rules('department_id', '部署ID', 'required|callback_id_check');
+        $this->form_validation->set_rules('position_id', '役職ID', 'required|callback_id_check');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required');
         $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
@@ -168,6 +168,24 @@ class Member extends CI_Controller {
         else
         {
             $this->form_validation->set_message('sos_check', '半角数字のみで記入して下さい');
+            return false;
+        }
+    }
+    /**
+     * IDのバリデーション（IDが存在するか確かめる）
+     * @param type $number
+     * @return boolean
+     */
+    public function id_check($key)
+    {
+        $check = preg_match("/^[1-7]$/", $key);
+        if ($check == true)
+        {
+            return true;
+        }
+        else
+        {
+            $this->form_validation->set_message('id_check', '正しい%s を記入して下さい');
             return false;
         }
     } 

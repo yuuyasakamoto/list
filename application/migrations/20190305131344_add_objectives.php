@@ -18,7 +18,7 @@ class Migration_Add_objectives extends CI_Migration {
                 deleted datetime NULL comment 'NULL = 削除されていない',
                 created datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 modified datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                PRIMARY KEY (id))
+                PRIMARY KEY (id)) DEFAULT CHARSET=utf8;
                 ";
         $this->db->query($sql);
 
