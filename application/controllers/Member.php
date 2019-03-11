@@ -2,23 +2,23 @@
 class Member extends CI_Controller {
     
     /**
-     * ログイン確認
-     */
-    public function __construct()
-    {
-        parent::__construct();
-	//if ($_SESSION['login'] != true) {
-            //redirect('/login/index');
-        //}	
-    }
-
-    /**
      * 社員一覧ページ
      */   
     public function index()
     {
-        $result = $this->Member_model->findAll();
-        $data = ['members' => $result];
+        $members = $this->Member_model->findAll();
+        foreach($members as $member){
+            //$member->department_id(オブジェクト)を関数の引数に直接指定するとエラーになるので一度変数(id1,id2)に代入しました
+            $id1 = $member->department_id;
+            $id2 = $member->position_id;
+            //役職IDと部署IDに紐づいた役職名と部署名を取得
+            $department_name = $this->Department_model->findById($id1);
+            $position_name = $this->Position_model->findById($id2);
+            //役職IDと部署IDに役職名と部署名を代入
+            $member->department_id=$department_name;
+            $member->position_id=$position_name;
+        }
+        $data = ['members' => $members];
         $this->load->view('/member/index', $data);
     }
     /**
@@ -26,7 +26,7 @@ class Member extends CI_Controller {
      */
     public function add()
     {
-        //postされた値が空白かどうかのバリデーションチェック
+        //postされた値のバリデーションチェック
         $this->form_validation->set_message('required', '%s は必須です。');
         $this->form_validation->set_rules('member_id', '社員ID', 'required');
         $this->form_validation->set_rules('first_name', '氏', 'required');
@@ -43,7 +43,7 @@ class Member extends CI_Controller {
         $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
 
-        //バリデーションエラーが無かった時正常にデータベースに反映
+        //バリデーションエラーが無かった時データベースに保存し社員一覧画面へ
         if ($this->form_validation->run() === true) {
             $member_id = $this->input->post('member_id');
             $first_name = $this->input->post('first_name');
@@ -73,7 +73,7 @@ class Member extends CI_Controller {
      */
     public function update()
     {   
-        //入力された値が空白かチェック
+        //入力されたのバリデーションチェック
         $this->form_validation->set_message('required', '%s は必須です。');
         $this->form_validation->set_rules('first_name', '氏', 'required');
         $this->form_validation->set_rules('last_name', '名', 'required');
@@ -89,7 +89,7 @@ class Member extends CI_Controller {
         $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
         
-        //バリデーションエラーが無かった時正常にデータベース編集
+        //バリデーションエラーが無かった時正常にデータ編集し社員一覧画面へ
         if ($this->form_validation->run() === true) {
             $member_id = $this->input->post('member_id');
             $first_name = $this->input->post('first_name');
@@ -109,7 +109,7 @@ class Member extends CI_Controller {
                                         $last_name_kana, $gender, $birthday, $home, $hire_date,
                                         $department_id, $position_id, $email, $password, $sos);
             redirect('/member/index');
-        //バリデーションにかかったら編集画面に
+        //バリデーションエラーなら再度編集画面に
         } else { 
             $member_id = $this->input->get('member_id');
             $query = $this->Member_model->select($member_id);
@@ -126,17 +126,43 @@ class Member extends CI_Controller {
         $this->Member_model->delete($member_id);
         $this->load->view('/member/delete');
     }
-   
+    /**
+     * ログインに成功すれば目標作成画面へ
+     */
+    public function login()
+    {
+        $this->form_validation->set_message('required', '%s を入力してください。');
+        $this->form_validation->set_rules('email', 'メールアドレス', 'required');
+        $this->form_validation->set_rules('password', 'パスワード', 'required');
+        if ($this->form_validation->run() === true) {
+            $email = $this->input->post('email');
+            $password = $this->input->post('password');
+            //canLogInメソッドでemailとpasswordが正しければtrue
+            $member_id = $this->Member_model->canLogIn($email, $password);
+            $user_name = $this->Member_model->getUserName($member_id);
+            //正しければログイン
+            if (false != $member_id) {
+                $_SESSION['login'] = true;
+                $_SESSION['member_id'] = $member_id;
+                $_SESSION['user_name'] = $user_name;
+                redirect('/objective/index');
+            } else {
+                redirect('/member/login?error=true');
+            }   
+        } else {
+        $this->load->view('/member/login');
+        }
+    }
     /**
      * ログアウト
      */
     public function logout()
     {
         unset($_SESSION['login']);
-        redirect('/user/index');
+        redirect('/member/index');
     }
     /**
-     * 生年月日の独自バリデーション
+     * 1990-01-01の形式になっているかのバリデーション
      * @param type $str
      * @return boolean
      */
@@ -154,7 +180,7 @@ class Member extends CI_Controller {
         }
     }
     /**
-     * 緊急連絡先のバリデーション
+     * ハイフンなしの半角数字のみで記入しているかのバリデーション（緊急連絡先）
      * @param type $str
      * @return boolean
      */
@@ -172,7 +198,7 @@ class Member extends CI_Controller {
         }
     }
     /**
-     * IDのバリデーション（IDが存在するか確かめる）
+     * 存在する部署、役職IDか確かめるバリデーション
      * @param type $number
      * @return boolean
      */

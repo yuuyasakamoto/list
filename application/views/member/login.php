@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ユーザーログインページ</title>
+<title>社員ログインページ</title>
 </head>
 <body>
 <?php if (isset($_GET['error'])):?>
 <p>パスワードもしくはメールアドレスが違います</p>
 <?php endif; ?>
-<h1>ユーザーログインページ</h1>
+<h1>社員ログインページ</h1>
 <?php echo form_open(); ?>
 メールアドレス
 <input type="text" name="email" value="<?php echo set_value('email'); ?>"><br>
@@ -18,9 +18,6 @@
 <input type="submit" value="ログイン" >
 </form> 
 <br>
-<a href="/admin/index">戻る</a>
+<a href="/member/index">戻る</a>
 </body>
 </html>
-
-
-

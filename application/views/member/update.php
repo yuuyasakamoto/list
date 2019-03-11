@@ -42,7 +42,7 @@
 <input type="text" name="email" value="<?php echo set_value('email', $data['email']); ?>" ><br>
 <?php echo form_error('email'); ?>
 パスワード:
-<input type="text" name="password" value="<?php echo set_value('password', $data['password']); ?>" ><br>
+<input type="text" name="password" value="<?php echo set_value('password'); ?>" ><br>
 <?php echo form_error('password'); ?>
 緊急連絡先電話番号:
 <input type="number" name="sos" value="<?php echo set_value('sos', $data['sos']); ?>" ><br>
