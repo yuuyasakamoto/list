@@ -42,16 +42,8 @@
     <td><?= $member->home ?></td>
     <td><?= $member->hire_date?></td>
     <td><?= $member->retirement_date ?></td>
-    <!-- 部署テーブルから社員テーブル部署IDに紐ずいた部署名を取得し表示 -->
-    <?php $departments = $this->db->query("SELECT department_name FROM departments where id='$member->department_id'");
-    $department = $departments->row();  ?>
-    <!--部署idがあれば部署名表示-->
-    <td><?php if(isset($department)){ echo $department->department_name ;} ?></td>
-    <!-- 役職テーブルから社員テーブルの役職IDに紐ずいた役職名を取得し表示 -->
-    <?php $positions = $this->db->query("SELECT position_name FROM positions where id='$member->position_id'");
-    $position = $positions->row();  ?>
-    <!--役職idがあれば部署名表示-->
-    <td><?php if(isset($position)){ echo $position->position_name ;} ?></td>
+    <td><?= $member->department_id ?></td>
+    <td><?= $member->position_id ?></td>
     <td><?= $member->sos ?></td>
     <td><a href = '/member/delete?member_id=<?= $member->member_id ?>&name=<?= $member->first_name ?>' onclick="return confirm('本当に削除してもよろしいですか？');">削除</a></td>
     <td><?= $member->created ?></td>

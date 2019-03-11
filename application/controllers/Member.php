@@ -6,8 +6,19 @@ class Member extends CI_Controller {
      */   
     public function index()
     {
-        $result = $this->Member_model->findAll();
-        $data = ['members' => $result];
+        $members = $this->Member_model->findAll();
+        foreach($members as $member){
+            //$member->department_id(オブジェクト)を関数の引数に直接指定するとエラーになるので一度変数(id1,id2)に代入しました
+            $id1 = $member->department_id;
+            $id2 = $member->position_id;
+            //役職IDと部署IDに紐づいた役職名と部署名を取得
+            $department_name = $this->Department_model->findById($id1);
+            $position_name = $this->Position_model->findById($id2);
+            //役職IDと部署IDに役職名と部署名を代入
+            $member->department_id=$department_name;
+            $member->position_id=$position_name;
+        }
+        $data = ['members' => $members];
         $this->load->view('/member/index', $data);
     }
     /**
@@ -127,10 +138,13 @@ class Member extends CI_Controller {
             $email = $this->input->post('email');
             $password = $this->input->post('password');
             //canLogInメソッドでemailとpasswordが正しければtrue
-            $login = $this->Member_model->canLogIn($email, $password);
+            $member_id = $this->Member_model->canLogIn($email, $password);
+            $user_name = $this->Member_model->getUserName($member_id);
             //正しければログイン
-            if ($login == true) {
+            if (false != $member_id) {
                 $_SESSION['login'] = true;
+                $_SESSION['member_id'] = $member_id;
+                $_SESSION['user_name'] = $user_name;
                 redirect('/objective/index');
             } else {
                 redirect('/member/login?error=true');
@@ -145,7 +159,7 @@ class Member extends CI_Controller {
     public function logout()
     {
         unset($_SESSION['login']);
-        redirect('/user/index');
+        redirect('/member/index');
     }
     /**
      * 1990-01-01の形式になっているかのバリデーション

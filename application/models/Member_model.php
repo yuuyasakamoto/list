@@ -89,13 +89,20 @@ class Member_model extends CI_Model{
         $data = $this->db->get_where('members', ['email' => $email]);
         $sos = $data->row('sos');
         $pass = $data->row('password');
+        $member_id = $data->row('member_id');
         //入力されたパスワードと緊急連絡先でハッシュ化した値と合致すればtrue
         $hash = sha1($password . $sos);
         if ($pass == $hash) {
-            return true;
+            return $member_id;
         //該当なしならfalseを返す
         } else {
             return false;
         }
+    }
+    public function getUserName($member_id)
+    {
+        $data = $this->db->get_where('members', ['member_id' => $member_id]);
+        $user_name = $data->row('first_name');
+        return $user_name;
     }
 }
