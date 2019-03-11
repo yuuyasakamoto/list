@@ -6,6 +6,13 @@
 </head>
 <body>
 <h1>社員一覧画面</h1>
+<?php if (isset($_SESSION['admin'])):?>
+<p style='color:blue;'>管理者としてログインしています</p>
+<p style='color:blue;'>目標の閲覧、コメントが可能です</p>
+<?php endif; ?>
+<?php if (isset($_GET['error'])):?>
+<p>パスワードもしくはメールアドレスが違います</p>
+<?php endif; ?>
 <br>
 <a href='/member/add'>社員新規登録</a><br>
 <br>
@@ -21,6 +28,7 @@
     <th>性別</th>
     <th>生年月日</th>
     <th>住所</th>
+    <th>目標</th>
     <th>入社日</th>
     <th>退職日</th>
     <th>部署名</th>
@@ -40,17 +48,18 @@
     <td><?= $member->gender ?></td>
     <td><?= $member->birthday ?></td>
     <td><?= $member->home ?></td>
+    <td><a href="/comment/index?member_id=<?= $member->member_id ?>&first_name=<?=$member->first_name ?>">目標</td>
     <td><?= $member->hire_date?></td>
     <td><?= $member->retirement_date ?></td>
     <td><?= $member->department_id ?></td>
     <td><?= $member->position_id ?></td>
     <td><?= $member->sos ?></td>
-    <td><a href = '/member/delete?member_id=<?= $member->member_id ?>&name=<?= $member->first_name ?>' onclick="return confirm('本当に削除してもよろしいですか？');">削除</a></td>
+    <td><a href='/member/delete?member_id=<?= $member->member_id ?>&name=<?= $member->first_name ?>' onclick="return confirm('本当に削除してもよろしいですか？');">削除</a></td>
     <td><?= $member->created ?></td>
     <td><?= $member->modified ?></td>
     </tr>
     <?php } ?>
 </table>
-<a href="/member/logout">ログアウト</a>
+<a href="/admin/index">管理者ページ</a>
 </body>
 </html>

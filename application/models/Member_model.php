@@ -99,6 +99,11 @@ class Member_model extends CI_Model{
             return false;
         }
     }
+    /**
+     * ログインする際社員の名前を取得する関数
+     * @param type $member_id
+     * @return type
+     */
     public function getUserName($member_id)
     {
         $data = $this->db->get_where('members', ['member_id' => $member_id]);

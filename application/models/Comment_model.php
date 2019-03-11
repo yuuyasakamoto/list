@@ -1,12 +1,14 @@
 <?php
 
     class Comment_model extends CI_Model{
+       
         /**
-         * commentsテーブルの全データ取得
+         * member_idの目標データ取得
+         * @param type $member_id
          * @return type
          */
-        public function findAll(){
-            $query = $this->db->query('SELECT * FROM comments ORDER BY id DESC');
+        public function getObjectives($member_id){
+            $query = $this->db->query("SELECT * FROM objectives where member_id='$member_id'");
             return $query->result();
         }
     }

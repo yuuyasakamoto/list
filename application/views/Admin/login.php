@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ユーザーログインページ</title>
+<title>管理者ログインページ</title>
 </head>
 <body>
 <?php if (isset($_GET['error'])):?>
 <p>パスワードもしくはメールアドレスが違います</p>
 <?php endif; ?>
-<h1>ユーザーログインページ</h1>
+<h1>管理者ログインページ</h1>
 <?php echo form_open(); ?>
 メールアドレス
 <input type="text" name="email" value="<?php echo set_value('email'); ?>"><br>

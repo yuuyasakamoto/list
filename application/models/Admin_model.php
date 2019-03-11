@@ -33,7 +33,7 @@ class Admin_model extends CI_Model{
     }
 
     /**
-     * ユーザー登録（ソルト＋ハッシュ化）
+     * 管理者登録（ソルト＋ハッシュ化）
      * @param type $email
      * @param type $password
      * @param type $name

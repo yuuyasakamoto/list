@@ -2,12 +2,21 @@
 
 class Comment extends CI_Controller {
     
+    public function __construct()
+    {
+        //ログインしていないと管理者一覧画面へ
+        parent::__construct();
+	if ($_SESSION['admin'] != true) {
+            redirect('/admin/index?error=true');
+        }	
+    }
     /**
-     * コメント一覧機能
+     * 目標一覧機能
      */
     public function index() {
-        $result = $this->Comment_model->findAll();
-        $data = ['comments' => $result];
+        $member_id = $this->input->get('member_id');
+        $objectives = $this->Comment_model->getObjectives($member_id);
+        $data = ['objectives' => $objectives];
         $this->load->view('/comment/index', $data);
     }
     /**
@@ -17,12 +26,11 @@ class Comment extends CI_Controller {
         $this->load->view('/comment/add');
     }
     /**
-     * Postされたタイトルとコメントをデータに反映させる
+     * ログアウト
      */
-    public function insert()
+    public function logout()
     {
-        $title = $this->input->post('title');
-        $comment = $this->input->post('comment');
-        redirect('/comment/index');
+        unset($_SESSION['admin']);
+        redirect('/member/index');
     }
 }

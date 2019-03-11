@@ -2,7 +2,7 @@
 
 class Admin extends CI_Controller {
     /**
-     * ユーザー一覧画面
+     * 管理者一覧画面
      */        
     public function index(){
         $result = $this->Admin_model->findAll();
@@ -10,7 +10,7 @@ class Admin extends CI_Controller {
         $this->load->view('/admin/index', $data);
     }
     /**
-     * ユーザー登録処理
+     * 管理者登録画面
      */
     public function add(){
         //空白もしくはemailがusersテーブルに被りがあるとバリデーションエラー
@@ -26,7 +26,7 @@ class Admin extends CI_Controller {
             $name = $this->input->post('name');
             //insertでパスワードをハッシュ化しDBに保存
             $this->Admin_model->insert($email, $password, $name); 
-            redirect('/admin/login');
+            redirect('/admin/index');
         //リデーションエラーが有れば入力画面に戻る
         } else {
             $data['csrf_token_name'] = $this->security->get_csrf_token_name();
@@ -36,7 +36,7 @@ class Admin extends CI_Controller {
         
     }
     /**
-     * ログイン画面
+     * 管理者ログイン画面
      */
     public function login() 
     {
@@ -53,7 +53,7 @@ class Admin extends CI_Controller {
             $login = $this->Admin_model->canLogIn($email, $password);
             //正しければログイン
             if ($login == true) {
-                $_SESSION['login'] = true;
+                $_SESSION['admin'] = true;
                 redirect('/member/index');
             } else {
                 redirect('/admin/login?error=true');
