@@ -9,7 +9,7 @@
 <h1>社員情報登録</h1><br>
 <?php echo form_open(); ?>
 社員ID:
-<input type="text" name="member_id" value="<?php echo set_value('member_id'); ?>"><br>
+<input type="number" name="member_id" value="<?php echo set_value('member_id'); ?>"><br>
 <?php echo form_error('member_id'); ?>
 氏:
 <input type="text" name="first_name" value="<?php echo set_value('first_name'); ?>"><br>

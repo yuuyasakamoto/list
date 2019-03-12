@@ -5,7 +5,7 @@
 </head>
 <body>
 <?php if (isset($_GET['error'])):?>
-<p>パスワードもしくはメールアドレスが違います</p>
+<p style='color:red;'>パスワードもしくはメールアドレスが違います</p>
 <?php endif; ?>
 <h1>社員ログインページ</h1>
 <?php echo form_open(); ?>

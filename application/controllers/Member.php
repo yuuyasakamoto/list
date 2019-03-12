@@ -28,7 +28,8 @@ class Member extends CI_Controller {
     {
         //postされた値のバリデーションチェック
         $this->form_validation->set_message('required', '%s は必須です。');
-        $this->form_validation->set_rules('member_id', '社員ID', 'required');
+        $this->form_validation->set_message('is_unique', '他のユーザーが使用している%sです');
+        $this->form_validation->set_rules('member_id', '社員ID', 'required|is_unique[members.member_id]');
         $this->form_validation->set_rules('first_name', '氏', 'required');
         $this->form_validation->set_rules('last_name', '名', 'required');
         $this->form_validation->set_rules('first_name_kana', '氏（カタカナ）', 'required');
@@ -39,7 +40,7 @@ class Member extends CI_Controller {
         $this->form_validation->set_rules('hire_date', '入社日', 'required|callback_birth_check');
         $this->form_validation->set_rules('department_id', '部署ID', 'required|callback_id_check');
         $this->form_validation->set_rules('position_id', '役職ID', 'required|callback_id_check');
-        $this->form_validation->set_rules('email', 'メールアドレス', 'required');
+        $this->form_validation->set_rules('email', 'メールアドレス', 'required|is_unique[members.email]');
         $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
 

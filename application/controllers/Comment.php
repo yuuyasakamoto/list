@@ -20,10 +20,29 @@ class Comment extends CI_Controller {
         $this->load->view('/comment/index', $data);
     }
     /**
-     * コメント入力機能
+     * 目標内容閲覧画面
+     */
+    public function contents() {
+        $member_id = $this->input->get('member_id');
+        $created = $this->input->get('created');
+        $data['contents'] = $this->Comment_model->getContents($member_id, $created);
+        $this->load->view('/comment/contents', $data);
+    }
+    /**
+     * 目標に対するコメント入力機能
      */
     public function add() {
+        $this->form_validation->set_message('required', 'コメントお願いします。');
+        $this->form_validation->set_rules('comment', 'コメント', 'required');
+        if ($this->form_validation->run() === true) {
+            $comment = $this->input->post('comment');
+            $admin_id = $this->input->post('admin_id');
+            $objective_id = $this->input->post('objective_id');
+            $this->Comment_model->insert($comment, $admin_id, $objective_id);
+            $this->load->view('/comment/done');
+        } else {
         $this->load->view('/comment/add');
+        }
     }
     /**
      * ログアウト
@@ -31,6 +50,7 @@ class Comment extends CI_Controller {
     public function logout()
     {
         unset($_SESSION['admin']);
+        unset($_SESSION['id']);
         redirect('/member/index');
     }
 }

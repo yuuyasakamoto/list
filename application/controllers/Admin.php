@@ -40,7 +40,6 @@ class Admin extends CI_Controller {
      */
     public function login() 
     {
-        //getパラメーターがついていればエラーメッセージ表示
         //入力フォームが空欄かどうかのバリデーションチェック
         $this->form_validation->set_message('required', '%s を入力してください。');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required');
@@ -49,21 +48,30 @@ class Admin extends CI_Controller {
         if ($this->form_validation->run() === true) {
             $email = $this->input->post('email');
             $password = $this->input->post('password');
-            //canLogInメソッドでemailとpasswordが正しければtrue
-            $login = $this->Admin_model->canLogIn($email, $password);
+            //canLogInメソッドでemailとpasswordが正しければidを返す
+            $id = $this->Admin_model->canLogIn($email, $password);
             //正しければログイン
-            if ($login == true) {
+            if (isset($id)) {
                 $_SESSION['admin'] = true;
+                $_SESSION['id'] = $id;
                 redirect('/member/index');
+            //パスワードが違っていればgetパラメーターを付けてログイン画面へ
             } else {
                 redirect('/admin/login?error=true');
             }     
-        //バリデーションエラーがあればもう一度ログイン認証画面
+            //バリデーションエラーがあればもう一度ログイン認証画面
         } else {
             $this->load->view('/admin/login');
         }
-              
-    } 
-
+    }
+    /**
+     * 管理者ログアウト
+     */
+    public function logout()
+    {
+        unset($_SESSION['admin']);
+        unset($_SESSION['id']);
+        redirect('/member/index');
+    }
 }
     

@@ -9,7 +9,7 @@ class Objective extends CI_Controller {
         //ログインしていないとログインページへ
         parent::__construct();
 	if ($_SESSION['login'] != true) {
-            redirect('/login/index');
+            redirect('/member/index');
         }	
     }
     /**
@@ -19,10 +19,10 @@ class Objective extends CI_Controller {
     {
         //各バリデーションエラーに引っ掛からなかったら目標テーブルに保存し完了画面に
         $this->form_validation->set_message('required', '%s は必須です。');
-        $this->form_validation->set_message('min_length', '最低300字はお書きください。');
+        $this->form_validation->set_message('min_length', '最低50字はお書きください。');
         $this->form_validation->set_message('max_length', '目標は500字程度でお願い致します。');
         $this->form_validation->set_rules('quarter', '第何半期かの選択', 'required');
-        $this->form_validation->set_rules('objective', '目標内容', 'min_length[300]|max_length[600]');
+        $this->form_validation->set_rules('objective', '目標内容', 'required|min_length[50]|max_length[600]');
         if ($this->form_validation->run() === true) {
             $year = $this->input->post('year');
             $quarter = $this->input->post('quarter');

@@ -6,17 +6,15 @@
 </head>
 <body>
 <h1>社員一覧画面</h1>
-<?php if (isset($_SESSION['admin'])):?>
-<p style='color:blue;'>管理者としてログインしています</p>
-<p style='color:blue;'>目標の閲覧、コメントが可能です</p>
-<?php endif; ?>
-<?php if (isset($_GET['error'])):?>
-<p>パスワードもしくはメールアドレスが違います</p>
-<?php endif; ?>
-<br>
-<a href='/member/add'>社員新規登録</a><br>
-<br>
+<!-- 管理者がログインしているログイン状態表示 -->
+<?php if (isset($_SESSION['admin'])): ?>
+<?php echo "管理者ID".$_SESSION['id']; ?>
+<p style='color:blue;'>ログイン中（目標の閲覧、コメントが可能です）</p>
+<!-- 管理者ログイン中は社員機能は表示しない -->
+<?php else : ?>
+<a href='/member/add'>社員新規登録</a><br><br>
 <a href='/member/login'>社員ログインページ</a>
+<?php endif; ?>
 <br>
 <table  border="1" >
     <tr>

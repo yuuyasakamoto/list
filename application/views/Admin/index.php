@@ -9,11 +9,15 @@
 <p style='color:red;'>管理者権限がありません</p>
 <p style='color:red;'>管理者としてログインして下さい</p>
 <?php endif; ?>
-<br>
-<a href='/admin/add'>管理者新規登録</a>
-<br>
-<br>
+<!-- 管理者がログインしているログイン状態表示 -->
+<?php if (isset($_SESSION['admin'])):?>
+<?php echo "管理者ID".$_SESSION['id']; ?>
+<p style='color:blue;'>ログイン中</p>
+<!-- 管理者ログイン中は登録機能は表示しない -->
+<?php else : ?>
+<a href='/admin/add'>管理者新規登録</a><br><br>
 <a href='/admin/login'>管理者ログインページへ</a>
+<?php endif; ?>
 <table border="1">
 <tr>
 <th>ID</th>
@@ -28,6 +32,9 @@
 </tr>
 <?php } ?>
 </table>
-<a href='/member/index'>社員一覧画面へ</a>
+<a href='/member/index'>社員一覧画面へ</a><br>
+<?php if (isset($_SESSION['admin'])):?>
+<a href='/admin/logout'>ログアウト</a>
+<?php endif; ?>
 </body>
 </html>

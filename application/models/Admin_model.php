@@ -21,14 +21,15 @@ class Admin_model extends CI_Model{
         $data = $this->db->get_where('admins', ['email' => $email]);
         $created = $data->row('created');
         $pass = $data->row('password');
+        $id = $data->row('id');
         //入力されたパスワードとcreatedでハッシュ化したパスワードを取得
         $hash = $this->hash($password, $created);
-        //パスワードが一致すればtrueを返す
+        //パスワードが一致すれば管理者IDを返す
         if ($pass == $hash) {
-            return true;
+            return $id;
             //該当なしならfalseを返す
         } else {
-            return false;
+            return NULL;
         }
     }
 
