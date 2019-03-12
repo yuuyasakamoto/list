@@ -9,7 +9,7 @@
 何年度：
 <select name="year">
 <?php for ($i=2000; $i<=2025; $i++) { ?>
-<option value='<?php echo $i ?>' ><?php echo $i.'年' ?></option> 
+<option value='<?php echo $i ?>' <?php if(set_value('year') == $i){ print "selected";}?> ><?php echo $i.'年' ?></option> 
 <?php } ?>
 </select><br>
 四半期の選択

@@ -27,7 +27,7 @@ class Admin extends CI_Controller {
             //insertでパスワードをハッシュ化しDBに保存
             $this->Admin_model->insert($email, $password, $name); 
             redirect('/admin/index');
-        //リデーションエラーが有れば入力画面に戻る
+        //バリデーションエラーが有れば入力画面に戻る
         } else {
             $data['csrf_token_name'] = $this->security->get_csrf_token_name();
             $data['csrf_token_hash'] = $this->security->get_csrf_hash();
@@ -44,7 +44,7 @@ class Admin extends CI_Controller {
         $this->form_validation->set_message('required', '%s を入力してください。');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required');
         $this->form_validation->set_rules('password', 'パスワード', 'required');
-        //バリデーションエラーがなければログイン
+        //バリデーションエラーがなければメールアドレスとパスワードチェック
         if ($this->form_validation->run() === true) {
             $email = $this->input->post('email');
             $password = $this->input->post('password');

@@ -12,7 +12,7 @@ class Member_model extends CI_Model{
         return $query->result();
     }
     /**
-     * idに紐づいたレコード行を取得する
+     * idに紐づいたレコードを取得する
      * @param type $no
      * @return type
      */
@@ -69,7 +69,7 @@ class Member_model extends CI_Model{
                         
     }
     /**
-     * IDに紐づいたレコードの削除
+     * 社員IDに紐づいたレコードの削除
      * @param type $no
      */
     public function delete($member_id)
@@ -85,12 +85,12 @@ class Member_model extends CI_Model{
      */
     public function canLogIn($email, $password)
     {
-        //POSTされたemail情報をもとに緊急連絡先とハッシュ化したパスワードを取り出す
+        //POSTされたemail情報をもとに緊急連絡先とハッシュ化したパスワードとmember_idを取り出す
         $data = $this->db->get_where('members', ['email' => $email]);
         $sos = $data->row('sos');
         $pass = $data->row('password');
         $member_id = $data->row('member_id');
-        //入力されたパスワードと緊急連絡先でハッシュ化した値と合致すればtrue
+        //入力されたパスワードと緊急連絡先でハッシュ化した値と合致すれば社員IDを返す
         $hash = sha1($password . $sos);
         if ($pass == $hash) {
             return $member_id;
@@ -100,7 +100,7 @@ class Member_model extends CI_Model{
         }
     }
     /**
-     * ログインする際社員の名前を取得する関数
+     * ログインする際ログインした社員の名前を取得する関数
      * @param type $member_id
      * @return type
      */

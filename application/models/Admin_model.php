@@ -2,7 +2,7 @@
 
 class Admin_model extends CI_Model{
     /**
-     * ユーザー情報の取得
+     * 管理者情報の取得
      * @return type
      */
     public function findAll()
@@ -17,7 +17,7 @@ class Admin_model extends CI_Model{
      */
     public function canLogIn($email, $password)
     {
-        //POSTされたemail情報をもとにcreatedとpasswordを取り出す
+        //POSTされたemail情報をもとにcreatedとpasswordとidを取り出す
         $data = $this->db->get_where('admins', ['email' => $email]);
         $created = $data->row('created');
         $pass = $data->row('password');
@@ -41,7 +41,7 @@ class Admin_model extends CI_Model{
      */ 
     public function insert($email, $password, $name)
     {
-        //postされた値をuserテーブルに登録
+        //postされた値をadminsテーブルに登録
         $data = ['email' => $email, 'password' => $password, 'name' => $name];
         $this->db->insert('admins', $data);
         //登録されたidをもとにレコードを取得しcreatedの値取得

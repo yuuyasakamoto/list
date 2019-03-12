@@ -6,7 +6,7 @@ class Objective extends CI_Controller {
      */
     public function __construct()
     {
-        //ログインしていないとログインページへ
+        //社員ログインしていないと社員一覧画面へ
         parent::__construct();
 	if ($_SESSION['login'] != true) {
             redirect('/member/index');
@@ -30,7 +30,7 @@ class Objective extends CI_Controller {
             $member_id = $this->input->post('member_id');
             $this->Objective_model->insert($member_id, $year, $quarter, $objective);
             $this->load->view('/objective/done');
-        //バリデーションエラーだともう一度投稿画面へ
+        //バリデーションエラーだともう一度目標入力画面へ
         } else {
             $this->load->view('/objective/index');
         }

@@ -4,7 +4,7 @@ class Comment extends CI_Controller {
     
     public function __construct()
     {
-        //ログインしていないと管理者一覧画面へ
+        //管理者ログインしていないと管理者一覧画面（getパラメーターを付けて）
         parent::__construct();
 	if ($_SESSION['admin'] != true) {
             redirect('/admin/index?error=true');
@@ -43,14 +43,5 @@ class Comment extends CI_Controller {
         } else {
         $this->load->view('/comment/add');
         }
-    }
-    /**
-     * ログアウト
-     */
-    public function logout()
-    {
-        unset($_SESSION['admin']);
-        unset($_SESSION['id']);
-        redirect('/member/index');
     }
 }
