@@ -2,8 +2,6 @@
 <html>
 <head>
 <title>社員新規登録</title>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/style.css" />
-</head>
 </head>
 <body>
 <h1>社員情報登録</h1><br>
@@ -36,8 +34,6 @@
 入社日
 <input type="text" name="hire_date" value="<?php echo set_value('hire_date'); ?>" ><br>
 <?php echo form_error('hire_date'); ?>
-退職日:
-<input type="text" name="retirement_date" value="<?php echo set_value('retirement_date'); ?>" ><br>
 部署ID:
 <input type="text" name="department_id" value="<?php echo set_value('department_id'); ?>" ><br>
 <?php echo form_error('department_id'); ?>
@@ -55,7 +51,7 @@
 <?php echo form_error('sos'); ?>
 <input type="submit" value="登録" >
 </form>  
-<a href="/member/index">戻る</a>
+<a href="/admin/member_index">戻る</a>
 </body>
 </html>
 

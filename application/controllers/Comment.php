@@ -4,10 +4,10 @@ class Comment extends CI_Controller {
     
     public function __construct()
     {
-        //管理者ログインしていないと管理者一覧画面（getパラメーターを付けて）
+        //管理者ログインしていないと管理者ログイン画面（getパラメーターを付けて）
         parent::__construct();
 	if ($_SESSION['admin'] != true) {
-            redirect('/admin/index?error=true');
+            redirect('/top/admin_login?admin_error=true');
         }	
     }
     /**
@@ -23,17 +23,18 @@ class Comment extends CI_Controller {
      * 目標内容閲覧画面
      */
     public function contents() {
-        $member_id = $this->input->get('member_id');
-        $created = $this->input->get('created');
-        $data['contents'] = $this->Comment_model->getContents($member_id, $created);
+        $objective_id = $this->input->get('objective_id');
+        $data['contents'] = $this->Comment_model->getContents($objective_id);
         $this->load->view('/comment/contents', $data);
     }
     /**
      * 目標に対するコメント入力機能
      */
     public function add() {
-        $this->form_validation->set_message('required', 'コメントお願いします。');
-        $this->form_validation->set_rules('comment', 'コメント', 'required');
+        $this->form_validation->set_message('required', 'コメントが未記入です。');
+        $this->form_validation->set_message('min_length', '最低10字はお書きください。');
+        $this->form_validation->set_message('max_length', '目標は100字程度でお願い致します。');
+        $this->form_validation->set_rules('comment', 'コメント', 'required|min_length[10]|max_length[150]');
         if ($this->form_validation->run() === true) {
             $comment = $this->input->post('comment');
             $admin_id = $this->input->post('admin_id');
@@ -41,7 +42,9 @@ class Comment extends CI_Controller {
             $this->Comment_model->insert($comment, $admin_id, $objective_id);
             $this->load->view('/comment/done');
         } else {
-        $this->load->view('/comment/add');
+        $objective_id = $this->input->get('objective_id');
+        $data['contents'] = $this->Comment_model->getContents($objective_id);
+        $this->load->view('/comment/add', $data);
         }
     }
 }

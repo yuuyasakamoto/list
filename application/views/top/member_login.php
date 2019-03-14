@@ -4,10 +4,17 @@
 <title>社員ログインページ</title>
 </head>
 <body>
+<?php if (isset($_GET['member_error'])):?>
+<p style='color:red;'>社員権限がありません</p>
+<p style='color:red;'>ログインして下さい</p>
+<?php endif; ?>
 <?php if (isset($_GET['error'])):?>
 <p style='color:red;'>パスワードもしくはメールアドレスが違います</p>
 <?php endif; ?>
 <h1>社員ログインページ</h1>
+<?php if (isset($_GET['member_logout'])):?>
+<p style='color:blue;'>社員ログアウトしました。</p>
+<?php endif; ?>
 <?php echo form_open(); ?>
 メールアドレス
 <input type="text" name="email" value="<?php echo set_value('email'); ?>"><br>
@@ -18,6 +25,5 @@
 <input type="submit" value="ログイン" >
 </form> 
 <br>
-<a href="/member/index">戻る</a>
 </body>
 </html>

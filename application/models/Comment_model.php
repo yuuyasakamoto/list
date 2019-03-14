@@ -12,14 +12,14 @@
             return $query->result();
         }
         /**
-         * 社員IDと投稿時間で目標内容を取得
+         * IDで目標内容を取得
          * @param type $member_id
          * @param type $created
          * @return type
          */
-        public function getContents($member_id, $created){
-            $query = $this->db->query("SELECT objective FROM objectives where member_id='$member_id' and created='$created'");
-            return $query->row()->objective;
+        public function getContents($objective_id){
+            $query = $this->db->query("SELECT * FROM objectives where id='$objective_id'");
+            return $query->row_array();
         }
         /**
          * 投稿されたコメントと管理者IDと目標IDをcommentsテーブルに保存

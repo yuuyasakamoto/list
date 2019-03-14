@@ -17,7 +17,7 @@
 <?php echo form_error('name'); ?>
 <input type="submit" value="登録" >
 </form>
-<a href="/admin/index">戻る</a>
+<a href="/admin/admin_index">戻る</a>
 </body>
 </html>
 

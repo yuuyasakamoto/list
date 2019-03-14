@@ -5,6 +5,6 @@
 </head>
 <body>
 <h1>コメントが投稿されました</h1>
-<a href = '/member/index'>戻る</a>   
+<a href = '/admin/member_index'>戻る</a>   
 </body>
 </html>

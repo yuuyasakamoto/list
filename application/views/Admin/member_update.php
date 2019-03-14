@@ -1,9 +1,9 @@
 <html>
 <head>
-<title>情報更新</title>
+<title>社員情報更新</title>
 </head>
 <body>
-<h1>社員ID<?php echo $_SESSION['member_id']; ?>情報更新ページ</h1><br>
+<h1>社員情報更新ページ</h1><br>
 <?php echo form_open(); ?>
 氏:
 <input type="text" name="first_name" value='<?php echo set_value('first_name', $data['first_name']); ?>'><br>
@@ -27,12 +27,20 @@
 住所:
 <input type="text" name="home" value="<?php echo set_value('home', $data['home']); ?>" ><br>
 <?php echo form_error('home'); ?>
+入社日
+<input type="text" name="hire_date" value="<?php echo set_value('hire_date', $data['hire_date']); ?>" ><br>
+<?php echo form_error('hire_date'); ?>
+退職日:
+<input type="text" name="retirement_date" value="<?php echo set_value('retirement_date', $data['retirement_date']); ?>" ><br>
+部署ID:
+<input type="text" name="department_id" value="<?php echo set_value('department_id', $data['department_id']); ?>" ><br>
+<?php echo form_error('department_id'); ?>
+役職ID:
+<input type="text" name="position_id" value="<?php echo set_value('position_id', $data['position_id']); ?>" ><br>
+<?php echo form_error('position_id'); ?>
 メールアドレス:
 <input type="text" name="email" value="<?php echo set_value('email', $data['email']); ?>" ><br>
 <?php echo form_error('email'); ?>
-パスワード:
-<input type="text" name="password" value="<?php echo set_value('password'); ?>" ><br>
-<?php echo form_error('password'); ?>
 緊急連絡先電話番号:
 <input type="number" name="sos" value="<?php echo set_value('sos', $data['sos']); ?>" ><br>
 <?php echo form_error('sos'); ?>
@@ -40,6 +48,6 @@
 <?php echo form_error('member_id'); ?>
 <input type="submit" value="更新" >
 </form>
-<a href="/member/index">戻る</a>
+<a href="/admin/member_index">戻る</a>
 </body>
 </html>
