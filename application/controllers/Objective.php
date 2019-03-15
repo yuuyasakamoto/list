@@ -15,7 +15,7 @@ class Objective extends CI_Controller {
     /**
      * 目標閲覧ページ
      */
-     public function index()
+    public function index()
     {
         $member_id = $_SESSION['member_id'];
         $objectives = $this->Comment_model->getObjectives($member_id);
@@ -23,28 +23,46 @@ class Objective extends CI_Controller {
         $this->load->view('/objective/index', $data);
     }  
     /**
-     * 目標投稿ページ
+     * 四半期と年度の確認
      */
     public function add()
     {
-        //各バリデーションエラーに引っ掛からなかったら目標テーブルに保存し完了画面に
+        //バリデーションエラーが無ければ目標内容投稿へ
         $this->form_validation->set_message('required', '%s は必須です。');
-        $this->form_validation->set_message('min_length', '最低50字はお書きください。');
-        $this->form_validation->set_message('max_length', '目標は500字程度でお願い致します。');
         $this->form_validation->set_rules('quarter', '第何半期かの選択', 'required');
-        $this->form_validation->set_rules('objective', '目標内容', 'required|min_length[50]|max_length[600]');
         if ($this->form_validation->run() === true) {
             $year = $this->input->post('year');
             $quarter = $this->input->post('quarter');
-            $objective = $this->input->post('objective');
             $member_id = $this->input->post('member_id');
-            $this->Objective_model->insert($member_id, $year, $quarter, $objective);
-            $this->load->view('/objective/done');
-        //バリデーションエラーだともう一度目標入力画面へ
+            //年度と四半期が一致するデータが存在すればそのデータ内容を目標内容に表示
+            $data = $this->Objective_model->select($member_id, $year, $quarter);
+            $this->load->view('/objective/post', $data);
+        //バリデーションエラーだともう一度年度、四半期入力画面へ
         } else {
             $this->load->view('/objective/add');
         }
     }
+    /**
+     * 目標投稿ページ
+     */
+    public function done()
+    {
+        $this->form_validation->set_message('required', '%s は必須です。');
+        $this->form_validation->set_message('min_length', '最低30字はお書きください。');
+        $this->form_validation->set_message('max_length', '目標は500字程度でお願い致します。');
+        $this->form_validation->set_rules('objective', '目標内容', 'required|min_length[30]|max_length[600]');
+        if ($this->form_validation->run() === true) {
+            $year = $this->input->post('year');
+            $quarter = $this->input->post('quarter');
+            $member_id = $_SESSION['member_id'];
+            $objective = $this->input->post('objective');
+            $data = $this->Objective_model->insert($member_id, $year, $quarter, $objective);
+            $this->load->view('/objective/done');
+        //バリデーションエラーだともう一度目標入力画面へ
+        } else {
+            $this->load->view('/objective/post');
+        }
+    }  
     /**
      * 目標内容閲覧ページ
      */
@@ -60,10 +78,10 @@ class Objective extends CI_Controller {
      public function update()
     {   
         $this->form_validation->set_message('required', '%s は必須です。');
-        $this->form_validation->set_message('min_length', '最低50字はお書きください。');
+        $this->form_validation->set_message('min_length', '最低30字はお書きください。');
         $this->form_validation->set_message('max_length', '目標は500字程度でお願い致します。');
         $this->form_validation->set_rules('quarter', '第何半期かの選択', 'required');
-        $this->form_validation->set_rules('objective', '目標内容', 'required|min_length[50]|max_length[600]');
+        $this->form_validation->set_rules('objective', '目標内容', 'required|min_length[30]|max_length[600]');
         if ($this->form_validation->run() === true) {
             $year = $this->input->post('year');
             $quarter = $this->input->post('quarter');

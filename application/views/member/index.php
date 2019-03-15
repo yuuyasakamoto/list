@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>社員ID<?php echo $_SESSION['member_id']; ?>情報画面</h1>
-<a href="/objective/add?member_id=<?= $member->member_id ?>&first_name=<?=$member->first_name ?>">目標投稿</a><br>
+<a href="/objective/add">目標投稿</a><br>
 <table  border="1" >
     <tr>
     <th>社員ID</th>

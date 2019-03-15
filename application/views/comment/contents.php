@@ -7,5 +7,6 @@
 <h1>目標内容</h1>
 <?= $contents['objective'] ?>
 <br>
-<a href="javascript:history.back()">戻る</a></body>
+<a href="javascript:history.back()">戻る</a>
+</body>
 </html>

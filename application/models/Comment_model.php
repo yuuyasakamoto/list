@@ -7,8 +7,9 @@
          * @param type $member_id
          * @return type
          */
-        public function getObjectives($member_id){
-            $query = $this->db->query("SELECT * FROM objectives where member_id='$member_id'");
+        public function getObjectives($member_id)
+        {
+            $query = $this->db->query("SELECT * FROM objectives where member_id='$member_id' ORDER BY year DESC");
             return $query->result();
         }
         /**
@@ -17,7 +18,8 @@
          * @param type $created
          * @return type
          */
-        public function getContents($objective_id){
+        public function getContents($objective_id)
+        {
             $query = $this->db->query("SELECT * FROM objectives where id='$objective_id'");
             return $query->row_array();
         }

@@ -10,6 +10,7 @@
     <th>目標</th>
     <th>編集</th>
     <th>登録日時</th>
+    <th>更新日時</th>
     </tr>
     <?php foreach($objectives as $objective){ ?>
     <tr align="center">
@@ -18,6 +19,7 @@
     <td><a href="/objective/contents?objective_id=<?= $objective->id ?>">内容</td>
     <td><a href="/objective/update?objective_id=<?= $objective->id ?>">編集</a></td>
     <td><?= $objective->created ?></td>
+    <td><?= $objective->modified ?></td>
     </tr>
     <?php } ?>
 </table>
