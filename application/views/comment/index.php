@@ -21,6 +21,6 @@
     </tr>
     <?php } ?>
 </table>
-<a href="javascript:history.back()">戻る</a></body>
+<a href="javascript:history.back()">戻る</a>
 </body>
 </html>

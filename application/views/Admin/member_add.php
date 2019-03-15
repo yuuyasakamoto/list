@@ -4,7 +4,8 @@
 <title>社員新規登録</title>
 </head>
 <body>
-<h1>社員情報登録</h1><br>
+<h1>社員情報登録</h1>
+<p>社員情報を入力してください</p>
 <?php echo form_open(); ?>
 社員ID:
 <input type="number" name="member_id" value="<?php echo set_value('member_id'); ?>"><br>

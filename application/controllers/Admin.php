@@ -32,18 +32,29 @@ class Admin extends CI_Controller {
         $this->form_validation->set_rules('email', 'メールアドレス', 'required|is_unique[admins.email]');
         $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('name', '名前', 'required');
-        //バリデーションエラーが無ければユーザー新規登録しログイン画面へ
+        //バリデーションエラーが無ければ登録確認画面へ
         if ($this->form_validation->run() === true) {
-            $email = $this->input->post('email');
-            $password = $this->input->post('password');
-            $name = $this->input->post('name');
-            //insertでパスワードをハッシュ化しDBに保存
-            $this->Admin_model->insert($email, $password, $name); 
-            redirect('/admin/admin_index');
+            $data['email'] = $this->input->post('email');
+            $data['password'] = $this->input->post('password');
+            $data['name'] = $this->input->post('name');
+            $this->load->view('/admin/admin_confirmation', $data);
         //バリデーションエラーが有れば入力画面に戻る
         } else {
             $this->load->view('/admin/admin_add');
-        }     
+        }  
+    }
+    /**
+     * 管理者登録完了画面
+     */
+    public function admin_done()
+    {
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+        $name = $this->input->post('name');
+        //管理者情報の登録
+        $this->Admin_model->insert($email, $password, $name); 
+        //登録完了画面
+        $this->load->view('/admin/admin_done');
     }
     /**
      * 管理者ログアウト
@@ -75,7 +86,7 @@ class Admin extends CI_Controller {
         $this->load->view('/admin/member_index', $data);
     }
     /**
-     * 新規社員情報登録ページ
+     * 社員情報登録画面
      */
     public function member_add()
     {
@@ -96,31 +107,53 @@ class Admin extends CI_Controller {
         $this->form_validation->set_rules('email', 'メールアドレス', 'required|is_unique[members.email]');
         $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
-
-        //バリデーションエラーが無かった時データベースに保存し社員一覧画面へ
+        //バリデーションエラーが無かった時登録確認画面へ
         if ($this->form_validation->run() === true) {
-            $member_id = $this->input->post('member_id');
-            $first_name = $this->input->post('first_name');
-            $last_name = $this->input->post('last_name');
-            $first_name_kana = $this->input->post('first_name_kana');
-            $last_name_kana = $this->input->post('last_name_kana');
-            $gender = $this->input->post('gender');
-            $birthday = $this->input->post('birthday');
-            $home = $this->input->post('home');
-            $hire_date = $this->input->post('hire_date');
-            $department_id = $this->input->post('department_id');
-            $position_id = $this->input->post('position_id');
-            $email = $this->input->post('email');
-            $password = $this->input->post('password');
-            $sos = $this->input->post('sos');
-            $this->Admin_model->memberInsert($member_id, $first_name, $last_name, $first_name_kana,
-                                        $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                        $department_id, $position_id, $email, $password, $sos);
-            redirect('/admin/member_index');
+            $data['member_id'] = $this->input->post('member_id');
+            $data['first_name'] = $this->input->post('first_name');
+            $data['last_name'] = $this->input->post('last_name');
+            $data['first_name_kana'] = $this->input->post('first_name_kana');
+            $data['last_name_kana'] = $this->input->post('last_name_kana');
+            $data['gender'] = $this->input->post('gender');
+            $data['birthday'] = $this->input->post('birthday');
+            $data['home'] = $this->input->post('home');
+            $data['hire_date'] = $this->input->post('hire_date');
+            $data['department_id'] = $this->input->post('department_id');
+            $data['position_id'] = $this->input->post('position_id');
+            $data['email'] = $this->input->post('email');
+            $data['password'] = $this->input->post('password');
+            $data['sos'] = $this->input->post('sos');
+            $this->load->view('/admin/member_confirmation', $data);
         //バリデーションエラーが有る時入力フォームに戻る
         } else {
             $this->load->view('/admin/member_add');
         }   
+    } 
+    /**
+     * 社員情報登録完了ページ
+     */
+    public function member_done()
+    {
+        $member_id = $this->input->post('member_id');
+        $first_name = $this->input->post('first_name');
+        $last_name = $this->input->post('last_name');
+        $first_name_kana = $this->input->post('first_name_kana');
+        $last_name_kana = $this->input->post('last_name_kana');
+        $gender = $this->input->post('gender');
+        $birthday = $this->input->post('birthday');
+        $home = $this->input->post('home');
+        $hire_date = $this->input->post('hire_date');
+        $department_id = $this->input->post('department_id');
+        $position_id = $this->input->post('position_id');
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+        $sos = $this->input->post('sos');
+        //社員情報の登録
+        $this->Admin_model->memberInsert($member_id, $first_name, $last_name, $first_name_kana,
+                                    $last_name_kana, $gender, $birthday, $home, $hire_date,
+                                    $department_id, $position_id, $email, $password, $sos);
+        //登録完了画面
+        $this->load->view('/admin/member_done');
     } 
      /**
      * 社員情報更新画面
