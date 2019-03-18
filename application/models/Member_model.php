@@ -11,7 +11,7 @@
         return $query->row();
     }
     /**
-    * membの編集処理
+    * 社員の編集処理
      * @param type $first_name
      * @param type $last_name
      * @param type $birthday
@@ -19,18 +19,18 @@
      * @param type $no
      */
     public function update($member_id, $first_name, $last_name, $first_name_kana,
-                           $last_name_kana, $gender, $birthday, $home, 
+                           $last_name_kana, $birthday, $home, 
                            $email, $password, $sos)
     {
         $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
-                                   last_name_kana = ?, gender = ?, birthday = ?, home = ?, 
+                                   last_name_kana = ?, birthday = ?, home = ?, 
                                    email = ?, password = ?, sos = ?,
                                    modified = now()
                                    WHERE member_id = ?";
         //編集したパスワードと緊急連絡先の値でハッシュ化しパスワード保存
         $hash = sha1($password . $sos);
         $this->db->query($sql, [ $first_name, $last_name, $first_name_kana,
-                                $last_name_kana, $gender, $birthday, $home, 
+                                $last_name_kana, $birthday, $home, 
                                 $email, $hash, $sos, $member_id]);                      
     }
 }

@@ -30,7 +30,7 @@
 入社日
 <input type="text" name="hire_date" value="<?php echo set_value('hire_date', $data['hire_date']); ?>" ><br>
 <?php echo form_error('hire_date'); ?>
-退職日:
+退職日（記入の際は 0000-00-00 の形式でご記入ください）:<br>
 <input type="text" name="retirement_date" value="<?php echo set_value('retirement_date', $data['retirement_date']); ?>" ><br>
 部署ID:
 <input type="text" name="department_id" value="<?php echo set_value('department_id', $data['department_id']); ?>" ><br>

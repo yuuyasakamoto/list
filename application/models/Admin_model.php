@@ -41,16 +41,16 @@ class Admin_model extends CI_Model{
      */
     public function update($member_id, $first_name, $last_name, $first_name_kana,
                            $last_name_kana, $gender, $birthday, $home, $hire_date,
-                           $department_id, $position_id, $email, $sos)
+                           $retirement_date, $department_id, $position_id, $email, $sos)
     {
         $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
                                    last_name_kana = ?, gender = ?, birthday = ?, home = ?, hire_date = ?,
-                                   department_id = ?, position_id = ?, email = ?, sos = ?,
+                                   retirement_date = ?, department_id = ?, position_id = ?, email = ?, sos = ?,
                                    modified = now()
                                    WHERE member_id = ?";
         $this->db->query($sql, [ $first_name, $last_name, $first_name_kana,
                                 $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                $department_id, $position_id, $email, $sos, $member_id]);
+                                $retirement_date, $department_id, $position_id, $email, $sos, $member_id]);
                         
     }
     /**

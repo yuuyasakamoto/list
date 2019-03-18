@@ -17,10 +17,6 @@
 名（カタカナ）:
 <input type="text" name="last_name_kana" placeholder="カタカナで名を入力下さい"  value="<?php echo set_value('last_name_kana', $data['last_name_kana']); ?>" ><br>
 <?php echo form_error('last_name_kana'); ?>
-性別:
-<input type="radio" name="gender" value="男" <?php if(set_value('gender') == "男" || $data['gender'] == "男"){ print "checked";}?>>男
-<input type="radio" name="gender" value="女" <?php if(set_value('gender') == "女" || $data['gender'] == "女"){ print "checked";}?>>女<br>
-<?php echo form_error('gender'); ?>
 生年月日:
 <input type="text" name="birthday" value="<?php echo set_value('birthday', $data['birthday']); ?>" ><br>
 <?php echo form_error('birthday'); ?>

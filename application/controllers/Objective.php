@@ -43,7 +43,7 @@ class Objective extends CI_Controller {
         }
     }
     /**
-     * 目標投稿ページ
+     * 目標投稿確認ページ
      */
     public function done()
     {
@@ -51,17 +51,30 @@ class Objective extends CI_Controller {
         $this->form_validation->set_message('min_length', '最低30字はお書きください。');
         $this->form_validation->set_message('max_length', '目標は500字程度でお願い致します。');
         $this->form_validation->set_rules('objective', '目標内容', 'required|min_length[30]|max_length[600]');
+        //バリデーションエラーが無ければ投稿内容確認画面へ
         if ($this->form_validation->run() === true) {
+            $data['year'] = $this->input->post('year');
+            $data['quarter'] = $this->input->post('quarter');
+            $data['member_id'] = $_SESSION['member_id'];
+            $data['objective'] = $this->input->post('objective');
+            $this->load->view('/objective/post_confirmation', $data);
+        //バリデーションエラーだともう一度目標入力画面へ
+        } else {
+            $this->load->view('/objective/post');
+        }
+    }  
+     /**
+     * 目標投稿完了ページ
+     */
+    public function post_done()
+    {
             $year = $this->input->post('year');
             $quarter = $this->input->post('quarter');
             $member_id = $_SESSION['member_id'];
             $objective = $this->input->post('objective');
             $data = $this->Objective_model->insert($member_id, $year, $quarter, $objective);
             $this->load->view('/objective/done');
-        //バリデーションエラーだともう一度目標入力画面へ
-        } else {
-            $this->load->view('/objective/post');
-        }
+       
     }  
     /**
      * 目標内容閲覧ページ
@@ -82,7 +95,26 @@ class Objective extends CI_Controller {
         $this->form_validation->set_message('max_length', '目標は500字程度でお願い致します。');
         $this->form_validation->set_rules('quarter', '第何半期かの選択', 'required');
         $this->form_validation->set_rules('objective', '目標内容', 'required|min_length[30]|max_length[600]');
+        //バリデーションエラーが無ければ確認画面へ
         if ($this->form_validation->run() === true) {
+            $data['year'] = $this->input->post('year');
+            $data['quarter'] = $this->input->post('quarter');
+            $data['objective'] = $this->input->post('objective');
+            $data['member_id'] = $this->input->post('member_id');
+            $data['objective_id'] = $this->input->post('objective_id');
+            $this->load->view('/objective/update_confirmation', $data);
+        //バリデーションエラーだともう一度目標入力画面へ
+        } else {
+            $objective_id = $this->input->get('objective_id');
+            $data['contents'] = $this->Comment_model->getContents($objective_id);
+            $this->load->view('/objective/update', $data);
+        }  
+    }
+     /**
+     * 目標内容編集完了画面
+     */
+     public function update_done()
+    {   
             $year = $this->input->post('year');
             $quarter = $this->input->post('quarter');
             $objective = $this->input->post('objective');
@@ -90,11 +122,5 @@ class Objective extends CI_Controller {
             $objective_id = $this->input->post('objective_id');
             $this->Objective_model->update($member_id, $year, $quarter, $objective, $objective_id);
             $this->load->view('/objective/done');
-        //バリデーションエラーだともう一度目標入力画面へ
-        } else {
-            $objective_id = $this->input->get('objective_id');
-            $data['contents'] = $this->Comment_model->getContents($objective_id);
-            $this->load->view('/objective/update', $data);
-        }  
     }
 }

@@ -160,7 +160,7 @@ class Admin extends CI_Controller {
      */
     public function member_update()
     {   
-        //入力されたのバリデーションチェック
+        //入力された値のバリデーションチェック
         $this->form_validation->set_message('required', '%s は必須です。');
         $this->form_validation->set_rules('first_name', '氏', 'required');
         $this->form_validation->set_rules('last_name', '名', 'required');
@@ -173,27 +173,24 @@ class Admin extends CI_Controller {
         $this->form_validation->set_rules('department_id', '部署ID', 'required|callback_id_check');
         $this->form_validation->set_rules('position_id', '役職ID', 'required|callback_id_check');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required');
-        $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
-        
-        //バリデーションエラーが無かった時正常にデータ編集し社員一覧画面へ
+        $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check'); 
+        //バリデーションエラーが無かった時確認画面へ
         if ($this->form_validation->run() === true) {
-            $member_id = $this->input->post('member_id');
-            $first_name = $this->input->post('first_name');
-            $last_name = $this->input->post('last_name');
-            $first_name_kana = $this->input->post('first_name_kana');
-            $last_name_kana = $this->input->post('last_name_kana');
-            $gender = $this->input->post('gender');
-            $birthday = $this->input->post('birthday');
-            $home = $this->input->post('home');
-            $hire_date = $this->input->post('hire_date');
-            $department_id = $this->input->post('department_id');
-            $position_id = $this->input->post('position_id');
-            $email = $this->input->post('email');
-            $sos = $this->input->post('sos');
-            $this->Admin_model->update($member_id, $first_name, $last_name, $first_name_kana,
-                                        $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                        $department_id, $position_id, $email, $sos);
-            redirect('/admin/member_index');
+            $data['member_id'] = $this->input->post('member_id');
+            $data['first_name'] = $this->input->post('first_name');
+            $data['last_name'] = $this->input->post('last_name');
+            $data['first_name_kana'] = $this->input->post('first_name_kana');
+            $data['last_name_kana'] = $this->input->post('last_name_kana');
+            $data['gender'] = $this->input->post('gender');
+            $data['birthday'] = $this->input->post('birthday');
+            $data['home'] = $this->input->post('home');
+            $data['hire_date'] = $this->input->post('hire_date');
+            $data['retirement_date'] = $this->input->post('retirement_date');
+            $data['department_id'] = $this->input->post('department_id');
+            $data['position_id'] = $this->input->post('position_id');
+            $data['email'] = $this->input->post('email');
+            $data['sos'] = $this->input->post('sos');
+            $this->load->view('/admin/member_update_confirmation', $data);
         //バリデーションエラーなら再度編集画面に
         } else { 
             $member_id = $this->input->get('member_id');
@@ -202,6 +199,32 @@ class Admin extends CI_Controller {
             $this->load->view('/admin/member_update', $row);
         }  
     }
+    /**
+     * 社員情報更新完了ページ
+     */
+    public function member_update_done()
+    {
+        $member_id = $this->input->post('member_id');
+        $first_name = $this->input->post('first_name');
+        $last_name = $this->input->post('last_name');
+        $first_name_kana = $this->input->post('first_name_kana');
+        $last_name_kana = $this->input->post('last_name_kana');
+        $gender = $this->input->post('gender');
+        $birthday = $this->input->post('birthday');
+        $home = $this->input->post('home');
+        $hire_date = $this->input->post('hire_date');
+        $retirement_date = $this->input->post('retirement_date');
+        $department_id = $this->input->post('department_id');
+        $position_id = $this->input->post('position_id');
+        $email = $this->input->post('email');
+        $sos = $this->input->post('sos');
+        //社員情報の更新
+        $this->Admin_model->update($member_id, $first_name, $last_name, $first_name_kana,
+                                        $last_name_kana, $gender, $birthday, $home, $hire_date,
+                                        $retirement_date, $department_id, $position_id, $email, $sos);
+        //更新完了画面
+        $this->load->view('/admin/member_done');
+    } 
     /**
      * 社員情報削除画面
      */
