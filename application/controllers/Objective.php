@@ -9,7 +9,7 @@ class Objective extends CI_Controller {
         //社員ログインしていないと社員ログイン画面へ
         parent::__construct();
 	if ($_SESSION['login'] != true) {
-            redirect('/top/member_login?member_error=true');
+            redirect('/login/member_login?member_error=true');
         }
     }
     /**

@@ -43,6 +43,6 @@
     </tr>
 </table>
 <br>
-<a href="/member/logout">社員ログアウト</a>
+<a href="/login/member_logout">社員ログアウト</a>
 </body>
 </html>

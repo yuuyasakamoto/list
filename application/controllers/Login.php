@@ -1,6 +1,6 @@
 <?php
 
-class Top extends CI_Controller {
+class Login extends CI_Controller {
     
     /**
      * 管理者ログイン画面
@@ -24,10 +24,10 @@ class Top extends CI_Controller {
                 redirect('/admin/member_index');
             //正しく無ければもう一度
             } else {
-                redirect('/top/admin_login?error=true');
+                redirect('/login/admin_login?error=true');
             }     
         } else {
-            $this->load->view('/top/admin_login');
+            $this->load->view('/login/admin_login');
         }
     }
     /**
@@ -52,10 +52,29 @@ class Top extends CI_Controller {
                 redirect('/member/index');
             //正しく無ければもう一度
             } else {
-                redirect('/top/member_login?error=true');
+                redirect('/login/member_login?error=true');
             }   
         } else {
-        $this->load->view('/top/member_login');
+        $this->load->view('/login/member_login');
         }   
+    }
+    /**
+     * 管理者ログアウト
+     */
+    public function admin_logout()
+    {
+        unset($_SESSION['admin']);
+        unset($_SESSION['id']);
+        redirect('/login/admin_login?admin_logout=true');
+    }
+     /**
+     * 社員ログアウト
+     */
+    public function member_logout()
+    {
+        unset($_SESSION['login']);
+        unset($_SESSION['member_id']);
+        unset($_SESSION['user_name']);
+        redirect('/login/member_login?member_logout=true');
     }
 }

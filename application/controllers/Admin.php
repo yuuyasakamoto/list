@@ -11,7 +11,7 @@ class Admin extends CI_Controller {
         //管理者ログインしていないとログイン画面に戻る（getパラメーターを付けて）
         parent::__construct();
 	if ($_SESSION['admin'] != true) {
-            redirect('/top/admin_login?admin_error=true');
+            redirect('/login/admin_login?admin_error=true');
         }
     }
     /**
@@ -56,15 +56,7 @@ class Admin extends CI_Controller {
         //登録完了画面
         $this->load->view('/admin/admin_done');
     }
-    /**
-     * 管理者ログアウト
-     */
-    public function admin_logout()
-    {
-        unset($_SESSION['admin']);
-        unset($_SESSION['id']);
-        redirect('/top/admin_login?admin_logout=true');
-    }
+    
     /**
      * 社員一覧ページ
      */   

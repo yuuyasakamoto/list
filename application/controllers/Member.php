@@ -10,7 +10,7 @@ class Member extends CI_Controller {
         //社員ログインしていないと社員ログイン画面に戻る（getパラメーターを付けて）
         parent::__construct();
 	if ($_SESSION['login'] != true) {
-        redirect('/top/member_login?member_error=true');
+        redirect('/login/member_login?member_error=true');
         }	
     }
     /**
@@ -91,16 +91,7 @@ class Member extends CI_Controller {
                                         $email, $password, $sos);
             $this->load->view('/member/done');
     }
-     /**
-     * 社員ログアウト
-     */
-    public function logout()
-    {
-        unset($_SESSION['login']);
-        unset($_SESSION['member_id']);
-        unset($_SESSION['user_name']);
-        redirect('/top/member_login?member_logout=true');
-    }
+    
     /**
      * 1990-01-01の形式になっているかのバリデーション
      * @param type $str

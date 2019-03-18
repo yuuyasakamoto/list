@@ -7,7 +7,7 @@ class Comment extends CI_Controller {
         //管理者ログインしていないと管理者ログイン画面（getパラメーターを付けて）
         parent::__construct();
 	if ($_SESSION['admin'] != true) {
-            redirect('/top/admin_login?admin_error=true');
+            redirect('/login/admin_login?admin_error=true');
         }	
     }
     /**

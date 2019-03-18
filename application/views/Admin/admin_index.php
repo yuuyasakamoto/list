@@ -23,6 +23,6 @@
 <?php } ?>
 </table>
 <a href='/admin/member_index'>社員一覧画面へ</a><br>
-<a href='/admin/admin_logout'>管理者ログアウト</a>
+<a href='/login/admin_logout'>管理者ログアウト</a>
 </body>
 </html>
