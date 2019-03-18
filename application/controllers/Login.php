@@ -1,6 +1,7 @@
 <?php
 
-class Login extends CI_Controller {
+class Login extends CI_Controller
+{
     
     /**
      * 管理者ログイン画面
