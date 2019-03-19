@@ -3,12 +3,13 @@
 /**
  * 管理者機能
  */
-class Admin extends CI_Controller {
+class Admin extends CI_Controller
+{
     
 
     public function __construct()
     {
-        //管理者ログインしていないとログイン画面に戻る（getパラメーターを付けて）
+        //管理者ログインしていないとログイン画面に戻る
         parent::__construct();
 	if ($_SESSION['admin'] != true) {
             redirect('/login/admin_login?admin_error=true');
@@ -18,8 +19,8 @@ class Admin extends CI_Controller {
      * 管理者一覧画面
      */        
     public function admin_index(){
-        $result = $this->Admin_model->findAdminAll();
-        $data['admins'] = $result;       
+        $admins = $this->Admin_model->findAdminAll();
+        $data['admins'] = $admins;       
         $this->load->view('/admin/admin_index', $data);
     }
     /**
@@ -62,17 +63,13 @@ class Admin extends CI_Controller {
      */   
     public function member_index()
     {
-        $members = $this->Admin_model->findMemberAll();
+        $members = $this->Member_model->findMemberAll();
         foreach($members as $member){
-            //$member->department_id(オブジェクト)を関数の引数に直接指定するとエラーになるので一度変数(id1,id2)に代入しました
-            $id1 = $member->department_id;
-            $id2 = $member->position_id;
             //役職IDと部署IDに紐づいた役職名と部署名を取得
-            $department_name = $this->Department_model->findById($id1);
-            $position_name = $this->Position_model->findById($id2);
-            //役職IDと部署IDに役職名と部署名を代入
-            $member->department_id=$department_name;
-            $member->position_id=$position_name;
+            $department_name = $this->Department_model->findById($member->department_id);
+            $position_name = $this->Position_model->findById($member->position_id);
+            $member->department_name = $department_name;
+            $member->position_name = $position_name;
         }
         $data = ['members' => $members];
         $this->load->view('/admin/member_index', $data);
@@ -141,7 +138,7 @@ class Admin extends CI_Controller {
         $password = $this->input->post('password');
         $sos = $this->input->post('sos');
         //社員情報の登録
-        $this->Admin_model->memberInsert($member_id, $first_name, $last_name, $first_name_kana,
+        $this->Member_model->memberInsert($member_id, $first_name, $last_name, $first_name_kana,
                                     $last_name_kana, $gender, $birthday, $home, $hire_date,
                                     $department_id, $position_id, $email, $password, $sos);
         //登録完了画面
@@ -186,7 +183,7 @@ class Admin extends CI_Controller {
         //バリデーションエラーなら再度編集画面に
         } else { 
             $member_id = $this->input->get('member_id');
-            $query = $this->Admin_model->select($member_id);
+            $query = $this->Member_model->select($member_id);
             $row['data'] = $query->row_array();
             $this->load->view('/admin/member_update', $row);
         }  
@@ -211,7 +208,7 @@ class Admin extends CI_Controller {
         $email = $this->input->post('email');
         $sos = $this->input->post('sos');
         //社員情報の更新
-        $this->Admin_model->update($member_id, $first_name, $last_name, $first_name_kana,
+        $this->Member_model->adminUpdate($member_id, $first_name, $last_name, $first_name_kana,
                                         $last_name_kana, $gender, $birthday, $home, $hire_date,
                                         $retirement_date, $department_id, $position_id, $email, $sos);
         //更新完了画面
@@ -223,7 +220,7 @@ class Admin extends CI_Controller {
     public function member_delete()
     {
         $member_id = $this->input->get('member_id');
-        $this->Admin_model->delete($member_id);
+        $this->Member_model->delete($member_id);
         $this->load->view('/admin/member_delete');
     }
     /**

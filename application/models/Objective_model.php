@@ -54,6 +54,27 @@
             $this->db->query($sql, [ $member_id, $year, $quarter, $objective,
                                    $objective_id]);                      
         }
+        /**
+         * member_idの目標データ取得
+         * @param type $member_id
+         * @return type
+         */
+        public function getObjectives($member_id)
+        {
+            $query = $this->db->query("SELECT * FROM objectives where member_id='$member_id' ORDER BY year DESC");
+            return $query->result();
+        }
+        /**
+         * IDで目標内容を取得
+         * @param type $member_id
+         * @param type $created
+         * @return type
+         */
+        public function getContents($objective_id)
+        {
+            $query = $this->db->query("SELECT * FROM objectives where id='$objective_id'");
+            return $query->row_array();
+        }
     }
     
 

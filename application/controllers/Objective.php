@@ -18,7 +18,7 @@ class Objective extends CI_Controller {
     public function index()
     {
         $member_id = $_SESSION['member_id'];
-        $objectives = $this->Comment_model->getObjectives($member_id);
+        $objectives = $this->Objective_model->getObjectives($member_id);
         $data = ['objectives' => $objectives];
         $this->load->view('/objective/index', $data);
     }  
@@ -82,7 +82,7 @@ class Objective extends CI_Controller {
      public function contents()
     {
         $objective_id = $this->input->get('objective_id');
-        $data['contents'] = $this->Comment_model->getContents($objective_id);
+        $data['contents'] = $this->Objective_model->getContents($objective_id);
         $this->load->view('/objective/contents', $data);
     } 
     /**
@@ -106,7 +106,7 @@ class Objective extends CI_Controller {
         //バリデーションエラーだともう一度目標入力画面へ
         } else {
             $objective_id = $this->input->get('objective_id');
-            $data['contents'] = $this->Comment_model->getContents($objective_id);
+            $data['contents'] = $this->Objective_model->getContents($objective_id);
             $this->load->view('/objective/update', $data);
         }  
     }
