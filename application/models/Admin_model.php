@@ -1,7 +1,31 @@
 <?php
 
-class Admin_model extends CI_Model{
+class Admin_model extends CI_Model
+{
     
+     /**
+     * 管理者のログイン認証
+     * @param type $email
+     * @param type $password
+     */
+    public function adminCanLogIn($email, $password)
+    {
+        //POSTされたemail情報をもとにcreatedとpasswordとidを取り出す
+        $sql = "SELECT * FROM admins WHERE email=?";
+        $admin = $this->db->query($sql, ['email' => $email]);
+        $created = $admin->row('created');
+        $pass = $admin->row('password');
+        $id = $admin->row('id');
+        //入力されたパスワードとcreatedでハッシュ化したパスワードを取得
+        $hash = $this->hash($password, $created);
+        //パスワードが一致すれば管理者IDを返す
+        if ($pass == $hash) {
+            return $id;
+            //該当なしならfalseを返す
+        } else {
+            return NULL;
+        }
+    }
     /**
      * 全社員データ取得
      */

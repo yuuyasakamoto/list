@@ -17,7 +17,7 @@ class Login extends CI_Controller
             $email = $this->input->post('email');
             $password = $this->input->post('password');
             //canLogInメソッドでemailとpasswordが正しければidを返す
-            $id = $this->Top_model->adminCanLogIn($email, $password);
+            $id = $this->Admin_model->adminCanLogIn($email, $password);
             //正しければログイン
             if (isset($id)) {
                 $_SESSION['admin'] = true;
@@ -43,8 +43,8 @@ class Login extends CI_Controller
             $email = $this->input->post('email');
             $password = $this->input->post('password');
             //canLogInメソッドでemailとpasswordが正しければtrue
-            $member_id = $this->Top_model->memberCanLogIn($email, $password);
-            $user_name = $this->Top_model->getUserName($member_id);
+            $member_id = $this->Member_model->memberCanLogIn($email, $password);
+            $user_name = $this->Member_model->getUserName($member_id);
             //正しければログイン
             if (false != $member_id) {
                 $_SESSION['login'] = true;
