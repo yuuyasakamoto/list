@@ -35,8 +35,8 @@
     <td><?= $member->home ?></td>
     <td><a href="/objective/index">目標</td>
     <td><?= $member->hire_date?></td>
-    <td><?= $member->department_id ?></td>
-    <td><?= $member->position_id ?></td>
+    <td><?= $member->department_name ?></td>
+    <td><?= $member->position_name ?></td>
     <td><?= $member->sos ?></td>
     <td><?= $member->created ?></td>
     <td><?= $member->modified ?></td>

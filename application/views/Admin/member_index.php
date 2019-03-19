@@ -43,9 +43,9 @@
     <td><a href="/comment/index?member_id=<?= $member->member_id ?>&first_name=<?=$member->first_name ?>">目標</td>
     <td><?= $member->hire_date ?></td>
     <!-- 無効なデータの場合は空文字　-->
-    <td><?php if($member->retirement_date=='0000-00-00'){echo '' ;} else { echo $member->retirement_date ;}?></td>
-    <td><?= $member->department_id ?></td>
-    <td><?= $member->position_id ?></td>
+    <td><?php if($member->retirement_date=='0000-00-00'){echo '';} else { echo $member->retirement_date ;}?></td>
+    <td><?= $member->department_name ?></td>
+    <td><?= $member->position_name ?></td>
     <td><?= $member->sos ?></td>
     <td><a href='/admin/member_delete?member_id=<?= $member->member_id ?>' onclick="return confirm('本当に削除してもよろしいですか？');">削除</a></td>
     <td><?= $member->created ?></td>

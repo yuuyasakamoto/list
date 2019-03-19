@@ -7,7 +7,7 @@ class Member extends CI_Controller {
     
     public function __construct()
     {
-        //社員ログインしていないと社員ログイン画面に戻る（getパラメーターを付けて）
+        //社員ログインしていないと社員ログイン画面に戻る
         parent::__construct();
 	if ($_SESSION['login'] != true) {
         redirect('/login/member_login?member_error=true');
@@ -19,17 +19,14 @@ class Member extends CI_Controller {
     public function index()
     {
         $member_id = $_SESSION['member_id'];
-        $members = $this->Member_model->find($member_id);
-        //$member->department_id(オブジェクト)を関数の引数に直接指定するとエラーになるので一度変数(id1,id2)に代入しました
-        $id1 = $members->department_id;
-        $id2 = $members->position_id;
+        //社員IDに紐づいた社員情報取得
+        $member = $this->Member_model->find($member_id);
         //役職IDと部署IDに紐づいた役職名と部署名を取得
-        $department_name = $this->Department_model->findById($id1);
-        $position_name = $this->Position_model->findById($id2);
-        //役職IDと部署IDに役職名と部署名を代入
-        $members->department_id=$department_name;
-        $members->position_id=$position_name;
-        $data = ['member' => $members];
+        $department_name = $this->Department_model->findById($member->department_id);
+        $position_name = $this->Position_model->findById($member->position_id);
+        $member->department_name = $department_name;
+        $member->position_name = $position_name;
+        $data = ['member' => $member];
         $this->load->view('/member/index', $data);
     }
     /**
@@ -65,7 +62,7 @@ class Member extends CI_Controller {
         //バリデーションエラーなら再度編集画面に
         } else { 
             $member_id = $this->input->get('member_id');
-            $query = $this->Admin_model->select($member_id);
+            $query = $this->Member_model->select($member_id);
             $row['data'] = $query->row_array();
             $this->load->view('/member/update', $row);
         }  
@@ -86,7 +83,7 @@ class Member extends CI_Controller {
             $email = $this->input->post('email');
             $password = $this->input->post('password');
             $sos = $this->input->post('sos');
-            $this->Member_model->update($member_id, $first_name, $last_name, $first_name_kana,
+            $this->Member_model->memberUpdate($member_id, $first_name, $last_name, $first_name_kana,
                                         $last_name_kana, $birthday, $home, 
                                         $email, $password, $sos);
             $this->load->view('/member/done');
