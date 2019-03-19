@@ -12,16 +12,25 @@ class Admin_model extends CI_Model
     {
         //POSTされたemail情報をもとにcreatedとpasswordとidを取り出す
         $sql = "SELECT * FROM admins WHERE email=?";
-        $admin = $this->db->query($sql, ['email' => $email]);
-        $created = $admin->row('created');
-        $pass = $admin->row('password');
-        $id = $admin->row('id');
-        //入力されたパスワードとcreatedでハッシュ化したパスワードを取得
-        $hash = $this->hash($password, $created);
-        //パスワードが一致すれば管理者IDを返す
-        if ($pass == $hash) {
-            return $id;
-            //該当なしならfalseを返す
+        $query = $this->db->query($sql, ['email' => $email]);
+        //メールアドレスが存在すればパスワード確認
+        if($query != NULL)
+        {
+            $admin = $query->row();
+            $created = $admin->created;
+            $pass = $admin->password;
+            $id = $admin->id;
+            //入力されたパスワードとcreatedでハッシュ化したパスワードを取得
+            $hash = $this->hash($password, $created);
+            //パスワードが一致すれば管理者IDを返す
+            if ($pass == $hash) 
+            {
+                return $id;
+            //パスワード該当なしならNULL
+            } else {
+                return NULL;
+            }
+        //アドレス該当なしならNULL
         } else {
             return NULL;
         }

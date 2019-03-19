@@ -12,15 +12,23 @@ class Member_model extends CI_Model
     {
         //POSTされたemail情報をもとに緊急連絡先とハッシュ化したパスワードとmember_idを取り出す
         $sql = "SELECT * FROM members WHERE email=?";
-        $member = $this->db->query($sql, ['email' => $email]);
-        $sos = $member->row('sos');
-        $pass = $member->row('password');
-        $member_id = $member->row('member_id');
-        //入力されたパスワードと緊急連絡先でハッシュ化した値と合致すれば社員IDを返す
-        $hash = sha1($password . $sos);
-        if ($pass == $hash) {
-            return $member_id;
-        //該当なしならfalseを返す
+        $query = $this->db->query($sql, ['email' => $email]);
+        //もしメールアドレスが存在すればパスワードの確認
+        if($query != NULL)
+        {
+            $member = $query->row();
+            $sos = $member->sos;
+            $pass = $member->password;
+            $member_id = $member->member_id;
+            //入力されたパスワードと緊急連絡先でハッシュ化した値と合致すれば社員IDを返す
+            $hash = sha1($password . $sos);
+            if ($pass == $hash) {
+               return $member_id;
+            //パスワード該当なしならfalse
+            } else {
+               return false;
+            }
+        //アドレス該当なしならfalse
         } else {
             return false;
         }
@@ -33,8 +41,9 @@ class Member_model extends CI_Model
     public function getUserName($member_id)
     {
         $sql = "SELECT * FROM members WHERE member_id=?";
-        $member = $this->db->query($sql, ['member_id' => $member_id]);
-        $user_name = $member->row('first_name');
+        $query = $this->db->query($sql, ['member_id' => $member_id]);
+        $member = $query->row();
+        $user_name = $member->first_name;
         return $user_name;
     }
     

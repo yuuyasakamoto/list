@@ -23,7 +23,7 @@ class Login extends CI_Controller
                 $_SESSION['admin'] = true;
                 $_SESSION['id'] = $id;
                 redirect('/admin/member_index');
-            //正しく無ければもう一度
+            //正しくなければもう一度
             } else {
                 redirect('/login/admin_login?error=true');
             }     
@@ -44,7 +44,11 @@ class Login extends CI_Controller
             $password = $this->input->post('password');
             //canLogInメソッドでemailとpasswordが正しければtrue
             $member_id = $this->Member_model->memberCanLogIn($email, $password);
-            $user_name = $this->Member_model->getUserName($member_id);
+            //member_idがfalseじゃなかったらユーザーname取得
+            if($member_id != false)
+            {
+                $user_name = $this->Member_model->getUserName($member_id);
+            }
             //正しければログイン
             if (false != $member_id) {
                 $_SESSION['login'] = true;
