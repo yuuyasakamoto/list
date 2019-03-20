@@ -20,7 +20,6 @@
 <input type="radio" name="quarter" value="第3四半期" <?php if(set_value('quarter') == "第3四半期"){ print "checked";}?>>第3四半期
 <input type="radio" name="quarter" value="第4四半期" <?php if(set_value('quarter') == "第4四半期"){ print "checked";}?>>第4四半期<br>
 <?php echo form_error('quarter'); ?>
-<input type="hidden" name="member_id" value='<?php echo set_value('member_id', $_SESSION['member_id']);?>'>
 <input type="submit" value="決定" >
 </form>  
 <a href="/member/index">戻る</a>

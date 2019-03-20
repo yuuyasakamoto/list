@@ -6,7 +6,7 @@ class Department_model extends CI_Model{
      * @param type $id1
      * @return type
      */
-    public function findById($department_id)
+    public function findById(int $department_id)
     {
         $query = $this->db->query("SELECT * FROM departments where id='$department_id'");
         $department = $query->row();

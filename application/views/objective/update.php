@@ -21,7 +21,6 @@
 目標投稿編集 :<br>
 <textarea name="objective" rows="12" cols="50" maxlength="600" ><?php echo set_value('objective', $contents['objective']) ?></textarea><br>
 <?php echo form_error('objective'); ?>
-<input type="hidden" name="member_id" value='<?php echo set_value('member_id', $_SESSION['member_id']);?>'>
 <input type="hidden" name="objective_id" value='<?php echo set_value('objective_id', $_GET['objective_id']);?>'>
 <input type="submit" value="編集" >
 </form>  

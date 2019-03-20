@@ -36,10 +36,10 @@
 <input type="text" name="hire_date" value="<?php echo set_value('hire_date'); ?>" ><br>
 <?php echo form_error('hire_date'); ?>
 部署ID:
-<input type="text" name="department_id" value="<?php echo set_value('department_id'); ?>" ><br>
+<input type="number" name="department_id" value="<?php echo set_value('department_id'); ?>" ><br>
 <?php echo form_error('department_id'); ?>
 役職ID:
-<input type="text" name="position_id" value="<?php echo set_value('position_id'); ?>" ><br>
+<input type="number" name="position_id" value="<?php echo set_value('position_id'); ?>" ><br>
 <?php echo form_error('position_id'); ?>
 メールアドレス:
 <input type="text" name="email" value="<?php echo set_value('email'); ?>" ><br>

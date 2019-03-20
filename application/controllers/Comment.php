@@ -38,7 +38,6 @@ class Comment extends CI_Controller {
         //バリデーションエラーが無ければ確認画面へ
         if ($this->form_validation->run() === true) {
             $data['comment'] = $this->input->post('comment');
-            $data['admin_id'] = $this->input->post('admin_id');
             $data['objective_id'] = $this->input->post('objective_id');
             $this->load->view('/comment/confirmation', $data);
         //バリデーションエラーがあればもう一度入力画面
@@ -53,7 +52,7 @@ class Comment extends CI_Controller {
      */
     public function done() {
             $comment = $this->input->post('comment');
-            $admin_id = $this->input->post('admin_id');
+            $admin_id = $_SESSION['id'];
             $objective_id = $this->input->post('objective_id');
             $this->Comment_model->insert($comment, $admin_id, $objective_id);
             $this->load->view('/comment/done');

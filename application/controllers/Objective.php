@@ -17,9 +17,9 @@ class Objective extends CI_Controller {
      */
     public function index()
     {
-        $member_id = $_SESSION['member_id'];
-        $objectives = $this->Objective_model->getObjectives($member_id);
-        $data = ['objectives' => $objectives];
+        //ログインした社員IDに紐づいた目標を取得して表示
+        $objectives = $this->Objective_model->getObjectives($_SESSION['member_id']);
+        $data['objectives'] = $objectives;
         $this->load->view('/objective/index', $data);
     }  
     /**
@@ -33,7 +33,7 @@ class Objective extends CI_Controller {
         if ($this->form_validation->run() === true) {
             $year = $this->input->post('year');
             $quarter = $this->input->post('quarter');
-            $member_id = $this->input->post('member_id');
+            $member_id = $_SESSION['member_id'];
             //年度と四半期が一致するデータが存在すればそのデータ内容を目標内容に表示
             $data = $this->Objective_model->select($member_id, $year, $quarter);
             $this->load->view('/objective/post', $data);
@@ -55,7 +55,6 @@ class Objective extends CI_Controller {
         if ($this->form_validation->run() === true) {
             $data['year'] = $this->input->post('year');
             $data['quarter'] = $this->input->post('quarter');
-            $data['member_id'] = $_SESSION['member_id'];
             $data['objective'] = $this->input->post('objective');
             $this->load->view('/objective/post_confirmation', $data);
         //バリデーションエラーだともう一度目標入力画面へ
@@ -100,7 +99,6 @@ class Objective extends CI_Controller {
             $data['year'] = $this->input->post('year');
             $data['quarter'] = $this->input->post('quarter');
             $data['objective'] = $this->input->post('objective');
-            $data['member_id'] = $this->input->post('member_id');
             $data['objective_id'] = $this->input->post('objective_id');
             $this->load->view('/objective/update_confirmation', $data);
         //バリデーションエラーだともう一度目標入力画面へ
@@ -118,9 +116,8 @@ class Objective extends CI_Controller {
             $year = $this->input->post('year');
             $quarter = $this->input->post('quarter');
             $objective = $this->input->post('objective');
-            $member_id = $this->input->post('member_id');
             $objective_id = $this->input->post('objective_id');
-            $this->Objective_model->update($member_id, $year, $quarter, $objective, $objective_id);
+            $this->Objective_model->update($year, $quarter, $objective, $objective_id);
             $this->load->view('/objective/done');
     }
 }
