@@ -9,7 +9,7 @@
          * @param type $quarter
          * @param type $objective
          */
-        public function insert($member_id, $year, $quarter, $objective)
+        public function insert(int $member_id, int $year, string $quarter, string $objective)
         {   
             //更新の場合data1
             $data1 = ['member_id' => $member_id, 'year' => $year, 'quarter' => $quarter, 'objective' => $objective, 'modified' => date("Y/m/d H:i:s")];
@@ -33,7 +33,7 @@
          * @param type $quarter
          * @return type
          */
-        public function select($member_id, $year, $quarter)
+        public function select(int $member_id, int $year, string $quarter)
         {
             $query = $this->db->query("SELECT * FROM objectives where member_id='$member_id' and year='$year' and quarter='$quarter'");
             return $query->row_array(); 
@@ -45,21 +45,20 @@
          * @param type $quarter
          * @param type $objective
          */
-        public function update($member_id, $year, $quarter, $objective, $objective_id)
+        public function update(int $year, string $quarter, string $objective, int $objective_id)
                            
         {
-            $sql = "UPDATE objectives SET member_id = ?, year = ?, quarter = ?, objective =?,
+            $sql = "UPDATE objectives SET year = ?, quarter = ?, objective =?,
                                    modified = now()
                                    WHERE id = ?";
-            $this->db->query($sql, [ $member_id, $year, $quarter, $objective,
-                                   $objective_id]);                      
+            $this->db->query($sql, [$year, $quarter, $objective, $objective_id]);  
         }
         /**
          * member_idの目標データ取得
          * @param type $member_id
          * @return type
          */
-        public function getObjectives($member_id)
+        public function getObjectives(int $member_id)
         {
             $query = $this->db->query("SELECT * FROM objectives where member_id='$member_id' ORDER BY year DESC");
             return $query->result();
@@ -70,7 +69,7 @@
          * @param type $created
          * @return type
          */
-        public function getContents($objective_id)
+        public function getContents(int $objective_id)
         {
             $query = $this->db->query("SELECT * FROM objectives where id='$objective_id'");
             return $query->row_array();

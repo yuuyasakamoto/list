@@ -5,7 +5,6 @@
 <body>
 <h1>目標内容編集確認画面</h1>
 <?php echo form_open('/objective/update_done'); ?>
-<input type="hidden" name="member_id" value="<?php echo $member_id; ?>">
 <input type="hidden" name="year" value="<?php echo $year; ?>">
 <input type="hidden" name="quarter" value="<?php echo $quarter; ?>">
 <input type="hidden" name="objective" value="<?php echo $objective; ?>">

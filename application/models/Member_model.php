@@ -8,7 +8,7 @@ class Member_model extends CI_Model
      * @param type $password
      * @return boolean
      */
-    public function memberCanLogIn($email, $password)
+    public function memberCanLogIn(string $email, string $password)
     {
         //POSTされたemail情報をもとに緊急連絡先とハッシュ化したパスワードとmember_idを取り出す
         $sql = "SELECT * FROM members WHERE email=?";
@@ -47,9 +47,9 @@ class Member_model extends CI_Model
      * @param type $birthday
      * @param type $home
      */
-    public function memberInsert($member_id, $first_name, $last_name, $first_name_kana,
-                           $last_name_kana, $gender, $birthday, $home, $hire_date,
-                           $department_id, $position_id, $email, $password, $sos)
+    public function memberInsert(int $member_id, string $first_name, string $last_name, string $first_name_kana,
+                           string $last_name_kana, string $gender, string $birthday, string $home, string $hire_date,
+                           int $department_id, int $position_id, string $email, string $password, string $sos)
     {
         $sql = "INSERT INTO members(member_id, first_name, last_name, first_name_kana,
                                     last_name_kana, gender, birthday, home, hire_date,
@@ -69,9 +69,9 @@ class Member_model extends CI_Model
      * @param type $home
      * @param type $no
      */
-    public function adminUpdate($member_id, $first_name, $last_name, $first_name_kana,
-                           $last_name_kana, $gender, $birthday, $home, $hire_date,
-                           $retirement_date, $department_id, $position_id, $email, $sos)
+    public function adminUpdate(int $member_id, string $first_name, string $last_name, string $first_name_kana,
+                           string $last_name_kana, string $gender, string $birthday, string $home, string $hire_date,
+                           string $retirement_date, int $department_id, int $position_id, string $email, string $sos)
     {
         $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
                                    last_name_kana = ?, gender = ?, birthday = ?, home = ?, hire_date = ?,
@@ -86,7 +86,7 @@ class Member_model extends CI_Model
      * 社員IDに紐ずいたレコードの削除
      * @param type $member_id
      */
-    public function delete($member_id)
+    public function delete(int $member_id)
     {
         $sql = 'DELETE FROM members WHERE member_id = ?';
         $this->db->query($sql, ['member_id' => $member_id]);   
@@ -96,27 +96,17 @@ class Member_model extends CI_Model
      * @param type $no
      * @return type
      */
-    public function select($member_id)
+    public function select(int $member_id)
     {
         $sql = "SELECT * FROM members WHERE member_id=?";
         $query = $this->db->query($sql, ['member_id' => $member_id]);
-        return $query;
-    }
-    /**
-     * パスワードのハッシュ化
-     * @param type $password
-     * @param type $created
-     */       
-    public function hash($password, $created)
-    {
-        $hash = sha1($password . $created);
-        return $hash;
+        return $query->row();
     }
     /**
      * 社員情報取得
      * @return type
      */
-    public function find($member_id)
+    public function find(int $member_id)
     {
         $sql = "SELECT * FROM members WHERE member_id=?";
         $query = $this->db->query($sql, ['member_id' => $member_id]);
@@ -130,9 +120,9 @@ class Member_model extends CI_Model
      * @param type $home
      * @param type $no
      */
-    public function memberUpdate($member_id, $first_name, $last_name, $first_name_kana,
-                           $last_name_kana, $birthday, $home, 
-                           $email, $password, $sos)
+    public function memberUpdate(int $member_id, string $first_name, string $last_name, string $first_name_kana,
+                           string $last_name_kana, string $birthday, string $home, 
+                           string $email, string $password, int $sos)
     {
         $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
                                    last_name_kana = ?, birthday = ?, home = ?, 

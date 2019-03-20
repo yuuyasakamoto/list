@@ -43,7 +43,7 @@ class Login extends CI_Controller
         if ($this->form_validation->run() === true) {
             $email = $this->input->post('email');
             $password = $this->input->post('password');
-            //canLogInメソッドでemailとpasswordが正しければ社員情報取得
+            //canLogInメソッドでemailとpasswordが正しければ社員ID取得
             $member = $this->Member_model->memberCanLogIn($email, $password);
             //社員情報が取得されていればログイン
             if (false != $member) {

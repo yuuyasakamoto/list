@@ -8,7 +8,7 @@ class Comment_model extends CI_Model
      * @param type $admin_id
      * @param type $objective_id
      */
-    public function insert($comment, $admin_id, $objective_id)
+    public function insert(string $comment, int $admin_id, int $objective_id)
     {
         $data = ['comment' => $comment, 'admin_id' => $admin_id, 'objective_id' => $objective_id];
         $this->db->insert('comments', $data);

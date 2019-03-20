@@ -6,7 +6,6 @@
 <h1>コメント内容確認画面</h1>
 <?php echo form_open('/comment/done'); ?>
 <input type="hidden" name="comment" value="<?php echo $comment; ?>">
-<input type="hidden" name="admin_id" value="<?php echo set_value('admin_id', $_SESSION['id']);?>" >
 <input type="hidden" name="objective_id" value="<?php echo set_value('objective_id', $_POST["objective_id"]);?>" 
 <p>コメント内容はこちらで宜しいでしょうか？</p>
 <p><?php echo $comment; ?></p>

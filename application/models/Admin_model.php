@@ -8,7 +8,7 @@ class Admin_model extends CI_Model
      * @param type $email
      * @param type $password
      */
-    public function adminCanLogIn($email, $password)
+    public function adminCanLogIn(string $email, string $password)
     {
         //POSTされたemail情報をもとにcreatedとpasswordとidを取り出す
         $sql = "SELECT * FROM admins WHERE email=?";
@@ -21,7 +21,7 @@ class Admin_model extends CI_Model
             $pass = $admin->password;
             $id = $admin->id;
             //入力されたパスワードとcreatedでハッシュ化したパスワードを取得
-            $hash = $this->hash($password, $created);
+            $hash = $this->utility->hash($password, $created); 
             //パスワードが一致すれば管理者IDを返す
             if ($pass == $hash) 
             {
@@ -51,7 +51,7 @@ class Admin_model extends CI_Model
      * @param type $password
      * @param type $name
      */ 
-    public function insert($email, $password, $name)
+    public function insert(string $email, string $password, string $name)
     {
         //postされた値をadminsテーブルに登録
         $data = ['email' => $email, 'password' => $password, 'name' => $name];
@@ -61,19 +61,9 @@ class Admin_model extends CI_Model
         $query = $this->db->query("SELECT created FROM admins WHERE id={$id}");
         $created = $query->row('created'); 
         //sha1関数でパスワードにcreatedの値(ソルト)を連結しハッシュ化
-        $hash = $this->hash($password,$created);
+        $hash = $this->utility->hash($password, $created);
         $pass = ['password'=>$hash];
         //usersテーブルの取得したidをもとにパスワードをハッシュした値に更新して保存
         $this->db->update('admins', $pass, "id = {$id}");
-    }
-    /**
-     * パスワードのハッシュ化
-     * @param type $password
-     * @param type $created
-     */       
-    public function hash($password, $created)
-    {
-        $hash = sha1($password . $created);
-        return $hash;
     }
 }

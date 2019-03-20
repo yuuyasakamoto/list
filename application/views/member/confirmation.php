@@ -5,7 +5,6 @@
 <body>
 <h1>社員編集内容確認画面</h1>
 <?php echo form_open('/member/done'); ?>
-<input type="hidden" name="member_id" value="<?php echo $member_id; ?>">
 <input type="hidden" name="first_name" value="<?php echo $first_name; ?>">
 <input type="hidden" name="last_name" value="<?php echo $last_name; ?>">
 <input type="hidden" name="first_name_kana" value="<?php echo $first_name_kana; ?>">

@@ -25,7 +25,7 @@
     <th>更新時間</th>
     </tr>
     <tr align="center">
-    <td><a href = '/member/update?member_id=<?= $member->member_id ?>'><?= $member->member_id ?></a></td>
+    <td><a href = '/member/update'><?= $member->member_id ?></a></td>
     <td><?= $member->first_name ?></td>
     <td><?= $member->last_name ?></td>
     <td><?= $member->first_name_kana ?></td>

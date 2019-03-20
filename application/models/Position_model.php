@@ -6,7 +6,7 @@ class Position_model extends CI_Model{
      * @param type $id2
      * @return type
      */
-    public function findById($position_id)
+    public function findById(int $position_id)
     {
         $query = $this->db->query("SELECT * FROM positions where id='$position_id'");
         $position = $query->row();
