@@ -14,13 +14,13 @@ class Member_model extends CI_Model
         $sql = "SELECT * FROM members WHERE email=?";
         $query = $this->db->query($sql, ['email' => $email]);
         //もしメールアドレスが存在すればパスワードの確認
-        if($query != NULL)
+        $member = $query->row();
+        if($member != NULL)
         {
-            $member = $query->row();
-            $sos = $member->sos;
+            $created = $member->created;
             $pass = $member->password;
-            //入力されたパスワードと緊急連絡先でハッシュ化した値と合致すれば社員IDを返す
-            $hash = sha1($password . $sos);
+            //入力されたパスワードと登録時間でハッシュ化した値と保存先のパスワードが合致すれば社員情報を返す
+            $hash = $this->utility->hash($password, $created);
             if ($pass == $hash) {
                return $member;
             //パスワード該当なしならfalse
@@ -55,11 +55,18 @@ class Member_model extends CI_Model
                                     last_name_kana, gender, birthday, home, hire_date,
                                     department_id, position_id, email, password, sos)
                             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        //入力されたパスワードと緊急連絡先の値でハッシュ化しパスワード保存
-        $hash = sha1($password . $sos);
+        //入力した値をmembersテーブルに保存
         $this->db->query($sql, [$member_id, $first_name, $last_name, $first_name_kana,
                                 $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                $department_id, $position_id, $email, $hash, $sos]);
+                                $department_id, $position_id, $email, $password, $sos]);
+        //登録した社員のIDを取得し登録時間と入力されたパスワードでハッシュ化
+        $id = $this->db->insert_id();
+        $query = $this->db->query("SELECT created FROM members WHERE id={$id}");
+        $created = $query->row('created'); 
+        $hash = $this->utility->hash($password, $created);
+        $pass = ['password'=>$hash];
+        //取得したidをもとにパスワードをハッシュ化した値に変更して保存
+        $this->db->update('members', $pass, "id = {$id}");
     }
     /**
     *  管理者による社員の編集処理
@@ -92,7 +99,7 @@ class Member_model extends CI_Model
         $this->db->query($sql, ['member_id' => $member_id]);   
     }
     /**
-     * member_idに紐づいた社員レコードを取得する
+     * 社員IDに紐づいた社員レコードの取得
      * @param type $no
      * @return type
      */
@@ -129,8 +136,9 @@ class Member_model extends CI_Model
                                    email = ?, password = ?, sos = ?,
                                    modified = now()
                                    WHERE member_id = ?";
-        //編集したパスワードと緊急連絡先の値でハッシュ化しパスワード保存
-        $hash = sha1($password . $sos);
+        //セッションで保存した社員作成時間と入力されたパスワードでハッシュ化し保存
+        $created = $_session['created']; 
+        $hash = $this->utility->hash($password, $created);
         $this->db->query($sql, [ $first_name, $last_name, $first_name_kana,
                                 $last_name_kana, $birthday, $home, 
                                 $email, $hash, $sos, $member_id]);                      

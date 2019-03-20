@@ -33,7 +33,7 @@ class Member extends CI_Controller {
      */
     public function update()
     {   
-        //入力されたのバリデーションチェック
+        //入力された値のバリデーションチェック
         $this->form_validation->set_message('required', '%s は必須です。');
         $this->form_validation->set_rules('first_name', '氏', 'required');
         $this->form_validation->set_rules('last_name', '名', 'required');

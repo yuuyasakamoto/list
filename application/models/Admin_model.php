@@ -14,9 +14,9 @@ class Admin_model extends CI_Model
         $sql = "SELECT * FROM admins WHERE email=?";
         $query = $this->db->query($sql, ['email' => $email]);
         //メールアドレスが存在すればパスワード確認
-        if($query != NULL)
+        $admin = $query->row();
+        if($admin != NULL)
         {
-            $admin = $query->row();
             $created = $admin->created;
             $pass = $admin->password;
             $id = $admin->id;
@@ -46,7 +46,7 @@ class Admin_model extends CI_Model
     }
 
     /**
-     * 管理者登録（ソルト＋ハッシュ化）
+     * 管理者登録
      * @param type $email
      * @param type $password
      * @param type $name
@@ -63,7 +63,7 @@ class Admin_model extends CI_Model
         //sha1関数でパスワードにcreatedの値(ソルト)を連結しハッシュ化
         $hash = $this->utility->hash($password, $created);
         $pass = ['password'=>$hash];
-        //usersテーブルの取得したidをもとにパスワードをハッシュした値に更新して保存
+        //取得したidをもとにパスワードをハッシュした値に更新して保存
         $this->db->update('admins', $pass, "id = {$id}");
     }
 }
