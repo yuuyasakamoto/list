@@ -1,5 +1,6 @@
 <?php
-class Objective extends CI_Controller {
+class Objective extends CI_Controller 
+{
     
     /**
      * ログイン確認
@@ -18,7 +19,7 @@ class Objective extends CI_Controller {
     public function index()
     {
         //ログインした社員IDに紐づいた目標を取得して表示
-        $objectives = $this->Objective_model->getObjectives($_SESSION['member_id']);
+        $objectives = $this->Objective_model->select($_SESSION['member_id']);
         $data['objectives'] = $objectives;
         $this->load->view('/objective/index', $data);
     }  
@@ -35,7 +36,7 @@ class Objective extends CI_Controller {
             $quarter = $this->input->post('quarter');
             $member_id = $_SESSION['member_id'];
             //年度と四半期が一致するデータが存在すればそのデータ内容を目標内容に表示
-            $data = $this->Objective_model->select($member_id, $year, $quarter);
+            $data['objective'] = $this->Objective_model->select($member_id, $year, $quarter);
             $this->load->view('/objective/post', $data);
         //バリデーションエラーだともう一度年度、四半期入力画面へ
         } else {
@@ -67,12 +68,12 @@ class Objective extends CI_Controller {
      */
     public function post_done()
     {
-            $year = $this->input->post('year');
-            $quarter = $this->input->post('quarter');
-            $member_id = $_SESSION['member_id'];
-            $objective = $this->input->post('objective');
-            $data = $this->Objective_model->insert($member_id, $year, $quarter, $objective);
-            $this->load->view('/objective/done');
+        $year = $this->input->post('year');
+        $quarter = $this->input->post('quarter');
+        $member_id = $_SESSION['member_id'];
+        $objective = $this->input->post('objective');
+        $this->Objective_model->insert($member_id, $year, $quarter, $objective);
+        $this->load->view('/objective/done');
        
     }  
     /**
@@ -81,7 +82,7 @@ class Objective extends CI_Controller {
      public function contents()
     {
         $objective_id = $this->input->get('objective_id');
-        $data['contents'] = $this->Objective_model->getContents($objective_id);
+        $data['content'] = $this->Objective_model->getContent($objective_id);
         $this->load->view('/objective/contents', $data);
     } 
     /**
@@ -104,7 +105,7 @@ class Objective extends CI_Controller {
         //バリデーションエラーだともう一度目標入力画面へ
         } else {
             $objective_id = $this->input->get('objective_id');
-            $data['contents'] = $this->Objective_model->getContents($objective_id);
+            $data['content'] = $this->Objective_model->getContent($objective_id);
             $this->load->view('/objective/update', $data);
         }  
     }
@@ -113,11 +114,11 @@ class Objective extends CI_Controller {
      */
      public function update_done()
     {   
-            $year = $this->input->post('year');
-            $quarter = $this->input->post('quarter');
-            $objective = $this->input->post('objective');
-            $objective_id = $this->input->post('objective_id');
-            $this->Objective_model->update($year, $quarter, $objective, $objective_id);
-            $this->load->view('/objective/done');
+        $year = $this->input->post('year');
+        $quarter = $this->input->post('quarter');
+        $objective = $this->input->post('objective');
+        $objective_id = $this->input->post('objective_id');
+        $this->Objective_model->update($year, $quarter, $objective, $objective_id);
+        $this->load->view('/objective/done');
     }
 }

@@ -242,7 +242,7 @@ class Admin extends CI_Controller
     }
     /**
      * ハイフンなしの半角数字のみで記入しているかのバリデーション（緊急連絡先）
-     * @param type $str
+     * @param int $number
      * @return boolean
      */
     public function sos_check(int $number)
@@ -260,7 +260,7 @@ class Admin extends CI_Controller
     }
     /**
      * 存在する部署、役職IDか確かめるバリデーション
-     * @param type $number
+     * @param int $key
      * @return boolean
      */
     public function id_check(int $key)

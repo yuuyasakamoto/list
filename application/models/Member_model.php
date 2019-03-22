@@ -41,6 +41,17 @@ class Member_model extends CI_Model
         return $query->result();
     }
     /**
+     * 社員IDに紐づいたレコードの取得
+     * @param int $member_id
+     * @return type
+     */
+    public function select(int $member_id)
+    {
+        $sql = "SELECT * FROM members WHERE member_id=?";
+        $query = $this->db->query($sql, ['member_id' => $member_id]);
+        return $query->row();
+    }
+    /**
      * 社員の新規登録処理
      * @param type $first_name
      * @param type $last_name
@@ -106,16 +117,5 @@ class Member_model extends CI_Model
     {
         $sql = 'DELETE FROM members WHERE member_id = ?';
         $this->db->query($sql, ['member_id' => $member_id]);   
-    }
-    /**
-     * 社員IDに紐づいた社員レコードの取得
-     * @param type $no
-     * @return type
-     */
-    public function select(int $member_id)
-    {
-        $sql = "SELECT * FROM members WHERE member_id=?";
-        $query = $this->db->query($sql, ['member_id' => $member_id]);
-        return $query->row();
     }
 }

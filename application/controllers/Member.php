@@ -3,7 +3,8 @@
 /**
  * 社員機能
  */
-class Member extends CI_Controller {
+class Member extends CI_Controller 
+{
     
     public function __construct()
     {
@@ -108,24 +109,6 @@ class Member extends CI_Controller {
         }
     }
     /**
-     * ハイフンなしの半角数字のみで記入しているかのバリデーション（緊急連絡先）
-     * @param type $str
-     * @return boolean
-     */
-    public function sos_check(int $number)
-    {
-        $check = preg_match("/^[0-9]+$/", $number);
-        if ($check == true)
-        {
-            return true;
-        }
-        else
-        {
-            $this->form_validation->set_message('sos_check', '半角数字のみで記入して下さい');
-            return false;
-        }
-    }
-    /**
      * カタカナになっているかチェック
      * @param string $katakana
      * @return boolean
@@ -143,4 +126,23 @@ class Member extends CI_Controller {
             return false;
         }
     }
+    /**
+     * ハイフンなしの半角数字のみで記入しているかのバリデーション（緊急連絡先）
+     * @param int $number
+     * @return boolean
+     */
+    public function sos_check(int $number)
+    {
+        $check = preg_match("/^[0-9]+$/", $number);
+        if ($check == true)
+        {
+            return true;
+        }
+        else
+        {
+            $this->form_validation->set_message('sos_check', '半角数字のみで記入して下さい');
+            return false;
+        }
+    }
+    
 }

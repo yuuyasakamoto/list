@@ -1,6 +1,7 @@
 <?php
 
-class Comment extends CI_Controller {
+class Comment extends CI_Controller 
+{
     
     public function __construct()
     {
@@ -15,8 +16,8 @@ class Comment extends CI_Controller {
      */
     public function index() {
         $member_id = $this->input->get('member_id');
-        $objectives = $this->Objective_model->getObjectives($member_id);
-        $data = ['objectives' => $objectives];
+        $objectives = $this->Objective_model->select($member_id);
+        $data['objectives'] = $objectives;
         $this->load->view('/comment/index', $data);
     }
     /**
@@ -24,7 +25,7 @@ class Comment extends CI_Controller {
      */
     public function contents() {
         $objective_id = $this->input->get('objective_id');
-        $data['contents'] = $this->Objective_model->getContents($objective_id);
+        $data['content'] = $this->Objective_model->getContent($objective_id);
         $this->load->view('/comment/contents', $data);
     }
     /**
@@ -43,7 +44,7 @@ class Comment extends CI_Controller {
         //バリデーションエラーがあればもう一度入力画面
         } else {
         $objective_id = $this->input->get('objective_id');
-        $data['contents'] = $this->Objective_model->getContents($objective_id);
+        $data['content'] = $this->Objective_model->getContent($objective_id);
         $this->load->view('/comment/add', $data);
         }
     }

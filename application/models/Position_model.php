@@ -1,9 +1,10 @@
 <?php
 
-class Position_model extends CI_Model{
+class Position_model extends CI_Model
+{
     /**
-     * 役職IDに紐づいた役職名を返す
-     * @param type $id2
+     * 役職IDに紐づいた役職名取得
+     * @param int $position_id
      * @return type
      */
     public function findById(int $position_id)
