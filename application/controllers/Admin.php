@@ -246,7 +246,7 @@ class Admin extends CI_Controller
      * @param type $str
      * @return boolean
      */
-    public function sos_check($number)
+    public function sos_check(int $number)
     {
         $check = preg_match("/^[0-9]+$/", $number);
         if ($check == true)
