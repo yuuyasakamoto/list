@@ -19,7 +19,7 @@ class Member extends CI_Controller {
     public function index()
     {
         //社員IDに紐づいた社員情報取得
-        $member = $this->Member_model->find($_SESSION['member_id']);
+        $member = $this->Member_model->select($_SESSION['member_id']);
         //役職IDと部署IDに紐づいた役職名と部署名を取得
         $department_name = $this->Department_model->findById($member->department_id);
         $position_name = $this->Position_model->findById($member->position_id);
@@ -74,15 +74,13 @@ class Member extends CI_Controller {
             $last_name = $this->input->post('last_name');
             $first_name_kana = $this->input->post('first_name_kana');
             $last_name_kana = $this->input->post('last_name_kana');
-            $gender = $this->input->post('gender');
             $birthday = $this->input->post('birthday');
             $home = $this->input->post('home');
             $email = $this->input->post('email');
             $password = $this->input->post('password');
             $sos = $this->input->post('sos');
-            $this->Member_model->memberUpdate($member_id, $first_name, $last_name, $first_name_kana,
-                                        $last_name_kana, $birthday, $home, 
-                                        $email, $password, $sos);
+            $this->Member_model->update($member_id, $first_name, $last_name, $first_name_kana,
+                                        $last_name_kana, $birthday, $home, $email, $sos, $password);
             $this->load->view('/member/done');
     }
     

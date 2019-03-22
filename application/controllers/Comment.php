@@ -51,10 +51,10 @@ class Comment extends CI_Controller {
      * 目標に対するコメント入力完了機能
      */
     public function done() {
-            $comment = $this->input->post('comment');
-            $admin_id = $_SESSION['id'];
-            $objective_id = $this->input->post('objective_id');
-            $this->Comment_model->insert($comment, $admin_id, $objective_id);
-            $this->load->view('/comment/done');
+        $comment = $this->input->post('comment');
+        $admin_id = $_SESSION['id'];
+        $objective_id = $this->input->post('objective_id');
+        $this->Comment_model->insert($comment, $admin_id, $objective_id);
+        $this->load->view('/comment/done');
     }
 }

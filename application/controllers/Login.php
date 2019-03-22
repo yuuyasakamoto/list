@@ -49,7 +49,6 @@ class Login extends CI_Controller
             if (false != $member) {
                 $_SESSION['login'] = true;
                 $_SESSION['member_id'] = $member->member_id;
-                $_SESSION['created'] = $member->created;
                 redirect('/member/index');
             //正しく無ければもう一度ログイン入力画面へ
             } else {
@@ -75,7 +74,6 @@ class Login extends CI_Controller
     {
         unset($_SESSION['login']);
         unset($_SESSION['member_id']);
-        unset($_SESSION['created']);
         redirect('/login/member_login?member_logout=true');
     }
 }

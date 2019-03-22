@@ -208,9 +208,9 @@ class Admin extends CI_Controller
         $email = $this->input->post('email');
         $sos = $this->input->post('sos');
         //社員情報の更新(管理者による)
-        $this->Member_model->adminUpdate($member_id, $first_name, $last_name, $first_name_kana,
-                                        $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                        $retirement_date, $department_id, $position_id, $email, $sos);
+        $this->Member_model->update($member_id, $first_name, $last_name, $first_name_kana,
+                                    $last_name_kana, $birthday, $home, $email, $sos, $gender,
+                                    $hire_date, $retirement_date, $department_id, $position_id);
         //更新完了画面
         $this->load->view('/admin/member_done');
     } 
@@ -246,7 +246,7 @@ class Admin extends CI_Controller
      * @param type $str
      * @return boolean
      */
-    public function sos_check(int $number)
+    public function sos_check($number)
     {
         $check = preg_match("/^[0-9]+$/", $number);
         if ($check == true)
