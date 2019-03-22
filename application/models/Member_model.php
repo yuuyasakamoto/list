@@ -79,45 +79,24 @@ class Member_model extends CI_Model
      * @param string $home
      * @param string $email
      * @param int $sos
-     * @param string $password
+     * @param string $gender
      * @param string $hire_date
      * @param string $retirement_date
      * @param int $department_id
      * @param int $position_id
      */
     public function update(int $member_id, string $first_name, string $last_name, string $first_name_kana,
-                           string $last_name_kana, string $birthday, string $home, string $email, int $sos, string $password, 
-                           string $hire_date = "a", string $retirement_date = "a", int $department_id = 1, int $position_id = 1 )
+                           string $last_name_kana, string $birthday, string $home, string $email, int $sos,   
+                           string $gender,string $hire_date, string $retirement_date, int $department_id, int $position_id)
     {
-        //実引数の数を取得
-        $item = func_num_args();
-        //社員自身の編集
-        if ($item == 10) {
-            $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
-                                   last_name_kana = ?, birthday = ?, home = ?, 
-                                   email = ?, password = ?, sos = ?,
-                                   modified = now()
-                                   WHERE member_id = ?";
-            //社員作成時間を取得しパスワードをハッシュ化し保存
-            $member = $this->select($member_id);
-            $created = $member->created;
-            $hash = $this->utility->hash($password, $created);
-            $this->db->query($sql, [ $first_name, $last_name, $first_name_kana,
-                                $last_name_kana, $birthday, $home, 
-                                $email, $hash, $sos, $member_id]);  
-        //管理者による社員の編集   
-        } elseif ($item == 14) {
-            //管理者の編集の際は仮引数$passwordに性別が入る
-            $gender = $password;
-            $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
-                                   last_name_kana = ?, gender = ?, birthday = ?, home = ?, hire_date = ?,
-                                   retirement_date = ?, department_id = ?, position_id = ?, email = ?, sos = ?,
-                                   modified = now()
-                                   WHERE member_id = ?";
-            $this->db->query($sql, [ $first_name, $last_name, $first_name_kana,
-                                $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                $retirement_date, $department_id, $position_id, $email, $sos, $member_id]);
-        }
+        $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
+                               last_name_kana = ?, gender = ?, birthday = ?, home = ?, hire_date = ?,
+                               retirement_date = ?, department_id = ?, position_id = ?, email = ?, sos = ?,
+                               modified = now()
+                               WHERE member_id = ?";
+        $this->db->query($sql, [ $first_name, $last_name, $first_name_kana, $last_name_kana, $gender, $birthday, $home,
+                            $hire_date, $retirement_date, $department_id, $position_id, $email, $sos, $member_id]);
+
     }
     /**
      * 社員IDに紐ずいたレコードの削除

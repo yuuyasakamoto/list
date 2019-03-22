@@ -12,7 +12,6 @@
 <input type="hidden" name="birthday" value="<?php echo $birthday; ?>">
 <input type="hidden" name="home" value="<?php echo $home; ?>">
 <input type="hidden" name="email" value="<?php echo $email; ?>">
-<input type="hidden" name="password" value="<?php echo $password; ?>">
 <input type="hidden" name="sos" value="<?php echo $sos; ?>">
  
 <p>編集内容はこちらで宜しいでしょうか？</p>
@@ -30,8 +29,6 @@
 <p><?php echo $home; ?></p>
 <label>メールアドレス</label>
 <p><?php echo $email; ?></p>
-<label>パスワード</label>
-<p><?php echo $password; ?></p>
 <label>緊急連絡先</label>
 <p><?php echo $sos; ?></p>
 <button type="submit" >編集する</button>

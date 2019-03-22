@@ -42,7 +42,6 @@ class Member extends CI_Controller {
         $this->form_validation->set_rules('birthday', '生年月日', 'required|callback_birth_check');
         $this->form_validation->set_rules('home', '住所', 'required');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required');
-        $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
         
         //バリデーションエラーが無かった時確認画面へ
@@ -54,7 +53,6 @@ class Member extends CI_Controller {
             $data['birthday'] = $this->input->post('birthday');
             $data['home'] = $this->input->post('home');
             $data['email'] = $this->input->post('email');
-            $data['password'] = $this->input->post('password');
             $data['sos'] = $this->input->post('sos');
             $this->load->view('/member/confirmation', $data);
         //バリデーションエラーなら再度編集画面に
@@ -77,10 +75,17 @@ class Member extends CI_Controller {
             $birthday = $this->input->post('birthday');
             $home = $this->input->post('home');
             $email = $this->input->post('email');
-            $password = $this->input->post('password');
             $sos = $this->input->post('sos');
+            //社員のデータ取得
+            $member = $this->Member_model->select($member_id);
+            $gender = $member->gender;
+            $hire_date = $member->hire_date;
+            $retirement_date = $member->retirement_date;
+            $department_id = $member->department_id;
+            $position_id = $member->position_id;
             $this->Member_model->update($member_id, $first_name, $last_name, $first_name_kana,
-                                        $last_name_kana, $birthday, $home, $email, $sos, $password);
+                                        $last_name_kana, $birthday, $home, $email, $sos, $gender,
+                                        $hire_date, $retirement_date, $department_id, $position_id);
             $this->load->view('/member/done');
     }
     

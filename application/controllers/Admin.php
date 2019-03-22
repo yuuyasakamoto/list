@@ -207,7 +207,6 @@ class Admin extends CI_Controller
         $position_id = $this->input->post('position_id');
         $email = $this->input->post('email');
         $sos = $this->input->post('sos');
-        //社員情報の更新(管理者による)
         $this->Member_model->update($member_id, $first_name, $last_name, $first_name_kana,
                                     $last_name_kana, $birthday, $home, $email, $sos, $gender,
                                     $hire_date, $retirement_date, $department_id, $position_id);
