@@ -19,7 +19,7 @@ class Login extends CI_Controller
             //canLogInメソッドでemailとpasswordが正しければidを返す
             $id = $this->Admin_model->adminCanLogIn($email, $password);
             //正しければログイン
-            if (isset($id)) {
+            if (false != $id) {
                 $_SESSION['admin'] = true;
                 $_SESSION['id'] = $id;
                 redirect('/admin/member_index');

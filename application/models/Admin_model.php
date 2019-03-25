@@ -26,11 +26,11 @@ class Admin_model extends CI_Model
                 return $id;
             //パスワード該当なしならNULL
             } else {
-                return NULL;
+                return false;
             }
         //アドレス該当なしならNULL
         } else {
-            return NULL;
+            return false;
         }
     }
     /**
