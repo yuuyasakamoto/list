@@ -11,7 +11,7 @@ class Member extends CI_Controller
         //社員ログインしていないと社員ログイン画面に戻る
         parent::__construct();
 	if ($_SESSION['login'] != true) {
-        redirect('/login/member_login?member_error=true');
+            redirect('/login/member_login?member_error=true');
         }	
     }
     /**
@@ -68,26 +68,26 @@ class Member extends CI_Controller
      */
     public function done()
     {   
-            $member_id = $_SESSION['member_id'];
-            $first_name = $this->input->post('first_name');
-            $last_name = $this->input->post('last_name');
-            $first_name_kana = $this->input->post('first_name_kana');
-            $last_name_kana = $this->input->post('last_name_kana');
-            $birthday = $this->input->post('birthday');
-            $home = $this->input->post('home');
-            $email = $this->input->post('email');
-            $sos = $this->input->post('sos');
-            //社員のデータ取得
-            $member = $this->Member_model->select($member_id);
-            $gender = $member->gender;
-            $hire_date = $member->hire_date;
-            $retirement_date = $member->retirement_date;
-            $department_id = $member->department_id;
-            $position_id = $member->position_id;
-            $this->Member_model->update($member_id, $first_name, $last_name, $first_name_kana,
-                                        $last_name_kana, $birthday, $home, $email, $sos, $gender,
-                                        $hire_date, $retirement_date, $department_id, $position_id);
-            $this->load->view('/member/done');
+        $member_id = $_SESSION['member_id'];
+        $first_name = $this->input->post('first_name');
+        $last_name = $this->input->post('last_name');
+        $first_name_kana = $this->input->post('first_name_kana');
+        $last_name_kana = $this->input->post('last_name_kana');
+        $birthday = $this->input->post('birthday');
+        $home = $this->input->post('home');
+        $email = $this->input->post('email');
+        $sos = $this->input->post('sos');
+        //社員のデータ取得
+        $member = $this->Member_model->select($member_id);
+        $gender = $member->gender;
+        $hire_date = $member->hire_date;
+        $retirement_date = $member->retirement_date;
+        $department_id = $member->department_id;
+        $position_id = $member->position_id;
+        $this->Member_model->update($member_id, $first_name, $last_name, $first_name_kana,
+                                    $last_name_kana, $birthday, $home, $email, $sos, $gender,
+                                    $hire_date, $retirement_date, $department_id, $position_id);
+        $this->load->view('/member/done');
     }
     
     /**
@@ -98,12 +98,9 @@ class Member extends CI_Controller
     public function birth_check(string $str)
     {
         $check = preg_match("/\d{4}\-\d{2}\-\d{2}/", $str);
-        if ($check == true)
-        {
+        if ($check == true){
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('birth_check', '1990-01-01の形式で入力してください');
             return false;
         }
@@ -116,12 +113,9 @@ class Member extends CI_Controller
     public function katakana_check(string $katakana)
     {
         $check = preg_match("/^[ァ-ヾ]+$/u", $katakana);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('katakana_check', 'カタカナで記入して下さい');
             return false;
         }
@@ -134,12 +128,9 @@ class Member extends CI_Controller
     public function sos_check(int $number)
     {
         $check = preg_match("/^[0-9]+$/", $number);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('sos_check', '半角数字のみで記入して下さい');
             return false;
         }

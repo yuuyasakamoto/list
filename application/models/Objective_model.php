@@ -16,7 +16,7 @@ class Objective_model extends CI_Model
         $data1 = ['member_id' => $member_id, 'year' => $year, 'quarter' => $quarter, 'objective' => $objective, 'modified' => date("Y/m/d H:i:s")];
         //新規投稿の場合data2
         $data2 = ['member_id' => $member_id, 'year' => $year, 'quarter' => $quarter, 'objective' => $objective];
-        $query=$this->db->query("SELECT * FROM objectives where member_id='$member_id' and year='$year' and quarter='$quarter'");
+        $query=$this->db->query("SELECT * FROM objectives WHERE member_id='$member_id' AND year='$year' AND quarter='$quarter'");
         //社員IDと年度と四半期が一致する目標があればデータ更新
         if ($query->row()) {
             $update = ['member_id' => $member_id, 'year' => $year, 'quarter' => $quarter];
@@ -50,7 +50,7 @@ class Objective_model extends CI_Model
      */
     public function getContent(int $objective_id)
     {
-        $query = $this->db->query("SELECT * FROM objectives where id='$objective_id'");
+        $query = $this->db->query("SELECT * FROM objectives WHERE id='$objective_id'");
         return $query->row();
     }
     /**
@@ -62,15 +62,14 @@ class Objective_model extends CI_Model
      */
     public function select(int $member_id, int $year = null, string $quarter = null)
     {
-        //実引数が1の場合社員IDに紐づいた目標データを取得
-        $item = func_num_args();
-        if ($item == 1)
+        //年度と四半期の引数がnullの場合社員IDに紐づいた目標データを取得
+        if ($year == null && $quarter == null)
         {
-            $query = $this->db->query("SELECT * FROM objectives where member_id='$member_id' ORDER BY year DESC");
+            $query = $this->db->query("SELECT * FROM objectives WHERE member_id='$member_id' ORDER BY year DESC");
             return $query->result();
         //社員IDと年度と四半期が一致するレコードを取得
         } else {
-            $query = $this->db->query("SELECT * FROM objectives where member_id='$member_id' and year='$year' and quarter='$quarter'");
+            $query = $this->db->query("SELECT * FROM objectives WHERE member_id='$member_id' AND year='$year' AND quarter='$quarter'");
             return $query->row(); 
         }
     }

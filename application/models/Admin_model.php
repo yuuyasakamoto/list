@@ -15,16 +15,14 @@ class Admin_model extends CI_Model
         $query = $this->db->query($sql, ['email' => $email]);
         //メールアドレスが存在すればパスワード確認
         $admin = $query->row();
-        if($admin != NULL)
-        {
+        if ($admin != NULL) {
             $created = $admin->created;
             $pass = $admin->password;
             $id = $admin->id;
             //入力されたパスワードとcreatedでハッシュ化したパスワードを取得
             $hash = $this->utility->hash($password, $created); 
             //パスワードが一致すれば管理者IDを返す
-            if ($pass == $hash) 
-            {
+            if ($pass == $hash) {
                 return $id;
             //パスワード該当なしならNULL
             } else {

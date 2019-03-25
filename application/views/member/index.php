@@ -25,21 +25,21 @@
     <th>更新時間</th>
     </tr>
     <tr align="center">
-    <td><a href = '/member/update'><?= $member->member_id ?></a></td>
-    <td><?= $member->first_name ?></td>
-    <td><?= $member->last_name ?></td>
-    <td><?= $member->first_name_kana ?></td>
-    <td><?= $member->last_name_kana ?></td>
-    <td><?= $member->gender ?></td>
-    <td><?= $member->birthday ?></td>
-    <td><?= $member->home ?></td>
+    <td><a href = '/member/update'><?php echo $member->member_id ?></a></td>
+    <td><?php echo $member->first_name ?></td>
+    <td><?php echo $member->last_name ?></td>
+    <td><?php echo $member->first_name_kana ?></td>
+    <td><?php echo $member->last_name_kana ?></td>
+    <td><?php echo $member->gender ?></td>
+    <td><?php echo $member->birthday ?></td>
+    <td><?php echo $member->home ?></td>
     <td><a href="/objective/index">目標</td>
-    <td><?= $member->hire_date?></td>
-    <td><?= $member->department_name ?></td>
-    <td><?= $member->position_name ?></td>
-    <td><?= $member->sos ?></td>
-    <td><?= $member->created ?></td>
-    <td><?= $member->modified ?></td>
+    <td><?php echo $member->hire_date?></td>
+    <td><?php echo $member->department_name ?></td>
+    <td><?php echo $member->position_name ?></td>
+    <td><?php echo $member->sos ?></td>
+    <td><?php echo $member->created ?></td>
+    <td><?php echo $member->modified ?></td>
     </tr>
 </table>
 <br>

@@ -230,12 +230,9 @@ class Admin extends CI_Controller
     public function birth_check(string $str)
     {
         $check = preg_match("/\d{4}\-\d{2}\-\d{2}/", $str);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('birth_check', '1990-01-01の形式で入力してください');
             return false;
         }
@@ -248,12 +245,9 @@ class Admin extends CI_Controller
     public function sos_check(int $number)
     {
         $check = preg_match("/^[0-9]+$/", $number);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('sos_check', '半角数字のみで記入して下さい');
             return false;
         }
@@ -266,12 +260,9 @@ class Admin extends CI_Controller
     public function id_check(int $key)
     {
         $check = preg_match("/^[1-7]$/", $key);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('id_check', '正しい%s を記入して下さい');
             return false;
         }
@@ -284,12 +275,9 @@ class Admin extends CI_Controller
     public function katakana_check(string $katakana)
     {
         $check = preg_match("/^[ァ-ヾ]+$/u", $katakana);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('katakana_check', 'カタカナで記入して下さい');
             return false;
         }

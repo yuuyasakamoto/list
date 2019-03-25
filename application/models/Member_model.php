@@ -15,8 +15,7 @@ class Member_model extends CI_Model
         $query = $this->db->query($sql, ['email' => $email]);
         //もしメールアドレスが存在すればパスワードの確認
         $member = $query->row();
-        if($member != NULL)
-        {
+        if ($member != NULL) {
             $created = $member->created;
             $pass = $member->password;
             //入力されたパスワードと登録時間でハッシュ化した値と保存先のパスワードが合致すれば社員情報を返す

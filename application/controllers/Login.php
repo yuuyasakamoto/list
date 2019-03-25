@@ -6,7 +6,7 @@ class Login extends CI_Controller
     /**
      * 管理者ログイン画面
      */
-    public function admin_login()
+    public function admin()
     {
          //入力フォームが空欄かどうかのバリデーションチェック
         $this->form_validation->set_message('required', '%s を入力してください。');
@@ -25,16 +25,16 @@ class Login extends CI_Controller
                 redirect('/admin/member_index');
             //正しくなければもう一度
             } else {
-                redirect('/login/admin_login?error=true');
+                redirect('/login/admin?error=true');
             }     
         } else {
-            $this->load->view('/login/admin_login');
+            $this->load->view('/login/admin');
         }
     }
     /**
      * 社員ログイン画面
      */   
-    public function member_login()
+    public function member()
     {
         $this->form_validation->set_message('required', '%s を入力してください。');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required');
@@ -52,10 +52,10 @@ class Login extends CI_Controller
                 redirect('/member/index');
             //正しく無ければもう一度ログイン入力画面へ
             } else {
-                redirect('/login/member_login?error=true');
+                redirect('/login/member?error=true');
             }   
         } else {
-        $this->load->view('/login/member_login');
+            $this->load->view('/login/member');
         }   
     }
     /**
@@ -65,7 +65,7 @@ class Login extends CI_Controller
     {
         unset($_SESSION['admin']);
         unset($_SESSION['id']);
-        redirect('/login/admin_login?admin_logout=true');
+        redirect('/login/admin?logout=true');
     }
      /**
      * 社員ログアウト
@@ -74,6 +74,6 @@ class Login extends CI_Controller
     {
         unset($_SESSION['login']);
         unset($_SESSION['member_id']);
-        redirect('/login/member_login?member_logout=true');
+        redirect('/login/member?logout=true');
     }
 }

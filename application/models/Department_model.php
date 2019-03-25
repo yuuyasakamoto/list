@@ -9,7 +9,7 @@ class Department_model extends CI_Model
      */
     public function findById(int $department_id)
     {
-        $query = $this->db->query("SELECT * FROM departments where id='$department_id'");
+        $query = $this->db->query("SELECT * FROM departments  WHERE id='$department_id'");
         $department = $query->row();
         return $department->department_name;
     }

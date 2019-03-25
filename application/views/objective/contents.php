@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>目標内容</h1>
-<?= $content->objective ?>
+<?php echo $content->objective ?>
 <br>
 <a href="javascript:history.back()">戻る</a></body>
 </html>

@@ -9,7 +9,7 @@ class Position_model extends CI_Model
      */
     public function findById(int $position_id)
     {
-        $query = $this->db->query("SELECT * FROM positions where id='$position_id'");
+        $query = $this->db->query("SELECT * FROM positions WHERE id='$position_id'");
         $position = $query->row();
         return $position->position_name;
     }
