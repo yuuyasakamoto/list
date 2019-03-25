@@ -7,7 +7,7 @@ class Migrate extends CI_Controller {
     {   
         parent::__construct();
         // コマンドラインから実行されていることを確認
-        if(!$this->input->is_cli_request()) {
+        if (!$this->input->is_cli_request()) {
             show_error();
         }
         $this->load->library('migration');

@@ -16,9 +16,9 @@
 </tr>
 <?php foreach($admins as $admin){ ?>
 <tr align="center">
-<td><?= $admin->id ?></td>
-<td><?= $admin->name ?></td>
-<td><?= $admin->created ?></td>
+<td><?php echo $admin->id ?></td>
+<td><?php echo $admin->name ?></td>
+<td><?php echo $admin->created ?></td>
 </tr>
 <?php } ?>
 </table>

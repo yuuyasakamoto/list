@@ -207,10 +207,9 @@ class Admin extends CI_Controller
         $position_id = $this->input->post('position_id');
         $email = $this->input->post('email');
         $sos = $this->input->post('sos');
-        //社員情報の更新
-        $this->Member_model->adminUpdate($member_id, $first_name, $last_name, $first_name_kana,
-                                        $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                        $retirement_date, $department_id, $position_id, $email, $sos);
+        $this->Member_model->update($member_id, $first_name, $last_name, $first_name_kana,
+                                    $last_name_kana, $birthday, $home, $email, $sos, $gender,
+                                    $hire_date, $retirement_date, $department_id, $position_id);
         //更新完了画面
         $this->load->view('/admin/member_done');
     } 
@@ -231,48 +230,39 @@ class Admin extends CI_Controller
     public function birth_check(string $str)
     {
         $check = preg_match("/\d{4}\-\d{2}\-\d{2}/", $str);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('birth_check', '1990-01-01の形式で入力してください');
             return false;
         }
     }
     /**
      * ハイフンなしの半角数字のみで記入しているかのバリデーション（緊急連絡先）
-     * @param type $str
+     * @param int $number
      * @return boolean
      */
     public function sos_check(int $number)
     {
         $check = preg_match("/^[0-9]+$/", $number);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('sos_check', '半角数字のみで記入して下さい');
             return false;
         }
     }
     /**
      * 存在する部署、役職IDか確かめるバリデーション
-     * @param type $number
+     * @param int $key
      * @return boolean
      */
     public function id_check(int $key)
     {
         $check = preg_match("/^[1-7]$/", $key);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('id_check', '正しい%s を記入して下さい');
             return false;
         }
@@ -285,12 +275,9 @@ class Admin extends CI_Controller
     public function katakana_check(string $katakana)
     {
         $check = preg_match("/^[ァ-ヾ]+$/u", $katakana);
-        if ($check == true)
-        {
+        if ($check == true) {
             return true;
-        }
-        else
-        {
+        } else {
             $this->form_validation->set_message('katakana_check', 'カタカナで記入して下さい');
             return false;
         }

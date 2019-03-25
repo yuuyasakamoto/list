@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>社員ログインページ</title>
+<title>管理者ログインページ</title>
 </head>
 <body>
-<?php if (isset($_GET['member_error'])):?>
-<p style='color:red;'>社員権限がありません</p>
+<?php if (isset($_GET['admin_error'])):?>
+<p style='color:red;'>管理者権限がありません</p>
 <p style='color:red;'>ログインして下さい</p>
 <?php endif; ?>
 <?php if (isset($_GET['error'])):?>
-<p style='color:red;'>パスワードもしくはメールアドレスが違います</p>
+<p style="color:red;">パスワードもしくはメールアドレスが違います</p>
 <?php endif; ?>
-<h1>社員ログインページ</h1>
-<?php if (isset($_GET['member_logout'])):?>
-<p style='color:blue;'>社員ログアウトしました。</p>
+<h1>管理者ログインページ</h1>
+<?php if (isset($_GET['logout'])):?>
+<p style='color:blue;'>管理者ログアウトしました。</p>
 <?php endif; ?>
 <?php echo form_open(); ?>
 メールアドレス

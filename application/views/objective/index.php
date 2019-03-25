@@ -14,12 +14,12 @@
     </tr>
     <?php foreach($objectives as $objective){ ?>
     <tr align="center">
-    <td><?= $objective->year ?>年</td>
-    <td><?= $objective->quarter ?></td>
-    <td><a href="/objective/contents?objective_id=<?= $objective->id ?>">内容</td>
-    <td><a href="/objective/update?objective_id=<?= $objective->id ?>">編集</a></td>
-    <td><?= $objective->created ?></td>
-    <td><?= $objective->modified ?></td>
+    <td><?php echo $objective->year ?>年</td>
+    <td><?php echo $objective->quarter ?></td>
+    <td><a href="/objective/contents?objective_id=<?php echo $objective->id ?>">内容</td>
+    <td><a href="/objective/update?objective_id=<?php echo $objective->id ?>">編集</a></td>
+    <td><?php echo $objective->created ?></td>
+    <td><?php echo $objective->modified ?></td>
     </tr>
     <?php } ?>
 </table>

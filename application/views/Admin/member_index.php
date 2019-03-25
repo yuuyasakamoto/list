@@ -32,26 +32,26 @@
     </tr>
     <?php foreach($members as $member){ ?>
     <tr align="center">
-    <td><a href ='/admin/member_update?member_id=<?= $member->member_id ?>'><?= $member->member_id ?></a></td>
-    <td><?= $member->first_name ?></td>
-    <td><?= $member->last_name ?></td>
-    <td><?= $member->first_name_kana ?></td>
-    <td><?= $member->last_name_kana ?></td>
-    <td><?= $member->gender ?></td>
-    <td><?= $member->birthday ?></td>
-    <td><?= $member->home ?></td>
-    <td><a href="/comment/index?member_id=<?= $member->member_id ?>&first_name=<?=$member->first_name ?>">目標</td>
+    <td><a href ='/admin/member_update?member_id=<?php echo $member->member_id ?>'><?php echo $member->member_id ?></a></td>
+    <td><?php echo $member->first_name ?></td>
+    <td><?php echo $member->last_name ?></td>
+    <td><?php echo $member->first_name_kana ?></td>
+    <td><?php echo $member->last_name_kana ?></td>
+    <td><?php echo $member->gender ?></td>
+    <td><?php echo $member->birthday ?></td>
+    <td><?php echo $member->home ?></td>
+    <td><a href="/comment/index?member_id=<?php echo $member->member_id ?>&first_name=<?php echo $member->first_name ?>">目標</td>
     <td><?= $member->hire_date ?></td>
     <!-- 無効なデータの場合は空文字　-->
     <td><?php if($member->retirement_date=='0000-00-00'){echo '';} else { echo $member->retirement_date ;}?></td>
-    <td><?= $member->department_name ?></td>
-    <td><?= $member->position_name ?></td>
-    <td><?= $member->sos ?></td>
-    <td><a href='/admin/member_delete?member_id=<?= $member->member_id ?>' onclick="return confirm('本当に削除してもよろしいですか？');">削除</a></td>
-    <td><?= $member->created ?></td>
-    <td><?= $member->modified ?></td>
+    <td><?php echo $member->department_name ?></td>
+    <td><?php echo $member->position_name ?></td>
+    <td><?php echo $member->sos ?></td>
+    <td><a href='/admin/member_delete?member_id=<?php echo $member->member_id ?>' onclick="return confirm('本当に削除してもよろしいですか？');">削除</a></td>
+    <td><?php echo $member->created ?></td>
+    <td><?php echo $member->modified ?></td>
     </tr>
-    <?php } ?>
+    <?php } ?> 
 </table>
 <a href="/admin/admin_index">管理者ページ</a>
 </body>

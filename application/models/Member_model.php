@@ -14,13 +14,12 @@ class Member_model extends CI_Model
         $sql = "SELECT * FROM members WHERE email=?";
         $query = $this->db->query($sql, ['email' => $email]);
         //もしメールアドレスが存在すればパスワードの確認
-        if($query != NULL)
-        {
-            $member = $query->row();
-            $sos = $member->sos;
+        $member = $query->row();
+        if ($member != NULL) {
+            $created = $member->created;
             $pass = $member->password;
-            //入力されたパスワードと緊急連絡先でハッシュ化した値と合致すれば社員IDを返す
-            $hash = sha1($password . $sos);
+            //入力されたパスワードと登録時間でハッシュ化した値と保存先のパスワードが合致すれば社員情報を返す
+            $hash = $this->utility->hash($password, $created);
             if ($pass == $hash) {
                return $member;
             //パスワード該当なしならfalse
@@ -41,6 +40,17 @@ class Member_model extends CI_Model
         return $query->result();
     }
     /**
+     * 社員IDに紐づいたレコードの取得
+     * @param int $member_id
+     * @return type
+     */
+    public function select(int $member_id)
+    {
+        $sql = "SELECT * FROM members WHERE member_id=?";
+        $query = $this->db->query($sql, ['member_id' => $member_id]);
+        return $query->row();
+    }
+    /**
      * 社員の新規登録処理
      * @param type $first_name
      * @param type $last_name
@@ -55,32 +65,48 @@ class Member_model extends CI_Model
                                     last_name_kana, gender, birthday, home, hire_date,
                                     department_id, position_id, email, password, sos)
                             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        //入力されたパスワードと緊急連絡先の値でハッシュ化しパスワード保存
-        $hash = sha1($password . $sos);
+        //入力した値をmembersテーブルに保存
         $this->db->query($sql, [$member_id, $first_name, $last_name, $first_name_kana,
                                 $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                $department_id, $position_id, $email, $hash, $sos]);
+                                $department_id, $position_id, $email, $password, $sos]);
+        //登録した社員のIDを取得し登録時間と入力されたパスワードでハッシュ化
+        $id = $this->db->insert_id();
+        $query = $this->db->query("SELECT created FROM members WHERE id={$id}");
+        $created = $query->row('created'); 
+        $hash = $this->utility->hash($password, $created);
+        $pass = ['password'=>$hash];
+        //取得したidをもとにパスワードをハッシュ化した値に変更して保存
+        $this->db->update('members', $pass, "id = {$id}");
     }
     /**
-    *  管理者による社員の編集処理
-     * @param type $first_name
-     * @param type $last_name
-     * @param type $birthday
-     * @param type $home
-     * @param type $no
+     * 社員の編集処理
+     * @param int $member_id
+     * @param string $first_name
+     * @param string $last_name
+     * @param string $first_name_kana
+     * @param string $last_name_kana
+     * @param string $birthday
+     * @param string $home
+     * @param string $email
+     * @param int $sos
+     * @param string $gender
+     * @param string $hire_date
+     * @param string $retirement_date
+     * @param int $department_id
+     * @param int $position_id
      */
-    public function adminUpdate(int $member_id, string $first_name, string $last_name, string $first_name_kana,
-                           string $last_name_kana, string $gender, string $birthday, string $home, string $hire_date,
-                           string $retirement_date, int $department_id, int $position_id, string $email, string $sos)
+    public function update(int $member_id, string $first_name, string $last_name, string $first_name_kana,
+                           string $last_name_kana, string $birthday, string $home, string $email, int $sos,   
+                           string $gender,string $hire_date, string $retirement_date, int $department_id, int $position_id)
     {
         $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
-                                   last_name_kana = ?, gender = ?, birthday = ?, home = ?, hire_date = ?,
-                                   retirement_date = ?, department_id = ?, position_id = ?, email = ?, sos = ?,
-                                   modified = now()
-                                   WHERE member_id = ?";
-        $this->db->query($sql, [ $first_name, $last_name, $first_name_kana,
-                                $last_name_kana, $gender, $birthday, $home, $hire_date,
-                                $retirement_date, $department_id, $position_id, $email, $sos, $member_id]);                     
+                               last_name_kana = ?, gender = ?, birthday = ?, home = ?, hire_date = ?,
+                               retirement_date = ?, department_id = ?, position_id = ?, email = ?, sos = ?,
+                               modified = now()
+                               WHERE member_id = ?";
+        $this->db->query($sql, [ $first_name, $last_name, $first_name_kana, $last_name_kana, $gender, $birthday, $home,
+                            $hire_date, $retirement_date, $department_id, $position_id, $email, $sos, $member_id]);
+
     }
     /**
      * 社員IDに紐ずいたレコードの削除
@@ -90,49 +116,5 @@ class Member_model extends CI_Model
     {
         $sql = 'DELETE FROM members WHERE member_id = ?';
         $this->db->query($sql, ['member_id' => $member_id]);   
-    }
-    /**
-     * member_idに紐づいた社員レコードを取得する
-     * @param type $no
-     * @return type
-     */
-    public function select(int $member_id)
-    {
-        $sql = "SELECT * FROM members WHERE member_id=?";
-        $query = $this->db->query($sql, ['member_id' => $member_id]);
-        return $query->row();
-    }
-    /**
-     * 社員情報取得
-     * @return type
-     */
-    public function find(int $member_id)
-    {
-        $sql = "SELECT * FROM members WHERE member_id=?";
-        $query = $this->db->query($sql, ['member_id' => $member_id]);
-        return $query->row();
-    }
-    /**
-    * 社員自身の編集処理
-     * @param type $first_name
-     * @param type $last_name
-     * @param type $birthday
-     * @param type $home
-     * @param type $no
-     */
-    public function memberUpdate(int $member_id, string $first_name, string $last_name, string $first_name_kana,
-                           string $last_name_kana, string $birthday, string $home, 
-                           string $email, string $password, int $sos)
-    {
-        $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
-                                   last_name_kana = ?, birthday = ?, home = ?, 
-                                   email = ?, password = ?, sos = ?,
-                                   modified = now()
-                                   WHERE member_id = ?";
-        //編集したパスワードと緊急連絡先の値でハッシュ化しパスワード保存
-        $hash = sha1($password . $sos);
-        $this->db->query($sql, [ $first_name, $last_name, $first_name_kana,
-                                $last_name_kana, $birthday, $home, 
-                                $email, $hash, $sos, $member_id]);                      
     }
 }
