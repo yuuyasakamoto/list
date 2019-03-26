@@ -91,8 +91,8 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('birthday', '生年月日', 'required|callback_birth_check');
         $this->form_validation->set_rules('home', '住所', 'required');
         $this->form_validation->set_rules('hire_date', '入社日', 'required|callback_birth_check');
-        $this->form_validation->set_rules('department_id', '部署ID', 'required|callback_id_check');
-        $this->form_validation->set_rules('position_id', '役職ID', 'required|callback_id_check');
+        $this->form_validation->set_rules('department_id', '部署名の選択', 'required');
+        $this->form_validation->set_rules('position_id', '役職名の選択', 'required');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required|is_unique[members.email]');
         $this->form_validation->set_rules('password', 'パスワード', 'required');
         $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
@@ -108,7 +108,11 @@ class Admin extends CI_Controller
             $data['home'] = $this->input->post('home');
             $data['hire_date'] = $this->input->post('hire_date');
             $data['department_id'] = $this->input->post('department_id');
+            //投稿されたIDをもとに部署名取得
+            $data['department_name'] = $this->Department_model->findById($data['department_id']);
             $data['position_id'] = $this->input->post('position_id');
+            //投稿されたIDをもとに役職名取得
+            $data['position_name'] = $this->Position_model->findById($data['position_id']);
             $data['email'] = $this->input->post('email');
             $data['password'] = $this->input->post('password');
             $data['sos'] = $this->input->post('sos');
@@ -159,8 +163,6 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('birthday', '生年月日', 'required|callback_birth_check');
         $this->form_validation->set_rules('home', '住所', 'required');
         $this->form_validation->set_rules('hire_date', '入社日', 'required|callback_birth_check');
-        $this->form_validation->set_rules('department_id', '部署ID', 'required|callback_id_check');
-        $this->form_validation->set_rules('position_id', '役職ID', 'required|callback_id_check');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required');
         $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check'); 
         //バリデーションエラーが無かった時確認画面へ
@@ -176,7 +178,11 @@ class Admin extends CI_Controller
             $data['hire_date'] = $this->input->post('hire_date');
             $data['retirement_date'] = $this->input->post('retirement_date');
             $data['department_id'] = $this->input->post('department_id');
+            //投稿されたIDをもとに部署名取得
+            $data['department_name'] = $this->Department_model->findById($data['department_id']);
             $data['position_id'] = $this->input->post('position_id');
+            //投稿されたIDをもとに役職名取得
+            $data['position_name'] = $this->Position_model->findById($data['position_id']);
             $data['email'] = $this->input->post('email');
             $data['sos'] = $this->input->post('sos');
             $this->load->view('/admin/member_update_confirmation', $data);
@@ -223,7 +229,7 @@ class Admin extends CI_Controller
         $this->load->view('/admin/member_delete');
     }
     /**
-     * 1990-01-01の形式になっているかのバリデーション
+     * 1990-01-01の形式になっているかのバリデーション（入社日、生年月日）
      * @param type $str
      * @return boolean
      */
@@ -249,21 +255,6 @@ class Admin extends CI_Controller
             return true;
         } else {
             $this->form_validation->set_message('sos_check', '半角数字のみで記入して下さい');
-            return false;
-        }
-    }
-    /**
-     * 存在する部署、役職IDか確かめるバリデーション
-     * @param int $key
-     * @return boolean
-     */
-    public function id_check(int $key)
-    {
-        $check = preg_match("/^[1-7]$/", $key);
-        if ($check == true) {
-            return true;
-        } else {
-            $this->form_validation->set_message('id_check', '正しい%s を記入して下さい');
             return false;
         }
     }

@@ -39,10 +39,10 @@
 <p><?php echo $home; ?></p>
 <label>入社日</label>
 <p><?php echo $hire_date; ?></p>
-<label>部署ID</label>
-<p><?php echo $department_id; ?></p>
-<label>役職ID</label>
-<p><?php echo $position_id; ?></p>
+<label>部署名</label>
+<p><?php echo $department_name; ?></p>
+<label>役職名</label>
+<p><?php echo $position_name; ?></p>
 <label>メールアドレス</label>
 <p><?php echo $email; ?></p>
 <label>パスワード</label>

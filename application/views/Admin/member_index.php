@@ -40,7 +40,7 @@
     <td><?php echo $member->gender ?></td>
     <td><?php echo $member->birthday ?></td>
     <td><?php echo $member->home ?></td>
-    <td><a href="/comment/index?member_id=<?php echo $member->member_id ?>&first_name=<?php echo $member->first_name ?>">目標</td>
+    <td><a href="/comment/index?member_id=<?php echo $member->member_id ?>">目標</td>
     <td><?= $member->hire_date ?></td>
     <!-- 無効なデータの場合は空文字　-->
     <td><?php if($member->retirement_date=='0000-00-00'){echo '';} else { echo $member->retirement_date ;}?></td>
