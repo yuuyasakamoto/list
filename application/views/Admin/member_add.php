@@ -26,15 +26,59 @@
 <input type="radio" name="gender" value="男" <?php if(set_value('gender') == "男"){ print "checked";}?>>男
 <input type="radio" name="gender" value="女" <?php if(set_value('gender') == "女"){ print "checked";}?>>女<br>
 <?php echo form_error('gender'); ?>
-生年月日:
-<input type="text" name="birthday" value="<?php echo set_value('birthday'); ?>" ><br>
-<?php echo form_error('birthday'); ?>
+生年月日：<br>
+<select name="year">
+    <option value="">--</option>
+    <?php foreach(range(1950, 2016) as $year): ?>
+    <option value="<?php echo $year ?>-" <?php if(set_value('year') == $year){ print "selected";} ?>><?php echo $year ?></option>
+    <?php endforeach; ?>
+</select>
+年
+<select name="month">
+    <option value="">--</option>
+    <?php foreach(range(1, 12) as $month): ?>
+    <option value="<?php echo str_pad($month, 2, 0, STR_PAD_LEFT)?>-" <?php if(set_value('month') == $month){ print "selected";} ?>><?php echo $month?></option>
+    <?php endforeach; ?>
+</select>
+月
+<select name="day">
+    <option value="">--</option>
+    <?php foreach(range(1, 31) as $day): ?>
+    <option value="<?php echo str_pad($day, 2, 0, STR_PAD_LEFT)?>" <?php if(set_value('day') == $day){ print "selected";} ?>><?php echo $day?></option>
+    <?php endforeach; ?>
+</select>
+日<br>
+<?php echo form_error('year'); ?>
+<?php echo form_error('month'); ?>
+<?php echo form_error('day'); ?>
 住所:
 <input type="text" name="home" value="<?php echo set_value('home'); ?>" ><br>
 <?php echo form_error('home'); ?>
-入社日
-<input type="text" name="hire_date" value="<?php echo set_value('hire_date'); ?>" ><br>
-<?php echo form_error('hire_date'); ?>
+入社日：<br>
+<select name="hire_year">
+    <option value="">--</option>
+    <?php foreach(range(1950, 2016) as $year): ?>
+    <option value="<?php echo $year ?>-" <?php if(set_value('hire_year') == $year){ print "selected";} ?>><?php echo $year ?></option>
+    <?php endforeach; ?>
+</select>
+年
+<select name="hire_month">
+    <option value="">--</option>
+    <?php foreach(range(1, 12) as $month): ?>
+    <option value="<?php echo str_pad($month, 2, 0, STR_PAD_LEFT)?>-" <?php if(set_value('hire_month') == $month){ print "selected";} ?>><?php echo $month?></option>
+    <?php endforeach; ?>
+</select>
+月
+<select name="hire_day">
+    <option value="">--</option>
+    <?php foreach(range(1, 31) as $day): ?>
+    <option value="<?php echo str_pad($day, 2, 0, STR_PAD_LEFT)?>" <?php if(set_value('hire_day') == $day){ print "selected";} ?>><?php echo $day?></option>
+    <?php endforeach; ?>
+</select>
+日<br>
+<?php echo form_error('hire_year'); ?>
+<?php echo form_error('hire_month'); ?>
+<?php echo form_error('hire_day'); ?>
 部署名:
 <select name="department_id">
 <option value="">選択して下さい</option>

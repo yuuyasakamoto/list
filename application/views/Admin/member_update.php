@@ -21,17 +21,76 @@
 <input type="radio" name="gender" value="男" <?php if(set_value('gender') == "男" || $member->gender == "男"){ print "checked";}?>>男
 <input type="radio" name="gender" value="女" <?php if(set_value('gender') == "女" || $member->gender == "女"){ print "checked";}?>>女<br>
 <?php echo form_error('gender'); ?>
-生年月日:
-<input type="text" name="birthday" value="<?php echo set_value('birthday', $member->birthday); ?>" ><br>
-<?php echo form_error('birthday'); ?>
+生年月日:<br>
+<select name="year">
+    <?php foreach(range(1950, 2016) as $year): ?>
+    <option value="<?php echo $year ?>-" <?php if(set_value('year') == $year || substr($member->birthday, 0, 4) == $year){ print "selected";} ?>><?php echo $year ?></option>
+    <?php endforeach; ?>
+</select>
+年
+<select name="month">
+    <?php foreach(range(1, 12) as $month): ?>
+    <option value="<?php echo str_pad($month, 2, 0, STR_PAD_LEFT)?>-" <?php if(set_value('month') == $month || substr($member->birthday, 5, 2) == $month){ print "selected";} ?>><?php echo $month?></option>
+    <?php endforeach; ?>
+</select>
+月
+<select name="day">
+    <?php foreach(range(1, 31) as $day): ?>
+    <option value="<?php echo str_pad($day, 2, 0, STR_PAD_LEFT)?>" <?php if(set_value('day') == $day || substr($member->birthday, -1) == $day){ print "selected";} ?>><?php echo $day?></option>
+    <?php endforeach; ?>
+</select>
+日<br>
+<?php echo form_error('year'); ?>
+<?php echo form_error('month'); ?>
+<?php echo form_error('day'); ?>
 住所:
 <input type="text" name="home" value="<?php echo set_value('home', $member->home); ?>" ><br>
 <?php echo form_error('home'); ?>
-入社日
-<input type="text" name="hire_date" value="<?php echo set_value('hire_date', $member->hire_date); ?>" ><br>
-<?php echo form_error('hire_date'); ?>
-退職日（記入の際は 0000-00-00 の形式でご記入ください）:<br>
-<input type="text" name="retirement_date" value="<?php echo set_value('retirement_date', $member->retirement_date); ?>" ><br>
+入社日：<br>
+<select name="hire_year">
+    <?php foreach(range(1950, 2016) as $year): ?>
+    <option value="<?php echo $year ?>-" <?php if(set_value('hire_year') == $year || substr($member->hire_date, 0, 4) == $year){ print "selected";} ?>><?php echo $year ?></option>
+    <?php endforeach; ?>
+</select>
+年
+<select name="hire_month">
+    <?php foreach(range(1, 12) as $month): ?>
+    <option value="<?php echo str_pad($month, 2, 0, STR_PAD_LEFT)?>-" <?php if(set_value('hire_month') == $month || substr($member->hire_date, 5, 2) == $month){ print "selected";} ?>><?php echo $month?></option>
+    <?php endforeach; ?>
+</select>
+月
+<select name="hire_day">
+    <?php foreach(range(1, 31) as $day): ?>
+    <option value="<?php echo str_pad($day, 2, 0, STR_PAD_LEFT)?>" <?php if(set_value('hire_day') == $day || substr($member->hire_date, -1) == $day){ print "selected";} ?>><?php echo $day?></option>
+    <?php endforeach; ?>
+</select>
+日<br>
+<?php echo form_error('hire_year'); ?>
+<?php echo form_error('hire_month'); ?>
+<?php echo form_error('hire_day'); ?>
+退職日:<br>
+<select name="retirement_year">
+    <option value="">--</option>
+    <?php foreach(range(1950, 2016) as $year): ?>
+    <option value="<?php echo $year ?>-" <?php if(set_value('retirement_year') == $year || substr($member->retirement_date, 0, 4) == $year){ print "selected";} ?>><?php echo $year ?></option>
+    <?php endforeach; ?>
+</select>
+年
+<select name="retirement_month">
+    <option value="">--</option>
+    <?php foreach(range(1, 12) as $month): ?>
+    <option value="<?php echo str_pad($month, 2, 0, STR_PAD_LEFT)?>-" <?php if(set_value('retirement_month') == $month || substr($member->retirement_date, 5, 2) == $month){ print "selected";} ?>><?php echo $month?></option>
+    <?php endforeach; ?>
+</select>
+月
+<select name="retirement_day">
+    <option value="">--</option>
+    <?php foreach(range(1, 31) as $day): ?>
+    <option value="<?php echo str_pad($day, 2, 0, STR_PAD_LEFT)?>" <?php if(set_value('retirement_day') == $day || substr($member->retirement_date, -1) == $day){ print "selected";} ?>><?php echo $day?></option>
+    <?php endforeach; ?>
+</select>
+日<br>
+<?php echo form_error('retirement'); ?>
 部署名:
 <select name="department_id">
 <?php foreach($departments as $department): ?>

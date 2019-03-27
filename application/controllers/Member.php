@@ -36,22 +36,30 @@ class Member extends CI_Controller
     {   
         //入力された値のバリデーションチェック
         $this->form_validation->set_message('required', '%s は必須です。');
+        $this->form_validation->set_message('valid_email', 'Emailの形式で記入してください');
+        $this->form_validation->set_message('min_length', '固定電話もしくは携帯番号を入力してください');
+        $this->form_validation->set_message('max_length', '固定電話もしくは携帯番号を入力してください');
         $this->form_validation->set_rules('first_name', '氏', 'required');
         $this->form_validation->set_rules('last_name', '名', 'required');
         $this->form_validation->set_rules('first_name_kana', '氏（カタカナ）', 'required|callback_katakana_check');
         $this->form_validation->set_rules('last_name_kana', '名（カタカナ）', 'required|callback_katakana_check');
-        $this->form_validation->set_rules('birthday', '生年月日', 'required|callback_birth_check');
+        $this->form_validation->set_rules('year', '年', 'required');
+        $this->form_validation->set_rules('month', '月', 'required');
+        $this->form_validation->set_rules('day', '日', 'required');
         $this->form_validation->set_rules('home', '住所', 'required');
-        $this->form_validation->set_rules('email', 'メールアドレス', 'required');
-        $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
-        
+        $this->form_validation->set_rules('email', 'メールアドレス', 'required|valid_email');
+        $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|min_length[10]|max_length[11]');
         //バリデーションエラーが無かった時確認画面へ
         if ($this->form_validation->run() === true) {
             $data['first_name'] = $this->input->post('first_name');
             $data['last_name'] = $this->input->post('last_name');
             $data['first_name_kana'] = $this->input->post('first_name_kana');
             $data['last_name_kana'] = $this->input->post('last_name_kana');
-            $data['birthday'] = $this->input->post('birthday');
+            //生年月日の作成
+            $year = $this->input->post('year');
+            $month = $this->input->post('month');
+            $day = $this->input->post('day');
+            $data['birthday'] = $year.$month.$day;
             $data['home'] = $this->input->post('home');
             $data['email'] = $this->input->post('email');
             $data['sos'] = $this->input->post('sos');
@@ -89,22 +97,6 @@ class Member extends CI_Controller
                                     $hire_date, $retirement_date, $department_id, $position_id);
         $this->load->view('/member/done');
     }
-    
-    /**
-     * 1990-01-01の形式になっているかのバリデーション
-     * @param type $str
-     * @return boolean
-     */
-    public function birth_check(string $str)
-    {
-        $check = preg_match("/\d{4}\-\d{2}\-\d{2}/", $str);
-        if ($check == true){
-            return true;
-        } else {
-            $this->form_validation->set_message('birth_check', '1990-01-01の形式で入力してください');
-            return false;
-        }
-    }
     /**
      * カタカナになっているかチェック
      * @param string $katakana
@@ -120,20 +112,4 @@ class Member extends CI_Controller
             return false;
         }
     }
-    /**
-     * ハイフンなしの半角数字のみで記入しているかのバリデーション（緊急連絡先）
-     * @param int $number
-     * @return boolean
-     */
-    public function sos_check(int $number)
-    {
-        $check = preg_match("/^[0-9]+$/", $number);
-        if ($check == true) {
-            return true;
-        } else {
-            $this->form_validation->set_message('sos_check', '半角数字のみで記入して下さい');
-            return false;
-        }
-    }
-    
 }
