@@ -12,7 +12,7 @@ class Admin extends CI_Controller
         //管理者ログインしていないとログイン画面に戻る
         parent::__construct();
 	if ($_SESSION['admin'] != true) {
-            redirect('/login/admin_login?admin_error=true');
+            redirect('/login/admin?admin_error=true');
         }
     }
     /**
@@ -95,7 +95,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('position_id', '役職名の選択', 'required');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required|is_unique[members.email]');
         $this->form_validation->set_rules('password', 'パスワード', 'required');
-        $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check');
+        $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required');
         //バリデーションエラーが無かった時登録確認画面へ
         if ($this->form_validation->run() === true) {
             $data['member_id'] = $this->input->post('member_id');
@@ -119,7 +119,9 @@ class Admin extends CI_Controller
             $this->load->view('/admin/member_confirmation', $data);
         //バリデーションエラーが有る時入力フォームに戻る
         } else {
-            $this->load->view('/admin/member_add');
+            $data['departments'] = $this->Department_model->findDepartmentAll();
+            $data['positions'] = $this->Position_model->findPositionAll();
+            $this->load->view('/admin/member_add', $data);
         }   
     } 
     /**
@@ -164,7 +166,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('home', '住所', 'required');
         $this->form_validation->set_rules('hire_date', '入社日', 'required|callback_birth_check');
         $this->form_validation->set_rules('email', 'メールアドレス', 'required');
-        $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required|callback_sos_check'); 
+        $this->form_validation->set_rules('sos', '緊急連絡先番号', 'required'); 
         //バリデーションエラーが無かった時確認画面へ
         if ($this->form_validation->run() === true) {
             $data['member_id'] = $this->input->post('member_id');
@@ -191,6 +193,8 @@ class Admin extends CI_Controller
             $member_id = $this->input->get('member_id');
             $member = $this->Member_model->select($member_id);
             $data['member'] = $member;
+            $data['departments'] = $this->Department_model->findDepartmentAll();
+            $data['positions'] = $this->Position_model->findPositionAll();
             $this->load->view('/admin/member_update', $data);
         }  
     }
@@ -243,21 +247,7 @@ class Admin extends CI_Controller
             return false;
         }
     }
-    /**
-     * ハイフンなしの半角数字のみで記入しているかのバリデーション（緊急連絡先）
-     * @param int $number
-     * @return boolean
-     */
-    public function sos_check(int $number)
-    {
-        $check = preg_match("/^[0-9]+$/", $number);
-        if ($check == true) {
-            return true;
-        } else {
-            $this->form_validation->set_message('sos_check', '半角数字のみで記入して下さい');
-            return false;
-        }
-    }
+
     /**
      * カタカナになっているかチェック
      * @param string $katakana
@@ -269,7 +259,7 @@ class Admin extends CI_Controller
         if ($check == true) {
             return true;
         } else {
-            $this->form_validation->set_message('katakana_check', 'カタカナで記入して下さい');
+            $this->form_validation->set_message('katakana_check', '全角カタカナで記入して下さい');
             return false;
         }
     }

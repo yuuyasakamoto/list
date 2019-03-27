@@ -11,7 +11,7 @@ class Member extends CI_Controller
         //社員ログインしていないと社員ログイン画面に戻る
         parent::__construct();
 	if ($_SESSION['login'] != true) {
-            redirect('/login/member_login?member_error=true');
+            redirect('/login/member?member_error=true');
         }	
     }
     /**
@@ -116,7 +116,7 @@ class Member extends CI_Controller
         if ($check == true) {
             return true;
         } else {
-            $this->form_validation->set_message('katakana_check', 'カタカナで記入して下さい');
+            $this->form_validation->set_message('katakana_check', '全角カタカナで記入して下さい');
             return false;
         }
     }

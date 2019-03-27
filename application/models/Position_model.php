@@ -13,4 +13,13 @@ class Position_model extends CI_Model
         $position = $query->row();
         return $position->position_name;
     }
+    /**
+     * 全データの取得
+     * @return type
+     */
+    public function findPositionAll()
+    {
+        $query = $this->db->query('SELECT * FROM positions');
+        return $query->result();
+    }
 }

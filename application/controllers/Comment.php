@@ -8,7 +8,7 @@ class Comment extends CI_Controller
         //管理者ログインしていないと管理者ログイン画面（getパラメーターを付けて）
         parent::__construct();
 	if ($_SESSION['admin'] != true) {
-            redirect('/login/admin_login?admin_error=true');
+            redirect('/login/admin?admin_error=true');
         }	
     }
     /**
@@ -32,10 +32,9 @@ class Comment extends CI_Controller
      * 目標に対するコメント入力機能
      */
     public function add() {
-        $this->form_validation->set_message('required', 'コメントが未記入です。');
         $this->form_validation->set_message('min_length', '最低10字はお書きください。');
-        $this->form_validation->set_message('max_length', '目標は100字程度でお願い致します。');
-        $this->form_validation->set_rules('comment', 'コメント', 'required|min_length[10]|max_length[150]');
+        $this->form_validation->set_message('max_length', 'コメントは100字程度でお願い致します。');
+        $this->form_validation->set_rules('comment', 'コメント', 'min_length[10]|max_length[150]');
         //バリデーションエラーが無ければ確認画面へ
         if ($this->form_validation->run() === true) {
             $data['comment'] = $this->input->post('comment');
