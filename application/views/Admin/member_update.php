@@ -4,7 +4,7 @@
 </head>
 <body>
 <h1>社員情報更新ページ</h1><br>
-<?php echo form_open(); ?>
+<?php echo form_open("/admin/member_update?member_id=$member->member_id"); ?>
 氏:
 <input type="text" name="first_name" value='<?php echo set_value('first_name', $member->first_name); ?>'><br>
 <?php echo form_error('first_name'); ?>

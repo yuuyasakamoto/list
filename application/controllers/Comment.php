@@ -43,7 +43,7 @@ class Comment extends CI_Controller
         //バリデーションエラーがあればもう一度入力画面
         } else {
             $objective_id = $this->input->get('objective_id');
-            $data['content'] = $this->Objective_model->getContent($objective_id);
+            $data['objective'] = $this->Objective_model->getContent($objective_id);
             $this->load->view('/comment/add', $data);
         }
     }
