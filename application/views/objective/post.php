@@ -11,7 +11,7 @@
 <?php endif; ?>
 <?php echo form_open('/objective/done'); ?>
 目標投稿（500文字程度）:<br>
-<textarea name="objective" rows="12" cols="50" maxlength="600" ><?php if(isset($objective)){echo $objective->objective;} ?></textarea><br>
+<textarea name="objective" rows="12" cols="60" maxlength="600" ><?php echo set_value('objective') ?></textarea><br>
 <?php echo form_error('objective'); ?>
 <input type="hidden" name="year" value='<?php echo set_value('year', $_POST['year']);?>'>
 <input type="hidden" name="quarter" value='<?php echo set_value('quarter', $_POST['quarter']);?>'>

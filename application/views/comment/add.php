@@ -6,7 +6,7 @@
 <body>
 <h1>コメント登録</h1>
 <?php echo form_open("/comment/add?objective_id=$objective->id"); ?>
-<textarea name="comment" rows="12" cols="50" maxlength="600" >コメント入力欄</textarea><br>
+<textarea name="comment" rows="12" cols="60" maxlength="600" ><?php echo set_value('comment') ?></textarea><br>
 <?php echo form_error('comment'); ?>
 <input type="hidden" name="objective_id" value="<?php echo set_value('objective_id', $objective->id);?>" >
 <input type="submit" value="登録" >
