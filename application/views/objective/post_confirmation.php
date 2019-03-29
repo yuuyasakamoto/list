@@ -17,6 +17,6 @@
 <button type="submit" >投稿する</button>
 </form>
 <br>
-<a href="javascript:history.back()">内容を修正する</a>
+<a href="/objective/add">内容を修正する</a>
 </body>
 </html>

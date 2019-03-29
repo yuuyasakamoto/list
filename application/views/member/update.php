@@ -17,9 +17,28 @@
 名（カタカナ）:
 <input type="text" name="last_name_kana" placeholder="カタカナで名を入力下さい"  value="<?php echo set_value('last_name_kana', $member->last_name_kana); ?>" ><br>
 <?php echo form_error('last_name_kana'); ?>
-生年月日:
-<input type="text" name="birthday" value="<?php echo set_value('birthday', $member->birthday); ?>" ><br>
-<?php echo form_error('birthday'); ?>
+生年月日:<br>
+<select name="year">
+    <?php foreach(range(1950, 2016) as $year): ?>
+    <option value="<?php echo $year ?>-" <?php if(set_value('year') == $year || substr($member->birthday, 0, 4) == $year){ print "selected";} ?>><?php echo $year ?></option>
+    <?php endforeach; ?>
+</select>
+年
+<select name="month">
+    <?php foreach(range(1, 12) as $month): ?>
+    <option value="<?php echo str_pad($month, 2, 0, STR_PAD_LEFT)?>-" <?php if(set_value('month') == $month || substr($member->birthday, 5, 2) == $month){ print "selected";} ?>><?php echo $month?></option>
+    <?php endforeach; ?>
+</select>
+月
+<select name="day">
+    <?php foreach(range(1, 31) as $day): ?>
+    <option value="<?php echo str_pad($day, 2, 0, STR_PAD_LEFT)?>" <?php if(set_value('day') == $day || substr($member->birthday, -1) == $day){ print "selected";} ?>><?php echo $day?></option>
+    <?php endforeach; ?>
+</select>
+日<br>
+<?php echo form_error('year'); ?>
+<?php echo form_error('month'); ?>
+<?php echo form_error('day'); ?>
 住所:
 <input type="text" name="home" value="<?php echo set_value('home', $member->home); ?>" ><br>
 <?php echo form_error('home'); ?>

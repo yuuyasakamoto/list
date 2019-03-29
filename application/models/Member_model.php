@@ -44,7 +44,7 @@ class Member_model extends CI_Model
      * @param int $member_id
      * @return type
      */
-    public function select(int $member_id)
+    public function select($member_id)
     {
         $sql = "SELECT * FROM members WHERE member_id=?";
         $query = $this->db->query($sql, ['member_id' => $member_id]);
@@ -96,9 +96,10 @@ class Member_model extends CI_Model
      * @param int $position_id
      */
     public function update(int $member_id, string $first_name, string $last_name, string $first_name_kana,
-                           string $last_name_kana, string $birthday, string $home, string $email, int $sos,   
-                           string $gender,string $hire_date, string $retirement_date, int $department_id, int $position_id)
+                           string $last_name_kana, string $birthday, string $home, string $email, string $sos,   
+                           string $gender,string $hire_date, string $retirement_date = null, int $department_id, int $position_id)
     {
+        
         $sql = "UPDATE members SET first_name = ?, last_name = ?, first_name_kana =?,
                                last_name_kana = ?, gender = ?, birthday = ?, home = ?, hire_date = ?,
                                retirement_date = ?, department_id = ?, position_id = ?, email = ?, sos = ?,

@@ -9,8 +9,17 @@ class Department_model extends CI_Model
      */
     public function findById(int $department_id)
     {
-        $query = $this->db->query("SELECT * FROM departments  WHERE id='$department_id'");
+        $query = $this->db->query("SELECT * FROM departments WHERE id='$department_id'");
         $department = $query->row();
         return $department->department_name;
+    }
+    /**
+     * 全データの取得
+     * @return type
+     */
+    public function findDepartmentAll()
+    {
+        $query = $this->db->query('SELECT * FROM departments');
+        return $query->result();
     }
 }
