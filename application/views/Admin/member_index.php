@@ -23,8 +23,8 @@
     <th>目標</th>
     <th>入社日</th>
     <th>退職日</th>
-    <th>部署名</th>
-    <th>役職名</th>
+    <th><a href='/department/index' >部署名</a></th>
+    <th><a href='/position/index'>役職名</a></th>
     <th>緊急連絡先電話番号</th>
     <th>削除</th>
     <th>登録時間</th>
