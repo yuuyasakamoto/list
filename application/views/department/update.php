@@ -4,7 +4,7 @@
 </head>
 <body>
 <h1>部署名更新ページ</h1><br>
-<?php echo form_open("/department/update?id={$id}&name={$name}"); ?>
+<?php echo form_open(); ?>
 部署名:
 <input type="text" name="name" value="<?php echo set_value('name', $name); ?>" ><br>
 <?php echo form_error('name'); ?>

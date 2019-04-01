@@ -61,8 +61,8 @@ class Department extends CI_Controller
             $data['name'] = $this->input->post('name');
             $this->load->view('/department/update_confirmation', $data);
         } else {
-            $data['id'] = $this->input->get('id');
-            $data['name'] = $this->input->get('name');
+            $data['id'] = $this->input->get_post('id');
+            $data['name'] = $this->input->get_post('name');
             $this->load->view('/department/update', $data);
         }
     }

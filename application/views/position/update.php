@@ -4,7 +4,7 @@
 </head>
 <body>
 <h1>役職名更新ページ</h1><br>
-<?php echo form_open("/position/update?id={$id}&name={$name}"); ?>
+<?php echo form_open(); ?>
 役職名:
 <input type="text" name="name" value="<?php echo set_value('name', $name); ?>" ><br>
 <?php echo form_error('name'); ?>

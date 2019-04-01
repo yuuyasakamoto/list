@@ -10,7 +10,7 @@
 <p>役職名の変更はこちらで宜しいでしょうか？</p>
 <label>役職名</label>
 <p><?php echo $name; ?></p>
-<button type="submit" >登録する</button>
+<button type="submit" >更新する</button>
 </form>
 <br>
 <a href="javascript:history.back()">内容を修正する</a>
