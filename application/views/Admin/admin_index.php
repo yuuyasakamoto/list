@@ -8,7 +8,7 @@
 <?php echo "管理者ID".$_SESSION['id']; ?>
 <p style='color:blue;'>ログイン中</p>
 <a href='/admin/admin_add'>管理者新規登録</a><br><br>
-<table border="1">
+<table border="1"  width="80%">
 <tr>
 <th>ID</th>
 <th>氏名</th>

@@ -21,6 +21,9 @@
 <input type="radio" name="gender" value="男" <?php if(set_value('gender', $member->gender) == "男" ){ print "checked";}?>>男
 <input type="radio" name="gender" value="女" <?php if(set_value('gender', $member->gender) == "女" ){ print "checked";}?>>女<br>
 <?php echo form_error('gender'); ?>
+住所:
+<input type="text" name="home" value="<?php echo set_value('home', $member->home); ?>" ><br>
+<?php echo form_error('home'); ?>
 生年月日:<br>
 <select name="year">
     <?php foreach(range(1950, 2016) as $year): ?>
@@ -43,9 +46,6 @@
 <?php echo form_error('year'); ?>
 <?php echo form_error('month'); ?>
 <?php echo form_error('day'); ?>
-住所:
-<input type="text" name="home" value="<?php echo set_value('home', $member->home); ?>" ><br>
-<?php echo form_error('home'); ?>
 入社日：<br>
 <select name="hire_year">
     <?php foreach(range(1950, 2016) as $year): ?>
