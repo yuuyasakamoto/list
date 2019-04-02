@@ -76,4 +76,30 @@ class Login extends CI_Controller
         unset($_SESSION['member_id']);
         redirect('/login/member?logout=true');
     }
+     /**
+     * パスワードリマインダー機能
+     */
+    public function password_new()
+    {
+        $this->form_validation->set_message('required', '%s を入力してください。');
+        $this->form_validation->set_message('valid_email', 'Emailの形式で記入してください');
+        $this->form_validation->set_rules('email', 'メールアドレス', 'required|valid_email');
+        if ($this->form_validation->run() === true) {
+            $email = $this->input->post('email');
+            //本来はここでメール処理
+            $oneTimeToken = sha1(time());
+            $time = date("Y/m/d H:i:s");
+            $admin = $this->Admin_model->adminEmailCheck($oneTimeToken, $time, $email);
+            exit;
+            if ($admin) {
+                echo 'ok';
+                $this->load->view('/login/password_done');
+            } else {
+                $this->load->view('/login/password_done');
+            }
+        //バリデーションエラーが有ればアドレス入力画面に戻る
+        } else {
+            $this->load->view('/login/password_new');
+        }
+    }
 }

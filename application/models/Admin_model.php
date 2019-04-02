@@ -42,7 +42,6 @@ class Admin_model extends CI_Model
         $query = $this->db->query('SELECT * FROM admins ORDER BY id DESC');
         return $query->result();
     }
-
     /**
      * 管理者登録
      * @param type $email
@@ -63,5 +62,20 @@ class Admin_model extends CI_Model
         $pass = ['password'=>$hash];
         //取得したidをもとにパスワードをハッシュした値に更新して保存
         $this->db->update('admins', $pass, "id = {$id}");
+    }
+    /**
+     * 入力されたメールアドレスが存在するかチェックしワンタイムトークンと申請した時間を保存
+     */
+    public function adminEmailCheck(string $onetimetoken, string $time, string $email)
+    {
+        $sql = "UPDATE admins SET onetimetoken=?, time=? WHERE email=?;";
+        $query = $this->db->query($sql, [$onetimetoken, $time, $email]);
+        var_dump($query);
+            exit;
+        if ($query) {
+            return $admin;
+        } else {
+            return FALSE;
+        }
     }
 }

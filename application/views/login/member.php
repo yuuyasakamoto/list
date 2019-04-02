@@ -25,5 +25,6 @@
 <input type="submit" value="ログイン" >
 </form> 
 <br>
+<a href='/login/password_new'>パスワードを忘れた方はこちら</a>
 </body>
 </html>
