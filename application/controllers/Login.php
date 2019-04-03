@@ -1,7 +1,10 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 class Login extends CI_Controller
 {
+
     
     /**
      * 管理者ログイン画面
@@ -86,10 +89,47 @@ class Login extends CI_Controller
         $this->form_validation->set_rules('email', 'メールアドレス', 'required|valid_email');
         if ($this->form_validation->run() === true) {
             $email = $this->input->post('email');
-            //本来はここでメール処理
             $oneTimeToken = sha1(time());
             $time = date("Y/m/d H:i:s");
-            $admin = $this->Admin_model->adminEmailCheck($oneTimeToken, $time, $email);
+            $mail = new PHPMailer(true);
+
+            //Gmail 認証情報
+              $host = 'smtp.gmail.com';
+              $username = 'y.sakamoto.actself@gmail.com'; // example@gmail.com
+              $password = 'o|-!IJOM';
+
+              //差出人
+              $fromname = '社員管理';
+
+              //宛先
+              $to = 'ccnfxrx2@i.softbank.jp';
+              $toname = 'test';
+
+              //件名・本文
+              $subject = 'test';
+              $body = 'test';
+
+              //メール設定
+              $mail->SMTPDebug = 2; //デバッグ用
+              $mail->isSMTP();
+              $mail->SMTPAuth = true;
+              $mail->Host = $host;
+              $mail->Username = $username;
+              $mail->Password = $password;
+              $mail->SMTPSecure = 'tls';
+              $mail->Port = 587;
+              $mail->CharSet = "utf-8";
+              $mail->Encoding = "base64";
+              $mail->addAddress($to, $toname);
+              $mail->Subject = $subject;
+              $mail->Body    = $body;
+
+              //メール送信
+              $mail->send();
+            
+        
+                   
+            //$admin = $this->Admin_model->adminEmailCheck($oneTimeToken, $time, $email);
             exit;
             if ($admin) {
                 echo 'ok';
