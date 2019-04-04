@@ -89,57 +89,93 @@ class Login extends CI_Controller
         $this->form_validation->set_rules('email', 'メールアドレス', 'required|valid_email');
         if ($this->form_validation->run() === true) {
             $email = $this->input->post('email');
-            $oneTimeToken = sha1(time());
-            $time = date("Y/m/d H:i:s");
-            $mail = new PHPMailer(true);
-
-            //Gmail 認証情報
-              $host = 'smtp.gmail.com';
-              $username = 'y.sakamoto.actself@gmail.com'; // example@gmail.com
-              $password = 'o|-!IJOM';
-
-              //差出人
-              $fromname = '社員管理';
-
-              //宛先
-              $to = 'ccnfxrx2@i.softbank.jp';
-              $toname = 'test';
-
-              //件名・本文
-              $subject = 'test';
-              $body = 'test';
-
-              //メール設定
-              $mail->SMTPDebug = 2; //デバッグ用
-              $mail->isSMTP();
-              $mail->SMTPAuth = true;
-              $mail->Host = $host;
-              $mail->Username = $username;
-              $mail->Password = $password;
-              $mail->SMTPSecure = 'tls';
-              $mail->Port = 587;
-              $mail->CharSet = "utf-8";
-              $mail->Encoding = "base64";
-              $mail->addAddress($to, $toname);
-              $mail->Subject = $subject;
-              $mail->Body    = $body;
-
-              //メール送信
-              $mail->send();
-            
-        
-                   
-            //$admin = $this->Admin_model->adminEmailCheck($oneTimeToken, $time, $email);
-            exit;
+            //登録済みのemailと一致すればトークンと発行時間を保存しメール送信（URLにワンタイムトークンをGET変数に記載）
+            $admin = $this->Admin_model->emailCheck($email);
             if ($admin) {
-                echo 'ok';
+                //Gmail 認証情報
+                $useradd = 'y.sakamoto.actself@gmail.com'; // example@gmail.com
+                $password = 'o|-!IJOM';
+                //宛先
+                //$to = $admin->email; 本来の宛先はユーザーのアドレス（今回はテスト実行のため宛先は自分のgmail）
+                $toname = $admin->name; //登録者名
+                //差出人
+                $fromname = 'システム ';
+                //件名・本文
+                $subject = 'パスワード変更URLです';
+                $body = "http://local.problem07.com/login/password_add?token={$admin->token}";
+                //メール設定
+                $mail = new PHPMailer(true);
+                //$mail->SMTPDebug = 1; デバッグ用
+                $mail->isSMTP();
+                $mail->SMTPAuth = true;
+                $mail->Host = 'smtp.gmail.com';
+                $mail->From = $useradd;
+                $mail->FromName = $fromname;
+                $mail->Username = $useradd;
+                $mail->Password = $password;
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
+                $mail->CharSet = "utf-8";
+                $mail->Encoding = "base64";
+                //宛先(便宜上自分のgmail宛)
+                $mail->addAddress("y.sakamoto.actself@gmail.com", $toname."様");
+                $mail->Subject = $subject;
+                $mail->Body    = $body;
+                //メール送信
+                $mail->send();
+                //パスワード再設定送信完了画面を表示
                 $this->load->view('/login/password_done');
             } else {
+                //第三者にメールアドレスが登録してあるか特定されてしまうのを避けるため
+                //エラーの際もメールアドレス送信完了ページを表示する
                 $this->load->view('/login/password_done');
             }
         //バリデーションエラーが有ればアドレス入力画面に戻る
         } else {
             $this->load->view('/login/password_new');
+        }
+    }
+     /**
+     * トークンチェック機能
+     */
+    public function password_add()
+    {
+        //トークンの値が一致しトークンが発行されてから30分以内の場合パスワード再設定画面表示
+        $token = $this->input->get('token');
+        $admin = $this->Admin_model->tokenCheck($token);
+        if ($admin) {
+            $data['id'] = $admin->id;
+            $data['created'] = $admin->created;
+            $this->load->view('/login/password_add', $data);
+        } else {
+            //直接URLを叩かれた場合とトークン発行から30分経過した際はログイン画面に飛ばす
+            redirect('/login/admin?admin_error=true');
+        }
+    }
+    /**
+     * パスワード再設定機能
+     */
+    public function password_done()
+    {
+        //バリデーションエラーが無ければパスワード更新しログイン画面へ
+        $this->form_validation->set_message('required', '%s を入力してください。');
+        $this->form_validation->set_message('matches', '新パスワードと再入力パスワードが一致しません。');
+        $this->form_validation->set_rules('password', 'パスワード', 'required');
+        $this->form_validation->set_rules('passconf', 'パスワード確認', 'required|matches[password]');
+        if ($this->form_validation->run() === true) {
+            $id = $this->input->post('id');
+            $created = $this->input->post('created');
+            $password = $this->input->post('password');
+            $this->Admin_model->password_update($id, $password, $created);
+            redirect('/login/admin?password=true');
+            //バリデーションエラーの際もう一度入力画面へ
+        } elseif ($this->input->post('id')) {
+            $data['id'] = $this->input->post('id');
+            $data['created'] = $this->input->post('created');
+            $this->load->view('/login/password_add', $data);
+            //直接URLを叩かれた場合ログイン画面に飛ばす
+        } else {
+            redirect('/login/admin?admin_error=true');
         }
     }
 }

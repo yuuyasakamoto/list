@@ -14,5 +14,6 @@
 <input type="submit" value="送信する" >
 </form> 
 <br>
+<a href="/login/admin">戻る</a>
 </body>
 </html>
