@@ -42,7 +42,6 @@ class Admin_model extends CI_Model
         $query = $this->db->query('SELECT * FROM admins ORDER BY id DESC');
         return $query->result();
     }
-
     /**
      * 管理者登録
      * @param type $email
@@ -63,5 +62,66 @@ class Admin_model extends CI_Model
         $pass = ['password'=>$hash];
         //取得したidをもとにパスワードをハッシュした値に更新して保存
         $this->db->update('admins', $pass, "id = {$id}");
+    }
+    /**
+     * 入力されたメールアドレスが存在するかチェックしワンタイムトークンと申請した時間を保存
+     */
+    public function emailCheck(string $email)
+    {
+        //入力されたemailでレコード検索
+        $sql = "SELECT * FROM admins WHERE email=?";
+        $query = $this->db->query($sql, [$email]);
+        $admin = $query->row();
+        //一致するデータがあればトークンと発行時間を保存し更新したデータを返す
+        if ($admin) {
+            //ワンタイムトークン
+            $token = sha1(time());
+            //トークン発行時間
+            $time = time();
+            $updatesql = "UPDATE admins SET token = ?, time = ? WHERE id = ?";
+            $this->db->query($updatesql, [$token, $time, $admin->id]);
+            $selectsql = "SELECT * FROM admins WHERE id=?";
+            $query = $this->db->query($selectsql, [$admin->id]);
+            return $query->row();
+        } else {
+            //一致するデータが無ければFALSE
+            return FALSE;
+        }
+    }
+    /**
+     * トークンのチェック機能
+     * @param string $token
+     * @return boolean
+     */
+    public function tokenCheck(string $token = null)
+    {
+        //トークンの値が一致するデータの検索
+        $sql = "SELECT * FROM admins WHERE token=?";
+        $query = $this->db->query($sql, [$token]);
+        $admin = $query->row();
+        if ($admin) {
+            $limit_time = $this->utility->limit_time();
+            if ($admin->time > $limit_time) {
+                return $admin;
+            //30分以上経っていればFALSE
+            } else {
+                return false;
+            }
+        //トークンの値が一致しなければFALSE
+        return false;
+        }
+    }
+    /**
+     * パスワード更新機能
+     * @param string $id
+     * @param string $password
+     * @param string $created
+     */
+    public function password_update(string $id, string $password, string $created)
+    {
+        //パスワードをハッシュ化し保存（トークンと発行時間を削除）
+        $hash = $this->utility->hash($password, $created);
+        $sql = "UPDATE admins SET token = ?, time = ?,password = ? WHERE id = ?";
+        $this->db->query($sql, [null, null, $hash, $id]);
     }
 }

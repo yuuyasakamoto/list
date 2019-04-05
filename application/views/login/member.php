@@ -5,8 +5,7 @@
 </head>
 <body>
 <?php if (isset($_GET['member_error'])):?>
-<p style='color:red;'>社員権限がありません</p>
-<p style='color:red;'>ログインして下さい</p>
+<p style='color:red;'>権限がありません</p>
 <?php endif; ?>
 <?php if (isset($_GET['error'])):?>
 <p style='color:red;'>パスワードもしくはメールアドレスが違います</p>
@@ -14,6 +13,9 @@
 <h1>社員ログインページ</h1>
 <?php if (isset($_GET['logout'])):?>
 <p style='color:blue;'>社員ログアウトしました。</p>
+<?php endif; ?>
+<?php if (isset($_GET['password'])):?>
+<p style='color:blue;'>パスワードの変更が完了しました。</p>
 <?php endif; ?>
 <?php echo form_open(); ?>
 メールアドレス
@@ -25,5 +27,6 @@
 <input type="submit" value="ログイン" >
 </form> 
 <br>
+<a href='/login/member_forget'>パスワードを忘れた方はこちら</a>
 </body>
 </html>

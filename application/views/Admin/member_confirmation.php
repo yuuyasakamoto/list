@@ -33,10 +33,10 @@
 <p><?php echo $last_name_kana; ?></p>
 <label>性別</label>
 <p><?php echo $gender; ?></p>
-<label>生年月日</label>
-<p><?php echo $birthday; ?></p>
 <label>住所</label>
 <p><?php echo $home; ?></p>
+<label>生年月日</label>
+<p><?php echo $birthday; ?></p>
 <label>入社日</label>
 <p><?php echo $hire_date; ?></p>
 <label>部署名</label>
