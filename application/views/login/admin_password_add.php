@@ -6,7 +6,7 @@
 <body>
 <h1>パスワード再登録</h1>
 <p>情報を入力してください</p>
-<?php echo form_open('/login/password_done'); ?>
+<?php echo form_open('/login/admin_password_done'); ?>
 <label>新パスワード</label>
 <input type="password" name="password" value="<?php echo set_value('password'); ?>"><br>
 <?php echo form_error('password'); ?>

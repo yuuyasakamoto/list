@@ -100,12 +100,7 @@ class Admin_model extends CI_Model
         $query = $this->db->query($sql, [$token]);
         $admin = $query->row();
         if ($admin) {
-            //制限時間は30分なので1800秒
-            $set_time = 1800;
-            //今の時間
-            $now_time = time();
-            //登録されている時間から1800秒以上経っていなければユーザ情報を返す
-            $limit_time = $now_time - $set_time;
+            $limit_time = $this->utility->limit_time();
             if ($admin->time > $limit_time) {
                 return $admin;
             //30分以上経っていればFALSE
